@@ -108,5 +108,6 @@ import com.revrobotics.ColorMatch;
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
+    System.out.println("RGB=("+detectedColor.red+","+detectedColor.green+","+detectedColor.blue+") = "+colorString);
   }
 }
