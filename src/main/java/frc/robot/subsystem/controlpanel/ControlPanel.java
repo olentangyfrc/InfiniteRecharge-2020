@@ -17,13 +17,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.ColorMatchResult;
+
+import java.util.logging.Logger;
+
 import com.revrobotics.ColorMatch;
 
-public class controlPanel {
+public class ControlPanel {
+  private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
 
-    private final I2C.Port i2cPort = I2C.Port.kOnboard;
-
-    private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+    private final ColorSensorV3 m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
     private final ColorMatch m_colorMatcher = new ColorMatch();
 
@@ -32,15 +34,15 @@ public class controlPanel {
     private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
     private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
+    public void init() {
 
-    public void robotInit() {
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
         m_colorMatcher.addColorMatch(kYellowTarget);    
-      }
+    }
 
-      public void robotPeriodic() {
+    public void displayColors() {
         
         Color detectedColor = m_colorSensor.getColor();
     
@@ -59,14 +61,12 @@ public class controlPanel {
           colorString = "Unknown";
         }
     
-        /**
-         * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-         * sensor.
-         */
         SmartDashboard.putNumber("Red", detectedColor.red);
         SmartDashboard.putNumber("Green", detectedColor.green);
         SmartDashboard.putNumber("Blue", detectedColor.blue);
         SmartDashboard.putNumber("Confidence", match.confidence);
         SmartDashboard.putString("Detected Color", colorString);
+
+        logger.info(String.format("Red [%f]\n", detectedColor.red));
       }
 }

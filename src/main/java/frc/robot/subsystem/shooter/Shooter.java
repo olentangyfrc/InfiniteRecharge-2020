@@ -5,14 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.Shooter;
+package frc.robot.subsystem.shooter;
 
-import com.ctre.phoenix.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 
-public class shooter {
+public class Shooter {
     private final TalonSRX leftShooter = new TalonSRX(57);
     private final TalonSRX rightShooter = new TalonSRX(58);
 
