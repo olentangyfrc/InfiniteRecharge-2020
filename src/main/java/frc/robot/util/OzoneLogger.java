@@ -30,14 +30,14 @@ public class OzoneLogger {
 		return instance;
 	}
 
-	public void init(Level logLevel) {
+	public void init(Level all) {
 		if (initted)
 				return;
 		
 		logger.setUseParentHandlers(false);
 		
 		try {
-			logger.setLevel(logLevel);
+			logger.setLevel(all);
 			
 			Handler	consoleHandler	= new ConsoleHandler();
 			consoleHandler.setFormatter(new OzoneLogFormatter());

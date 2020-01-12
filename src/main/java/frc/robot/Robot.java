@@ -7,8 +7,11 @@
 
 package frc.robot;
 
+import java.util.logging.Level;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystem.controlpanel.ControlPanel;
+import frc.robot.util.OzoneLogger;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,6 +30,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    OzoneLogger.getInstance().init(Level.FINE);
 
     controlPanel = new ControlPanel();
     controlPanel.init();

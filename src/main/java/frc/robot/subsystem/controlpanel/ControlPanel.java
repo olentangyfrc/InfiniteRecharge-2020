@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import com.revrobotics.ColorMatch;
 
 public class ControlPanel {
-  private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
+  private static Logger logger = Logger.getLogger("frc.robot.subsystem.controlpanel.ControlPanel");
 
     private final ColorSensorV3 m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
