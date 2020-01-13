@@ -1,4 +1,4 @@
-package frc.robot.subsystem.Intake;
+package frc.robot.subsystem.intake;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 

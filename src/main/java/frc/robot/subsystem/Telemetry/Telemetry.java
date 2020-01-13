@@ -1,5 +1,5 @@
 
-package frc.robot.subsystem.Telemetry;
+package frc.robot.subsystem.telemetry;
 
 public class Telemetry {
     
