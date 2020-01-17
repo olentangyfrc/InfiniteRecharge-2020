@@ -1,8 +1,8 @@
-package frc.robot.subsystem.intake;
+package frc.robot.subsystem.transport;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class Intake {
+public class Transport {
     private final TalonSRX leftIntake = new TalonSRX(57);
     private final TalonSRX rightIntake = new TalonSRX(58);
 
