@@ -9,16 +9,13 @@ package frc.robot.subsystem.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class PatsCommand extends CommandBase {
+public class DummyCommand extends CommandBase {
   /**
-   * Creates a new PatsCommand.
+   * Creates a new DummyCommand.
    */
-  public PatsCommand() {
+  public DummyCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
-
-
-
 
   // Called when the command is initially scheduled.
   @Override
