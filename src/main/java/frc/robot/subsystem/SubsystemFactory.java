@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
+import frc.robot.subsystem.controlpanel.ControlPanel;
 
 public class SubsystemFactory {
 
@@ -25,6 +26,8 @@ public class SubsystemFactory {
     /**
      * keep all available subsystem declarations here.
      */
+
+    private ControlPanel controlPanel;
     
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
@@ -659,6 +662,9 @@ public class SubsystemFactory {
         //elevator.initSB();
 
         */
+    }
+    public ControlPanel getControlPanel(){
+        return controlPanel;
     }
 
 }

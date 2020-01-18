@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import com.revrobotics.ColorMatch;
 
 public class ControlPanel {
-  private static Logger logger = Logger.getLogger("frc.robot.subsystem.controlpanel.ControlPanel");
+  private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
 
     private final ColorSensorV3 m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
@@ -34,12 +34,17 @@ public class ControlPanel {
     private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
     private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
+    private boolean logging = false;
+
     public void init() {
+      logger.entering(ControlPanel.class.getName(), "init()");
 
         m_colorMatcher.addColorMatch(kBlueTarget);
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
-        m_colorMatcher.addColorMatch(kYellowTarget);    
+        m_colorMatcher.addColorMatch(kYellowTarget);   
+        
+        logger.exiting(ControlPanel.class.getName(), "init()");
     }
 
     public void displayColors() {
@@ -69,4 +74,10 @@ public class ControlPanel {
 
         logger.info(String.format("Red [%f]\n", detectedColor.red));
       }
+      /*
+      public boolean isLogging(){
+        logging = isLogging.getBoolean(false);
+        return logging;
+    }
+    */
 }

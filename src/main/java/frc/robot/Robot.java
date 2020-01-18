@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-        controlPanel.displayColors();
+       // controlPanel.displayColors();
   }
 
   /**
