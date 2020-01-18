@@ -10,6 +10,7 @@ import frc.robot.OI;
 import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
+import frc.robot.subsystem.climber.PatsCommand;
 
 public class SubsystemFactory {
 
@@ -98,7 +99,7 @@ public class SubsystemFactory {
      */
 
     private void initCommon() {
-        Command c;
+        Command c = new PatsCommand();
         try {
             OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
         } catch (OzoneException e) {
@@ -111,6 +112,7 @@ public class SubsystemFactory {
 
 
 
+    
      /**
 
      * init subsytems specific to Proto
