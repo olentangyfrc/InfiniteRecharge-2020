@@ -10,11 +10,7 @@ import frc.robot.OI;
 import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
-<<<<<<< HEAD
 import frc.robot.subsystem.climber.commands.PatsCommand;
-=======
-import frc.robot.subsystem.climber.PatsCommand;
->>>>>>> 19a4f14e23dbe7fc0e0eafafb13f27ae1ff6d0ac
 
 public class SubsystemFactory {
 

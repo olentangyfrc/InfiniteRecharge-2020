@@ -17,12 +17,12 @@ public class PatsCommand extends CommandBase {
    * Creates a new PatsCommand.
    */
 
-  private Subsystem[] climber;
+  private Climber climber;
 
-  public PatsCommand(Subsystem[] climb) {
+  public PatsCommand(Climber climb) {
     climber = climb;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climber);
+    addRequirements(climb);
   }
 
 
