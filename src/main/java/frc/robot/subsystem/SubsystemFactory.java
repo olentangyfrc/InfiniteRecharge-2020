@@ -4,6 +4,11 @@ import java.io.StringWriter;
 import java.net.InetAddress;
 import java.util.logging.Logger;
 
+import frc.robot.OI;
+import frc.robot.subsystem.climber.Climber;
+import frc.robot.subsystem.climber.ClimberSBTab;
+import frc.robot.subsystem.controlpanel.ControlPanel;
+import frc.robot.subsystem.controlpanel.commands.DisplayColor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
@@ -21,12 +26,15 @@ public class SubsystemFactory {
 
     private static String botMacAddress;
 
+
     private String protoMacAddress = "00:80:2F:22:D7:BC";
     private String blueMacAddress = "00:80:2F:27:1D:E9";
     private String zippyMacAddress = "00:80:2F:25:B4:CA";
     private String turboMacAddress = "00:80:2F:27:04:C6";
     private String footballMacAddress = "00:80:2F:17:D7:4B";
     private String newbieMacAddress = "00:80:2F:17:F8:3F";
+  
+    private ControlPanel controlPanel;
 
     /**
      * keep all available subsystem declarations here.
@@ -596,84 +604,14 @@ public class SubsystemFactory {
     private void initFootball() throws Exception {
 
         logger.info("Initializing Football");
-        /*
-        oi.bind(new ChooseCamera(), OI.AuxJoyButton1, OI.WhenPressed);
+        controlPanel = new ControlPanel();
+        DisplayColor dc = new DisplayColor(controlPanel);
+        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
+        
 
-
-
-        /*
-
-        elevator = new Elevator();
-
-        elevator.initSB();
-
-
-
-        intakeAdjuster = new IntakeAdjuster();
-
-        intakeAdjuster.init(portMan);
-
-
-
-        oi.bind(new MoveElevator(true), OI.button1, OI.WhileHeld);
-
-        oi.bind(new MoveElevator(false), OI.button2, OI.WhileHeld);
-
-
-
-        oi.bind(new MoveElevatorToLevel(Elevator.HappyPosition.LEVEL_1), OI.button3, OI.WhenPressed);
-
-        oi.bind(new MoveElevatorToLevel(Elevator.HappyPosition.LEVEL_2), OI.button4, OI.WhenPressed);
-
-        oi.bind(new MoveElevatorToLevel(Elevator.HappyPosition.LEVEL_3), OI.button5, OI.WhenPressed);
-
-        oi.bind(new MoveElevatorToLevel(Elevator.HappyPosition.LEVEL_4), OI.button6, OI.WhenPressed);
-
-        oi.bind(new MoveElevatorToLevel(Elevator.HappyPosition.LEVEL_5), OI.button7, OI.WhenPressed);
-
-        oi.bind(new MoveElevatorToLevel(Elevator.HappyPosition.LEVEL_8), OI.button8, OI.WhenPressed);
-
-        oi.bind(new MoveElevatorToLevel(Elevator.HappyPosition.LEVEL_1), OI.button9, OI.WhenPressed);
-
-        oi.bind(new MoveElevatorToLevel(Elevator.HappyPosition.LEVEL_7), OI.button10, OI.WhenPressed);
-
-        oi.bind(new MoveAdjusterToPos(IntakeAdjuster.HappyPositions.LEVEL1), OI.button12, OI.WhenPressed);
-
-        oi.bind(new MoveAdjusterToPos(IntakeAdjuster.HappyPositions.LEVEL2), OI.button13, OI.WhenPressed);
-
-        oi.bind(new MoveAdjusterToPos(IntakeAdjuster.HappyPositions.LEVEL3), OI.button14, OI.WhenPressed);
-
-        oi.bind(new ChooseCamera(), OI.button15, OI.WhenPressed);
-
-        */
-
-
-
-        /*
-
-        nav    = new Navigation();
-
-        nav.initSB();
-
-        lineTracker = new LineTracker();
-
-        lineTracker.initSB();
-
-        elevator = new Elevator();
-
-        elevator.initSB();
-
-        intakeAdjuster = new IntakeAdjuster();
-
-        intakeAdjuster.initSB();
-
-        //nav.init(portMan);
-
-        //elevator = new Elevator();
-
-        //elevator.initSB();
-
-        */
+    }
+    public ControlPanel getControlPanel(){
+        return controlPanel;
     }
 
 }
