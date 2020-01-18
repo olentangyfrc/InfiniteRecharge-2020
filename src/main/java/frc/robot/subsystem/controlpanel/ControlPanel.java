@@ -7,22 +7,16 @@
 
 package frc.robot.subsystem.controlpanel;
 
-/**
- * Add your docs here.
- */
-import com.revrobotics.ColorSensorV3;
-
-import edu.wpi.first.wpilibj.I2C;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import edu.wpi.first.wpilibj.util.Color;
-
-import com.revrobotics.ColorMatchResult;
-
 import java.util.logging.Logger;
 
+import com.revrobotics.ColorSensorV3;
+import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
+
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
+
+import frc.robot.subsystem.PortMan;
 
 public class ControlPanel {
   private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
@@ -40,9 +34,7 @@ public class ControlPanel {
     private ColorMatchResult match;
     private String colorString;
 
-    private boolean logging = false;
-
-    public void init() {
+    public void init(PortMan portMan) {
       logger.entering(ControlPanel.class.getName(), "init()");
 
         m_colorMatcher.addColorMatch(kBlueTarget);
@@ -54,6 +46,7 @@ public class ControlPanel {
     }
 
     public void displayColors() {
+      logger.info("displayColors");
         
         detectedColor = m_colorSensor.getColor();
     
@@ -70,9 +63,6 @@ public class ControlPanel {
         } else {
           colorString = "Unknown";
         }
-
-
-        //logger.info(String.format("Red [%f]\n", detectedColor.red));
       }
 
       public double getRedValue() {
@@ -90,16 +80,4 @@ public class ControlPanel {
       public String getDetectedColor() {
         return colorString;
       }
-      
-
     }
-
-      
-
-      /*
-      public boolean isLogging(){
-        logging = isLogging.getBoolean(false);
-        return logging;
-    }
-    */
-

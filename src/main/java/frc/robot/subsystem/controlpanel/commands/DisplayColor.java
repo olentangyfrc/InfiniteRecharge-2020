@@ -26,8 +26,6 @@ public class DisplayColor extends CommandBase {
    */
   public DisplayColor(ControlPanel c) {
     controlPanel = c;
-    controlPanel.init();
-    //this.requires(controlPanel);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

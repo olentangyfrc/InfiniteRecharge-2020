@@ -44,6 +44,7 @@ public class OI {
     static public OI getInstance() {
         if (me == null) {
             me= new OI();
+            me.init();
         }
 
         return me;

@@ -11,9 +11,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
-/**
- * Add your docs here.
- */
 public class ControlPanelSBTab {
     private ControlPanel controlPanel;
     private ShuffleboardTab tab;

@@ -217,7 +217,6 @@ public class PortMan {
             case pcm6_label: return 6;
             case pcm7_label: return 7;
 
-            case can_01_label: return 1;
             case can_02_label: return 2;
             case can_03_label: return 3;
             case can_04_label: return 4;

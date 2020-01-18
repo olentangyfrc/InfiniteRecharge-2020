@@ -18,8 +18,6 @@ public class Transport {
     private double motorSpeedBackward = .5;
     private double ballCount = 0;
 
-    private boolean logging = false;
-
     public void init(PortMan portMan) throws Exception {
         logger.entering(Transport.class.getName(), "init()");
 
@@ -43,15 +41,13 @@ public class Transport {
         logger.exiting(Transport.class.getName(), "init()");
     }
 
-    public boolean isLogging(){
-        return logging;
-    }
-
     public void take(){
+        logger.info("take");
         leftIntake.set(ControlMode.PercentOutput, motorSpeedForward);
     }
 
     public void stop(){
+        logger.info("stop");
         leftIntake.set(ControlMode.Velocity, 0);
     }
 
@@ -60,6 +56,7 @@ public class Transport {
     }
 
     public void expel(){
+        logger.info("expel");
         leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
     }
 
@@ -70,5 +67,4 @@ public class Transport {
     public double getBallCount(){
         return ballCount;
     }
-
 }

@@ -11,8 +11,6 @@ public class Climber extends SubsystemBase{
     private static Logger logger = Logger.getLogger(Climber.class.getName());
     private final TalonSRX leftIntake = new TalonSRX(57);
     
-
-    
     public void init(PortMan portMan) throws Exception {
 
     }

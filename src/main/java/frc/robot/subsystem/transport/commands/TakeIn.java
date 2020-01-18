@@ -10,7 +10,6 @@ package frc.robot.subsystem.transport.commands;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystem.SubsystemFactory;
 import frc.robot.subsystem.transport.Transport;
 
 public class TakeIn extends CommandBase {
@@ -19,9 +18,9 @@ public class TakeIn extends CommandBase {
 
   private Transport transport;
   
-  public TakeIn() {
-    //transport = SubsystemFactory.getInstance().getTransport();
-    //requires(transport);
+  public TakeIn(Transport t) {
+    transport = t;
+    //addRequirements(t);
   }
 
   @Override

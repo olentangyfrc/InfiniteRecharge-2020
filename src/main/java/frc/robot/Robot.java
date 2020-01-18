@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.subsystem.PortMan;
 import frc.robot.subsystem.SubsystemFactory;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.util.OzoneLogger;
@@ -36,14 +37,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    subsystemFactory = SubsystemFactory.getInstance();
+    subsystemFactory = SubsystemFactory.getInstance(isReal());
     OzoneLogger.getInstance().init(Level.FINE);
 
-    controlPanel = new ControlPanel();
-    controlPanel.init();
-
     try {
-      SubsystemFactory.getInstance().init();
+      subsystemFactory.init(new PortMan());
+
     } catch (Exception e) {
       StringWriter writer = new StringWriter();
       PrintWriter pw  = new PrintWriter(writer);
