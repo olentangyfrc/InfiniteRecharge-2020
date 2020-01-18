@@ -5,16 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.climber;
+package frc.robot.subsystem.climber.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystem.climber.Climber;
 
 public class PatsCommand extends CommandBase {
   /**
    * Creates a new PatsCommand.
    */
-  public PatsCommand() {
+
+  private Subsystem[] climber;
+
+  public PatsCommand(Subsystem[] climb) {
+    climber = climb;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(climber);
   }
 
 
@@ -28,6 +36,8 @@ public class PatsCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    climber.extend();
+    climber.retract();
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +48,6 @@ public class PatsCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

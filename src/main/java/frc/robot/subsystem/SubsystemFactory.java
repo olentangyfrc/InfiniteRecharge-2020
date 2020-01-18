@@ -10,6 +10,7 @@ import frc.robot.OI;
 import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
+import frc.robot.subsystem.climber.commands.PatsCommand;
 
 public class SubsystemFactory {
 
@@ -98,15 +99,16 @@ public class SubsystemFactory {
      */
 
     private void initCommon() {
-        Command c;
+        Climber climber = new Climber();
+        ClimberSBTab tab = new ClimberSBTab(climber);
+        Command c = new PatsCommand(climber);
         try {
             OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
         } catch (OzoneException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Climber climber = new Climber();
-        ClimberSBTab tab    = new ClimberSBTab(climber);
+        
     }
 
 
