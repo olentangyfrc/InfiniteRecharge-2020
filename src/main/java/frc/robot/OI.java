@@ -1,19 +1,18 @@
 package frc.robot;
 
+import java.util.HashMap;
 import java.util.logging.Logger;
 
-import frc.robot.subsystem.SubsystemFactory;
-
-import java.util.HashMap;
-
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+//import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import frc.robot.subsystem.SubsystemFactory;
+
+
 
 /**
  * This is where we create all of out buttonsA and joysticks and set up the "UI"
@@ -120,7 +119,6 @@ public class OI {
        auxJoy = new Joystick(2);
        buttonsB = new Joystick(3);
        buttonsA = new Joystick(4);
-       xbox = new XboxController(3);
     }
 
     public double getLeftJoystickXValue() {
@@ -223,11 +221,7 @@ public class OI {
             case OI.CancelWhenPressed:
                 b.cancelWhenPressed(c);
                 break;
-            default:
-                b.close();
-                throw new OzoneException ("Unrecognized Button Action [" + action + "]");
         }
-        b.close();
     }
 
     /**

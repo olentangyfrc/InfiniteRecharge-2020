@@ -1,9 +1,13 @@
 package frc.robot.subsystem;
 
+import java.io.StringWriter;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.subsystem.climber.Climber;
+import frc.robot.subsystem.climber.ClimberSBTab;
 
 public class SubsystemFactory {
 
@@ -31,16 +35,12 @@ public class SubsystemFactory {
 
 
     /**
-
      * keep all available subsystem declarations here.
-
      */
 
     
     private SubsystemFactory() {
-
         // private constructor to enforce Singleton pattern
-
     }
 
 
@@ -48,24 +48,17 @@ public class SubsystemFactory {
     public static SubsystemFactory getInstance() {
 
         if (me == null) {
-
             me  = new SubsystemFactory();
-
         }
 
         return me;
-
     }
 
 
 
     public void init() throws Exception {
 
-
-
         logger.info("intializing");
-
-        
 
         botMacAddress   = System.getenv("MAC_ADDRESS");
 
@@ -77,23 +70,13 @@ public class SubsystemFactory {
 
         }
 
-
-
         try {
-
             // create SB tabs that we want to see first now
-
-
-
-            
             botMacAddress = turboMacAddress;
-
-
 
             //subsystems common to every bot
 
             if (botMacAddress.equals(protoMacAddress)) {
-
                 initProto();
 
             } else if (botMacAddress.equals(footballMacAddress) || botMacAddress == null || botMacAddress.equals("")) {
@@ -119,23 +102,17 @@ public class SubsystemFactory {
             } else {
 
                 logger.severe("Unrecognized MAC Address [" + botMacAddress + "]");
-
             }
-
-
 
             initCommon();
 
             // driverfeedback will create a shuffleboard tab that aggregates data from subsystems.
 
         } catch (Exception e) {
+            StringWriter writer = new StringWriter();
 
-            e.printStackTrace();
-
-            //throw new OzoneException(e.getMessage());
-
+            logger.severe(writer.toString());
         }
-
     }
 
 
@@ -147,7 +124,8 @@ public class SubsystemFactory {
      */
 
     private void initCommon() {
-
+        Climber c = new Climber();
+        ClimberSBTab tab    = new ClimberSBTab(c);
     }
 
 
