@@ -100,6 +100,7 @@ public class SubsystemFactory {
 
     private void initCommon() {
         Command c = new PatsCommand();
+        
         try {
             OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
         } catch (OzoneException e) {
