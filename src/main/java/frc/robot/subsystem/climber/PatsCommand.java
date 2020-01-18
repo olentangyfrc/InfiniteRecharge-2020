@@ -20,10 +20,6 @@ public class PatsCommand extends CommandBase {
 
 
 
-  
-
-
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
