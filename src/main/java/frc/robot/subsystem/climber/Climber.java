@@ -13,7 +13,7 @@ public class Climber {
     }
     
     public void extend(){
-
+        
     }
 
     public void retract(){
