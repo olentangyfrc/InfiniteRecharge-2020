@@ -9,28 +9,38 @@ import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.DisplayColor;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
+import frc.robot.OzoneException;
+import frc.robot.subsystem.climber.Climber;
+import frc.robot.subsystem.climber.ClimberSBTab;
+import frc.robot.subsystem.climber.commands.PatsCommand;
+import frc.robot.subsystem.transport.Transport;
 
 public class SubsystemFactory {
 
-    private static SubsystemFactory    me;
+    private static SubsystemFactory me;
 
     static Logger logger = Logger.getLogger(SubsystemFactory.class.getName());
 
-    private static String   botMacAddress;
+    private static String botMacAddress;
 
 
-    private String   protoMacAddress    = "00:80:2F:22:D7:BC";   
-    private String   blueMacAddress    = "00:80:2F:27:1D:E9";
-    private String   zippyMacAddress    = "00:80:2F:25:B4:CA";
-    private String   turboMacAddress    = "00:80:2F:27:04:C6";
-    private String   footballMacAddress = "00:80:2F:17:D7:4B";
-    private String   newbieMacAddress   = "00:80:2F:17:F8:3F";
-
+    private String protoMacAddress = "00:80:2F:22:D7:BC";
+    private String blueMacAddress = "00:80:2F:27:1D:E9";
+    private String zippyMacAddress = "00:80:2F:25:B4:CA";
+    private String turboMacAddress = "00:80:2F:27:04:C6";
+    private String footballMacAddress = "00:80:2F:17:D7:4B";
+    private String newbieMacAddress = "00:80:2F:17:F8:3F";
+  
     private ControlPanel controlPanel;
 
     /**
      * keep all available subsystem declarations here.
      */
+
+    private Transport transport;
     
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
@@ -39,20 +49,19 @@ public class SubsystemFactory {
     public static SubsystemFactory getInstance() {
 
         if (me == null) {
-            me  = new SubsystemFactory();
+            me = new SubsystemFactory();
         }
 
         return me;
     }
 
-
     public void init() throws Exception {
 
         logger.info("initializing");
 
-        botMacAddress   = InetAddress.getLocalHost().getHostAddress().trim(); 
+        botMacAddress = InetAddress.getLocalHost().getHostAddress().trim();
 
-        logger.info("["+botMacAddress+"]");
+        logger.info("[" + botMacAddress + "]");
 
         try {
 
@@ -86,28 +95,36 @@ public class SubsystemFactory {
 
             initCommon();
 
-            // driverfeedback will create a shuffleboard tab that aggregates data from subsystems.
+            // driverfeedback will create a shuffleboard tab that aggregates data from
+            // subsystems.
 
         } catch (Exception e) {
             throw e;
         }
     }
 
-
-
     /**
-
+     * 
      * init subsystems that are common to all bots
-
+     * 
      */
 
     private void initCommon() {
-        Climber c = new Climber();
-        ClimberSBTab tab    = new ClimberSBTab(c);
+        Climber climber = new Climber();
+        ClimberSBTab tab = new ClimberSBTab(climber);
+        Command c = new PatsCommand(climber);
+        try {
+            OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
+        } catch (OzoneException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
     }
 
 
 
+    
      /**
 
      * init subsytems specific to Proto
