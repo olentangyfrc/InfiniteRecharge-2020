@@ -101,8 +101,8 @@ public class SubsystemFactory {
     private void initCommon() {
         Command c;
         OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
-        Climber c = new Climber();
-        ClimberSBTab tab    = new ClimberSBTab(c);
+        Climber climber = new Climber();
+        ClimberSBTab tab    = new ClimberSBTab(climber);
     }
 
 
