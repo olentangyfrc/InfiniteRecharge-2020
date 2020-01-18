@@ -8,8 +8,6 @@
 package frc.robot.subsystem.climber.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystem.climber.Climber;
 
 public class PatsCommand extends CommandBase {
@@ -24,9 +22,6 @@ public class PatsCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climb);
   }
-
-
-
 
   // Called when the command is initially scheduled.
   @Override

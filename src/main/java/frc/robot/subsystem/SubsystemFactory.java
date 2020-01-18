@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.commands.PatsCommand;
 import frc.robot.subsystem.transport.Transport;
+import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.transport.commands.TakeIn;
 
 public class SubsystemFactory {
@@ -26,8 +27,6 @@ public class SubsystemFactory {
     private static String botMacAddress;
 
     private String footballMacAddress = "00:80:2F:17:D7:4B";
-
-    private boolean isRoboRio;
 
     /**
      * keep all available subsystem declarations here.
@@ -45,7 +44,6 @@ public class SubsystemFactory {
 
         if (me == null) {
             me = new SubsystemFactory();
-            me.isRoboRio = b;
         }
 
         return me;
@@ -122,19 +120,12 @@ public class SubsystemFactory {
          */
         transport  = new Transport();
         transport.init(portMan);
+        TransportSBTab transportTab = new TransportSBTab(transport);
 
         TakeIn tc    = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
-
-        /**
-         * if this is not the robot, just see if commands do what they are supposed to
-         */
-        if (!isRoboRio) {
-            c.initialize(); c.execute();
-            dc.initialize(); dc.execute();
-            tc.initialize(); tc.execute();
-        }
     }
+
     public ControlPanel getControlPanel(){
         return controlPanel;
     }

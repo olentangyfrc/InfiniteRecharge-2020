@@ -15,10 +15,10 @@ import com.revrobotics.ColorMatch;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystem.PortMan;
 
-public class ControlPanel {
+public class ControlPanel extends SubsystemBase {
   private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
 
     private final ColorSensorV3 m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard);

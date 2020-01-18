@@ -20,7 +20,7 @@ public class TakeIn extends CommandBase {
   
   public TakeIn(Transport t) {
     transport = t;
-    //addRequirements(t);
+    addRequirements(t);
   }
 
   @Override

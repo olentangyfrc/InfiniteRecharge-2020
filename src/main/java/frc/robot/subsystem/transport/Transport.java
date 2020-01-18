@@ -5,9 +5,10 @@ import java.util.logging.Logger;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystem.PortMan;
 
-public class Transport {
+public class Transport extends SubsystemBase {
     
     private static Logger logger = Logger.getLogger(Transport.class.getName());
 
@@ -17,6 +18,9 @@ public class Transport {
     private double motorSpeedForward = .5;
     private double motorSpeedBackward = .5;
     private double ballCount = 0;
+
+    public Transport() {
+    }
 
     public void init(PortMan portMan) throws Exception {
         logger.entering(Transport.class.getName(), "init()");

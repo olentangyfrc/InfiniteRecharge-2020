@@ -10,7 +10,6 @@ package frc.robot.subsystem.controlpanel.commands;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystem.SubsystemFactory;
 
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
@@ -20,20 +19,20 @@ public class DisplayColor extends CommandBase {
   
   private ControlPanel controlPanel;
   private ControlPanelSBTab shuffleBoard;
-  private boolean stop = false;
+  private boolean stop = true;
   /**
    * Creates a new DisplayColor.
    */
   public DisplayColor(ControlPanel c) {
     controlPanel = c;
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(c);
+    shuffleBoard = new ControlPanelSBTab(controlPanel);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shuffleBoard = new ControlPanelSBTab(controlPanel);
-    stop = false;
+    stop = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

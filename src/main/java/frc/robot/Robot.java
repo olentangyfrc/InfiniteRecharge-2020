@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystem.PortMan;
 import frc.robot.subsystem.SubsystemFactory;
 import frc.robot.subsystem.controlpanel.ControlPanel;
@@ -61,7 +62,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-       // controlPanel.displayColors();
+       CommandScheduler.getInstance().run();
   }
 
   /**
