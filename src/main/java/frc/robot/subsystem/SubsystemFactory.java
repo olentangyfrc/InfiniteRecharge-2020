@@ -96,7 +96,7 @@ public class SubsystemFactory {
 
      * init subsystems that are common to all bots
 
-     */:was
+     */
 
     private void initCommon() {
         Command c;
