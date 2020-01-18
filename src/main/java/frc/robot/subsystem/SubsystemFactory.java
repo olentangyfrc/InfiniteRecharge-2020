@@ -11,6 +11,7 @@ import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.climber.commands.PatsCommand;
+import frc.robot.subsystem.transport.Transport;
 
 public class SubsystemFactory {
 
@@ -31,6 +32,8 @@ public class SubsystemFactory {
      * keep all available subsystem declarations here.
      */
 
+    private Transport transport;
+    
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
     }
