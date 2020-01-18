@@ -7,9 +7,13 @@
 
 package frc.robot;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.subsystem.SubsystemFactory;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.util.OzoneLogger;
 
@@ -22,6 +26,7 @@ import frc.robot.util.OzoneLogger;
  */
 public class Robot extends TimedRobot {
 
+  static Logger logger = Logger.getLogger(Robot.class.getName());
     ControlPanel controlPanel;
 
   /**
@@ -34,6 +39,15 @@ public class Robot extends TimedRobot {
 
     controlPanel = new ControlPanel();
     controlPanel.init();
+
+    try {
+      SubsystemFactory.getInstance().init();
+    } catch (Exception e) {
+      StringWriter writer = new StringWriter();
+      PrintWriter pw  = new PrintWriter(writer);
+      e.printStackTrace(pw);
+      logger.severe(writer.toString());
+    }
   }
 
   /**

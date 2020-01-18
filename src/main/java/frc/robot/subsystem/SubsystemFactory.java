@@ -1,11 +1,9 @@
 package frc.robot.subsystem;
 
 import java.io.StringWriter;
-import java.util.logging.Level;
+import java.net.InetAddress;
 import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
 
@@ -15,35 +13,22 @@ public class SubsystemFactory {
 
     static Logger logger = Logger.getLogger(SubsystemFactory.class.getName());
 
-
-
-    private static String   botMacAddress;  // value of environment variable for MAC Address
-
-    
+    private static String   botMacAddress;
 
     private String   protoMacAddress    = "00:80:2F:22:D7:BC";   
-
     private String   blueMacAddress    = "00:80:2F:27:1D:E9";
-
     private String   zippyMacAddress    = "00:80:2F:25:B4:CA";
-
     private String   turboMacAddress    = "00:80:2F:27:04:C6";
-
     private String   footballMacAddress = "00:80:2F:17:D7:4B";
-
     private String   newbieMacAddress   = "00:80:2F:17:F8:3F";
-
 
     /**
      * keep all available subsystem declarations here.
      */
-
     
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
     }
-
-
 
     public static SubsystemFactory getInstance() {
 
@@ -55,26 +40,15 @@ public class SubsystemFactory {
     }
 
 
-
     public void init() throws Exception {
 
-        logger.info("intializing");
+        logger.info("initializing");
 
-        botMacAddress   = System.getenv("MAC_ADDRESS");
+        botMacAddress   = InetAddress.getLocalHost().getHostAddress().trim(); 
 
         logger.info("["+botMacAddress+"]");
 
-        if (botMacAddress == null) {
-
-            //throw new OzoneException("Could not find MAC Address for this bot. Make sure /home/lvuser/.bash_profile is correct");
-
-        }
-
         try {
-            // create SB tabs that we want to see first now
-            botMacAddress = turboMacAddress;
-
-            //subsystems common to every bot
 
             if (botMacAddress.equals(protoMacAddress)) {
                 initProto();
@@ -101,7 +75,7 @@ public class SubsystemFactory {
 
             } else {
 
-                logger.severe("Unrecognized MAC Address [" + botMacAddress + "]");
+                throw new Exception("Unrecognized MAC Address [" + botMacAddress + "]");
             }
 
             initCommon();
@@ -109,9 +83,7 @@ public class SubsystemFactory {
             // driverfeedback will create a shuffleboard tab that aggregates data from subsystems.
 
         } catch (Exception e) {
-            StringWriter writer = new StringWriter();
-
-            logger.severe(writer.toString());
+            throw e;
         }
     }
 
