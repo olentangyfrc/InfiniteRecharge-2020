@@ -13,17 +13,20 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystem.SubsystemFactory;
 
 import frc.robot.subsystem.controlpanel.ControlPanel;
+import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
 
 public class DisplayColor extends CommandBase {
   private final Logger logger = Logger.getLogger(DisplayColor.class.getName());
   
   private ControlPanel controlPanel;
+  private ControlPanelSBTab shuffleBoard;
   private boolean stop = false;
   /**
    * Creates a new DisplayColor.
    */
-  public DisplayColor() {
-    controlPanel = SubsystemFactory.getInstance().getControlPanel();
+  public DisplayColor(ControlPanel c) {
+    controlPanel = c;
+    controlPanel.init();
     //this.requires(controlPanel);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -31,6 +34,7 @@ public class DisplayColor extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shuffleBoard = new ControlPanelSBTab(controlPanel);
     stop = false;
   }
 
@@ -38,6 +42,7 @@ public class DisplayColor extends CommandBase {
   @Override
   public void execute() {
     controlPanel.displayColors();
+    shuffleBoard.update();
   }
 
   // Called once the command ends or is interrupted.
@@ -48,7 +53,7 @@ public class DisplayColor extends CommandBase {
 
   @Override
   public synchronized void cancel() {
-      logger.info("canceled");
+      logger.info("Canceled");
       stop = true;
   }
   // Returns true when the command should end.

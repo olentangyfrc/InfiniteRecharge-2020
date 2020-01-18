@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
 
   static Logger logger = Logger.getLogger(Robot.class.getName());
     ControlPanel controlPanel;
+  private static SubsystemFactory subsystemFactory;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    subsystemFactory = SubsystemFactory.getInstance();
     OzoneLogger.getInstance().init(Level.FINE);
 
     controlPanel = new ControlPanel();

@@ -13,7 +13,9 @@ package frc.robot.subsystem.controlpanel;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj.util.Color;
 
 import com.revrobotics.ColorMatchResult;
@@ -34,6 +36,10 @@ public class ControlPanel {
     private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
     private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
+    private Color detectedColor;
+    private ColorMatchResult match;
+    private String colorString;
+
     private boolean logging = false;
 
     public void init() {
@@ -49,10 +55,9 @@ public class ControlPanel {
 
     public void displayColors() {
         
-        Color detectedColor = m_colorSensor.getColor();
+        detectedColor = m_colorSensor.getColor();
     
-        String colorString;
-        ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+        match = m_colorMatcher.matchClosestColor(detectedColor);
     
         if (match.color == kBlueTarget) {
           colorString = "Blue";
@@ -65,19 +70,36 @@ public class ControlPanel {
         } else {
           colorString = "Unknown";
         }
-    
-        SmartDashboard.putNumber("Red", detectedColor.red);
-        SmartDashboard.putNumber("Green", detectedColor.green);
-        SmartDashboard.putNumber("Blue", detectedColor.blue);
-        SmartDashboard.putNumber("Confidence", match.confidence);
-        SmartDashboard.putString("Detected Color", colorString);
 
-        logger.info(String.format("Red [%f]\n", detectedColor.red));
+
+        //logger.info(String.format("Red [%f]\n", detectedColor.red));
       }
+
+      public double getRedValue() {
+        return detectedColor.red;
+      }
+      public double getGreenValue() {
+        return detectedColor.green;
+      }
+      public double getBlueValue() {
+        return detectedColor.blue;
+      }
+      public double getConfidenceValue() {
+        return match.confidence;
+      }
+      public String getDetectedColor() {
+        return colorString;
+      }
+      
+
+    }
+
+      
+
       /*
       public boolean isLogging(){
         logging = isLogging.getBoolean(false);
         return logging;
     }
     */
-}
+
