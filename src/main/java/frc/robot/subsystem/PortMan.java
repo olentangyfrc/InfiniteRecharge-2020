@@ -44,6 +44,13 @@ public class PortMan {
     public static final String digital11_label   = "DIGITAL11";
     public static final String digital12_label   = "DIGITAL12";
     public static final String digital13_label   = "DIGITAL13";
+    public static final String digital14_label   = "DIGITAL14";
+    public static final String digital15_label   = "DIGITAL15";
+    public static final String digital16_label   = "DIGITAL16";
+    public static final String digital17_label   = "DIGITAL17";
+    public static final String digital18_label   = "DIGITAL18";
+    public static final String digital19_label   = "DIGITAL19";
+    public static final String digital20_label   = "DIGITAL20";
 
     public static final String analog0_label = "ANALOG0";
     public static final String analog1_label = "ANALOG1";
@@ -78,6 +85,15 @@ public class PortMan {
     public static final String pcm7_label = "PCM7";
 
 
+    public static final String can_01_label = "CAN01";
+    public static final String can_02_label = "CAN02";
+    public static final String can_03_label = "CAN03";
+    public static final String can_04_label = "CAN04";
+    public static final String can_05_label = "CAN05";
+    public static final String can_06_label = "CAN06";
+    public static final String can_07_label = "CAN07";
+    public static final String can_08_label = "CAN08";
+    public static final String can_09_label = "CAN09";
     public static final String can_10_label = "CAN10";
     public static final String can_11_label = "CAN11";
     public static final String can_12_label = "CAN12";
@@ -118,6 +134,19 @@ public class PortMan {
     public static final String can_47_label = "CAN47";
     public static final String can_48_label = "CAN48";
     public static final String can_49_label = "CAN49";
+    public static final String can_50_label = "CAN50";
+    public static final String can_51_label = "CAN51";
+    public static final String can_52_label = "CAN52";
+    public static final String can_53_label = "CAN53";
+    public static final String can_54_label = "CAN54";
+    public static final String can_55_label = "CAN55";
+    public static final String can_56_label = "CAN56";
+    public static final String can_57_label = "CAN57";
+    public static final String can_58_label = "CAN58";
+    public static final String can_59_label = "CAN59";
+    public static final String can_60_label = "CAN60";
+    public static final String can_61_label = "CAN61";
+    public static final String can_62_label = "CAN62";
 
     public PortMan() {
         allocatedPorts  = new HashMap<String, String> ();
@@ -148,6 +177,13 @@ public class PortMan {
             case digital11_label: return 11;
             case digital12_label: return 12;
             case digital13_label: return 13;
+            case digital14_label: return 14;
+            case digital15_label: return 15;
+            case digital16_label: return 16;
+            case digital17_label: return 17;
+            case digital18_label: return 18;
+            case digital19_label: return 19;
+            case digital20_label: return 20;
 
             case analog0_label: return 0;
             case analog1_label: return 1;
@@ -181,6 +217,15 @@ public class PortMan {
             case pcm6_label: return 6;
             case pcm7_label: return 7;
 
+            case can_01_label: return 1;
+            case can_02_label: return 2;
+            case can_03_label: return 3;
+            case can_04_label: return 4;
+            case can_05_label: return 5;
+            case can_06_label: return 6;
+            case can_07_label: return 7;
+            case can_08_label: return 8;
+            case can_09_label: return 9;
             case can_10_label: return 10;
             case can_11_label: return 11;
             case can_12_label: return 12;
