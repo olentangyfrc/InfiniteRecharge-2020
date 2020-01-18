@@ -4,6 +4,9 @@ import java.io.StringWriter;
 import java.net.InetAddress;
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
 
@@ -93,9 +96,11 @@ public class SubsystemFactory {
 
      * init subsystems that are common to all bots
 
-     */
+     */:was
 
     private void initCommon() {
+        Command c;
+        OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
         Climber c = new Climber();
         ClimberSBTab tab    = new ClimberSBTab(c);
     }
