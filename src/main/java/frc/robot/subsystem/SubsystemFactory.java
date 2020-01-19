@@ -8,6 +8,7 @@ import frc.robot.OI;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.controlpanel.ControlPanel;
+import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
 import frc.robot.subsystem.controlpanel.commands.DisplayColor;
 import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +28,8 @@ public class SubsystemFactory {
     private static String botMacAddress;
 
     private String footballMacAddress = "00:80:2F:17:D7:4B";
+
+    private static DisplayManager displayManager;
 
     /**
      * keep all available subsystem declarations here.
@@ -49,7 +52,7 @@ public class SubsystemFactory {
         return me;
     }
 
-    public void init(PortMan portMan) throws Exception {
+    public void init(DisplayManager dm, PortMan portMan) throws Exception {
 
         logger.info("initializing");
 
@@ -57,6 +60,8 @@ public class SubsystemFactory {
         botMacAddress = footballMacAddress;
 
         logger.info("[" + botMacAddress + "]");
+
+        displayManager = dm;
 
         try {
 
@@ -101,7 +106,7 @@ public class SubsystemFactory {
          */
         Climber climber = new Climber();
         climber.init(portMan);
-        ClimberSBTab tab = new ClimberSBTab(climber);
+        displayManager.addClimber(climber);
         Command c = new PatsCommand(climber);
         OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
 
@@ -111,6 +116,7 @@ public class SubsystemFactory {
          */
         controlPanel = new ControlPanel();
         controlPanel.init(portMan);
+        displayManager.addCP(controlPanel);
         DisplayColor dc = new DisplayColor(controlPanel);
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
 
@@ -120,6 +126,7 @@ public class SubsystemFactory {
          */
         transport  = new Transport();
         transport.init(portMan);
+        displayManager.addTransport(transport);
         TransportSBTab transportTab = new TransportSBTab(transport);
 
         TakeIn tc    = new TakeIn(transport);

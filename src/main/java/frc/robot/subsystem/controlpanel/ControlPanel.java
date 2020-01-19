@@ -16,6 +16,7 @@ import com.revrobotics.ColorMatch;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystem.DisplayManager;
 import frc.robot.subsystem.PortMan;
 
 public class ControlPanel extends SubsystemBase {
@@ -33,6 +34,7 @@ public class ControlPanel extends SubsystemBase {
     private Color detectedColor;
     private ColorMatchResult match;
     private String colorString;
+
 
     public void init(PortMan portMan) {
       logger.entering(ControlPanel.class.getName(), "init()");
