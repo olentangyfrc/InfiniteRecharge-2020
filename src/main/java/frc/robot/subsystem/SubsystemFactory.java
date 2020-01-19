@@ -16,7 +16,7 @@ import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.commands.PatsCommand;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
-import frc.robot.subsystem.transport.commands.TakeIn;
+import frc.robot.subsystem.transport.commands.*;
 
 public class SubsystemFactory {
 
@@ -123,7 +123,10 @@ public class SubsystemFactory {
         TransportSBTab transportTab = new TransportSBTab(transport);
 
         TakeIn tc    = new TakeIn(transport);
-        OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
+        OI.getInstance().bind(tc, OI.RightJoyButton4, OI.WhenPressed);
+
+        PushOut pc   = new PushOut(transport);
+        OI.getInstance().bind(pc, OI.RightJoyButton3, OI.WhenPressed);
     }
 
     public ControlPanel getControlPanel(){
