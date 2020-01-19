@@ -29,7 +29,14 @@ public class TakeIn extends CommandBase {
 
   @Override
   public void execute() {
-    transport.take();
+    if (transport.count() < 5)
+    {
+      transport.take();
+    }
+    else
+    {
+      logger.info("At capacity, can't take.");
+    }
   }
 
   // Called once the command ends or is interrupted.

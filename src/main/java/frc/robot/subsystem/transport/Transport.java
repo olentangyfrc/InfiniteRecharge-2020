@@ -12,8 +12,8 @@ public class Transport extends SubsystemBase {
     
     private static Logger logger = Logger.getLogger(Transport.class.getName());
 
-    private final TalonSRX leftIntake = new TalonSRX(57);
-    private final TalonSRX rightIntake = new TalonSRX(58);
+    private TalonSRX leftIntake;
+    private TalonSRX rightIntake;
 
     private double motorSpeedForward = .5;
     private double motorSpeedBackward = .5;
@@ -23,6 +23,9 @@ public class Transport extends SubsystemBase {
     }
 
     public void init(PortMan portMan) throws Exception {
+        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_58_label, "Transport.transportTalon1"));
+        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "Transport.transportTalon2"));
+
         logger.entering(Transport.class.getName(), "init()");
 
         leftIntake.config_kP(0, .5, 0);
