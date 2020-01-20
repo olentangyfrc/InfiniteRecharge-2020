@@ -1,22 +1,29 @@
 package frc.robot.subsystem;
 
-import java.io.StringWriter;
 import java.net.InetAddress;
 import java.util.logging.Logger;
 
 import frc.robot.OI;
 import frc.robot.subsystem.climber.Climber;
-import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.controlpanel.ControlPanel;
+import frc.robot.subsystem.controlpanel.commands.RotateToColor;
+import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.controlpanel.commands.DisplayColor;
-import edu.wpi.first.hal.sim.DriverStationSim;
+import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
+import frc.robot.subsystem.onewheelshooter.commands.Shoot;
+import frc.robot.subsystem.onewheelshooter.commands.Stop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OzoneException;
-import frc.robot.subsystem.climber.commands.PatsCommand;
+import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.transport.commands.*;
+import frc.robot.subsystem.transport.commands.TakeIn;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
+import frc.robot.subsystem.twowheelshooter.commands.Shoot;
+import frc.robot.subsystem.twowheelshooter.commands.Stop;
 
 public class SubsystemFactory {
 
@@ -28,6 +35,8 @@ public class SubsystemFactory {
 
     private String footballMacAddress = "00:80:2F:17:D7:4B";
 
+    private static DisplayManager displayManager;
+
     /**
      * keep all available subsystem declarations here.
      */
@@ -35,6 +44,9 @@ public class SubsystemFactory {
     private Transport transport;
     private ControlPanel controlPanel;
     private Climber climber;
+    private OneWheelShooter oneWheelShooter;
+    private TwoWheelShooter twoWheelShooter;
+    private Telemetry telemetry;
     
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
@@ -49,7 +61,7 @@ public class SubsystemFactory {
         return me;
     }
 
-    public void init(PortMan portMan) throws Exception {
+    public void init(DisplayManager dm, PortMan portMan) throws Exception {
 
         logger.info("initializing");
 
@@ -57,6 +69,8 @@ public class SubsystemFactory {
         botMacAddress = footballMacAddress;
 
         logger.info("[" + botMacAddress + "]");
+
+        displayManager = dm;
 
         try {
 
@@ -94,15 +108,20 @@ public class SubsystemFactory {
 
     private void initFootball(PortMan portMan) throws Exception {
         logger.info("Initializing Football");
-
+        /**
+         * All of the Telemery Stuff goes here
+         */
+        telemetry = new Telemetry();
+        telemetry.init(portMan);
+        displayManager.addTelemetry(telemetry);
 
         /**
          * All of the Climber stuff goes here
          */
-        Climber climber = new Climber();
+        climber = new Climber();
         climber.init(portMan);
-        ClimberSBTab tab = new ClimberSBTab(climber);
-        Command c = new PatsCommand(climber);
+        displayManager.addClimber(climber);
+        Command c = new Climb(climber);
         OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
 
 
@@ -110,9 +129,10 @@ public class SubsystemFactory {
          * All of the ControlPanel stuff goes here
          */
         controlPanel = new ControlPanel();
-        controlPanel.init(portMan);
-        DisplayColor dc = new DisplayColor(controlPanel);
-        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
+        controlPanel.init(portMan, telemetry);
+        displayManager.addCP(controlPanel);
+        RotateToColor dc = new RotateToColor(controlPanel);
+        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhileHeld);
 
 
         /**
@@ -120,13 +140,33 @@ public class SubsystemFactory {
          */
         transport  = new Transport();
         transport.init(portMan);
-        TransportSBTab transportTab = new TransportSBTab(transport);
-
+        displayManager.addTransport(transport);
         TakeIn tc    = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.RightJoyButton4, OI.WhenPressed);
 
         PushOut pc   = new PushOut(transport);
         OI.getInstance().bind(pc, OI.RightJoyButton3, OI.WhenPressed);
+        OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
+
+        /**
+         * All of the OneWheelShooter stuff goes here
+         */
+        oneWheelShooter = new OneWheelShooter();
+        oneWheelShooter.init(portMan);
+        Stop st = new Stop(oneWheelShooter);
+        OI.getInstance().bind(st,OI.LeftJoyButton6, OI.WhenPressed);
+        Shoot sh = new Shoot(oneWheelShooter);
+        OI.getInstance().bind(sh,OI.LeftJoyButton7, OI.WhenPressed);
+
+         * All of the TwoWheelShooter stuff goes here
+         */
+        twoWheelShooter = new TwoWheelShooter();
+        twoWheelShooter.init(portMan);
+        displayManager.addTwoWheelShooter(twoWheelShooter);
+        Shoot sh = new Shoot(twoWheelShooter);
+        OI.getInstance().bind(sh, OI.LeftJoyButton4, OI.WhenPressed);
+        Stop st = new Stop(twoWheelShooter);
+        OI.getInstance().bind(st, OI.LeftJoyButton5, OI.WhenPressed);
     }
 
     public ControlPanel getControlPanel(){

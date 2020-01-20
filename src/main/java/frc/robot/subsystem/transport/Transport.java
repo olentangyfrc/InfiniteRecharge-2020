@@ -28,6 +28,9 @@ public class Transport extends SubsystemBase {
 
         logger.entering(Transport.class.getName(), "init()");
 
+        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_37_label, "Transport.leftIntake"));
+        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_38_label, "Transport.rightIntake"));
+
         leftIntake.config_kP(0, .5, 0);
         leftIntake.config_kI(0, 0, 0);
         leftIntake.config_kD(0, 0, 0);

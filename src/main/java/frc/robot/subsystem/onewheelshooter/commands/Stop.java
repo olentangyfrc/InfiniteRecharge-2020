@@ -5,22 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.climber.commands;
+package frc.robot.subsystem.onewheelshooter.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystem.climber.Climber;
+import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 
-public class PatsCommand extends CommandBase {
+public class Stop extends CommandBase {
   /**
-   * Creates a new PatsCommand.
+   * Creates a new Stop.
    */
 
-  private Climber climber;
+  private OneWheelShooter oneWheelShooter;
 
-  public PatsCommand(Climber climb) {
-    climber = climb;
+  public Stop(OneWheelShooter stop) {
+    oneWheelShooter = stop;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(climb);
+    addRequirements(stop);
   }
 
   // Called when the command is initially scheduled.
@@ -31,8 +31,8 @@ public class PatsCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.extend();
-    climber.retract();
+    oneWheelShooter.stop();
+    
   }
 
   // Called once the command ends or is interrupted.
