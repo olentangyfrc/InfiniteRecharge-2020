@@ -13,15 +13,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystem.controlpanel.ControlPanel;
 
-public class DisplayColor extends CommandBase {
-  private final Logger logger = Logger.getLogger(DisplayColor.class.getName());
+public class RotateToColor extends CommandBase {
+  private final Logger logger = Logger.getLogger(RotateToColor.class.getName());
   
   private ControlPanel controlPanel;
   private boolean stop = true;
   /**
    * Creates a new DisplayColor.
    */
-  public DisplayColor(ControlPanel c) {
+  public RotateToColor(ControlPanel c) {
     controlPanel = c;
     addRequirements(c);
   }
@@ -35,7 +35,7 @@ public class DisplayColor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlPanel.displayColors();
+    controlPanel.goToColor();
   }
 
   // Called once the command ends or is interrupted.

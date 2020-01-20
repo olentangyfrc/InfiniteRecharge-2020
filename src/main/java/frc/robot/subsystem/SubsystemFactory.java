@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import frc.robot.OI;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
-import frc.robot.subsystem.controlpanel.commands.DisplayColor;
+import frc.robot.subsystem.controlpanel.commands.RotateToColor;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OzoneException;
@@ -117,8 +117,8 @@ public class SubsystemFactory {
         controlPanel = new ControlPanel();
         controlPanel.init(portMan);
         displayManager.addCP(controlPanel);
-        DisplayColor dc = new DisplayColor(controlPanel);
-        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
+        RotateToColor dc = new RotateToColor(controlPanel);
+        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhileHeld);
 
 
         /**

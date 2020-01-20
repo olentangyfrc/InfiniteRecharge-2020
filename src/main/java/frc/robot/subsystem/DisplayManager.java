@@ -14,6 +14,8 @@ import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
 
+import java.util.logging.Logger;
+
 /**
  * Add your docs here.
  */
@@ -21,6 +23,8 @@ public class DisplayManager {
     private ControlPanelSBTab controlPanelDisplay;
     private TransportSBTab transportDisplay;
     private ClimberSBTab climberDisplay;
+
+    private static Logger logger = Logger.getLogger(DisplayManager.class.getName());
 
 
     public DisplayManager(){
@@ -40,6 +44,7 @@ public class DisplayManager {
     }
 
     public void update(){
+        logger.info("update");
         if(controlPanelDisplay != null)
             controlPanelDisplay.update();
         else if(transportDisplay != null)
