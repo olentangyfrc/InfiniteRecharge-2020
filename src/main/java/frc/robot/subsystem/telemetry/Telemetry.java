@@ -4,6 +4,7 @@
  * 
  * boolean isSquare(double distance)
  * 
+ */
  
 
 
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
 
 public class Telemetry extends SubsystemBase{
 
-    private LidarPWM frontLidar, rearLidar;
+    //private LidarPWM frontLidar, rearLidar;
     private double frontLidarDistance, rearLidarDistance;
     private static Logger logger = Logger.getLogger(Telemetry.class.getName());
 
@@ -34,24 +35,25 @@ public class Telemetry extends SubsystemBase{
     public boolean isSquare(double distance)
     {
         distance = frontLidarDistance;
-        
+       /** 
         if (Math.abs(frontLidarDistance - rearLidarDistance) <= lidarTolerance)
-        {pp
+        {
             return true;
         }
         else {
             return false;
         }
+        */
+        return true;
 
     } 
     
     public void init(PortMan portMan) {
         logger.entering(Telemetry.class.getName(), "init()");
 
-        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.lidar"));
-        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.lidar"));
+      //  frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.lidar"));
+        //rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.lidar"));
 
-        logger.exiting(ControlPanel.class.getName(), "init()");
+        logger.exiting(Telemetry.class.getName(), "init()");
     }
 }
-*/
