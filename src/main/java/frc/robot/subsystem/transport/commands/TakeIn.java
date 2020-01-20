@@ -29,6 +29,7 @@ public class TakeIn extends CommandBase {
 
   @Override
   public void execute() {
+    logger.info("executing take");
     if (transport.count() < 5)
     {
       transport.take();
