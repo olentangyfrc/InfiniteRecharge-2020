@@ -13,6 +13,8 @@ import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
 
 /**
  * Add your docs here.
