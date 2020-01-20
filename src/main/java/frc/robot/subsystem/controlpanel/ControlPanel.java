@@ -23,12 +23,13 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OzoneException;
 import frc.robot.subsystem.PortMan;
+import frc.robot.subsystem.telemetry.Telemetry;
 
 public class ControlPanel extends SubsystemBase {
     private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
 
     private ColorSensorV3 m_colorSensor ; 
-    private TalonSRX spinner;
+    private TalonSRX motor;
     private int oneRevolution; // the number of clicks for one entire revolution
     private int currentSpinnerPosition;
     private int targetSpinnerPosition;
@@ -43,8 +44,13 @@ public class ControlPanel extends SubsystemBase {
     private ColorMatchResult match;
     private String colorString;
 
+    private Telemetry telemetry;
+    private int targetDistance = 0;
 
-    public void init(PortMan portMan) throws Exception {
+
+
+
+    public void init(PortMan portMan, Telemetry t) throws Exception {
       logger.entering(ControlPanel.class.getName(), "init()");
 
       m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
@@ -58,36 +64,32 @@ public class ControlPanel extends SubsystemBase {
       match = m_colorMatcher.matchClosestColor(detectedColor);
       colorString = "None";
 
-      spinner = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "ControlPanel.spinner"));
+      motor = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "ControlPanel.spinner"));
       logger.exiting(ControlPanel.class.getName(), "init()");
+
+      telemetry = t;
 
     }
   
     public void spin(int spinNum) {
       logger.info("spinning");
     
-      currentSpinnerPosition = spinner.getSelectedSensorPosition();
+      currentSpinnerPosition = motor.getSelectedSensorPosition();
       targetSpinnerPosition = currentSpinnerPosition + (spinNum * oneRevolution);
-      spinner.setSelectedSensorPosition(targetSpinnerPosition);
+      motor.setSelectedSensorPosition(targetSpinnerPosition);
     }
 
-    public void displayColors() {
-      logger.info("displayColors");
-        
+    public void goToColor(Color targetColor) {
+      logger.info("goToColor");
+
         detectedColor = m_colorSensor.getColor();
-    
         match = m_colorMatcher.matchClosestColor(detectedColor);
-    
-        if (match.color == kBlueTarget) {
-          colorString = "Blue";
-        } else if (match.color == kRedTarget) {
-          colorString = "Red";
-        } else if (match.color == kGreenTarget) {
-          colorString = "Green";
-        } else if (match.color == kYellowTarget) {
-          colorString = "Yellow";
-        } else {
-          colorString = "Unknown";
+        //match.color == kBlueTarget
+
+        if(telemetry.isSquare(targetDistance)){
+            while(match.color != targetColor)
+              motor.set(ControlMode.PercentOutput, .5);
+            motor.set(ControlMode.PercentOutput, 0);
         }
       }
 

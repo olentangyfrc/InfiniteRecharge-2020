@@ -6,11 +6,12 @@ import java.util.logging.Logger;
 import frc.robot.OI;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
+import frc.robot.subsystem.controlpanel.commands.RotateToColor;
+import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.controlpanel.commands.DisplayColor;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.Shoot;
 import frc.robot.subsystem.onewheelshooter.commands.Stop;
-import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OzoneException;
@@ -43,6 +44,7 @@ public class SubsystemFactory {
     private Climber climber;
     private OneWheelShooter oneWheelShooter;
     private TwoWheelShooter twoWheelShooter;
+    private Telemetry telemetry;
     
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
@@ -104,12 +106,17 @@ public class SubsystemFactory {
 
     private void initFootball(PortMan portMan) throws Exception {
         logger.info("Initializing Football");
-
+        /**
+         * All of the Telemery Stuff goes here
+         */
+        telemetry = new Telemetry();
+        telemetry.init(portMan);
+        displayManager.addTelemetry(telemetry);
 
         /**
          * All of the Climber stuff goes here
          */
-        Climber climber = new Climber();
+        climber = new Climber();
         climber.init(portMan);
         displayManager.addClimber(climber);
         Command c = new Climb(climber);
@@ -120,10 +127,10 @@ public class SubsystemFactory {
          * All of the ControlPanel stuff goes here
          */
         controlPanel = new ControlPanel();
-        controlPanel.init(portMan);
+        controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
-        DisplayColor dc = new DisplayColor(controlPanel);
-        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
+        RotateToColor dc = new RotateToColor(controlPanel);
+        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhileHeld);
 
 
         /**
