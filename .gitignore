@@ -41,6 +41,9 @@
 # Log file
 *.log
 
+# simulator ini file
+imgui.ini
+
 # BlueJ files
 *.ctxt
 

@@ -8,9 +8,15 @@ import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.DisplayColor;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystem.climber.commands.PatsCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OzoneException;
+import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.TakeIn;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
+import frc.robot.subsystem.twowheelshooter.commands.Shoot;
+import frc.robot.subsystem.twowheelshooter.commands.Stop;
 
 public class SubsystemFactory {
 
@@ -31,6 +37,7 @@ public class SubsystemFactory {
     private Transport transport;
     private ControlPanel controlPanel;
     private Climber climber;
+    private TwoWheelShooter twoWheelShooter;
     
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
@@ -100,7 +107,7 @@ public class SubsystemFactory {
         Climber climber = new Climber();
         climber.init(portMan);
         displayManager.addClimber(climber);
-        Command c = new PatsCommand(climber);
+        Command c = new Climb(climber);
         OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
 
 
@@ -122,6 +129,18 @@ public class SubsystemFactory {
         displayManager.addTransport(transport);
         TakeIn tc    = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
+
+        /**
+         * All of the TwoWheelShooter stuff goes here
+         */
+        twoWheelShooter = new TwoWheelShooter();
+        twoWheelShooter.init(portMan);
+        TwoWheelShooterSBTab twoWheelShooterTab = new TwoWheelShooterSBTab(twoWheelShooter);
+        Shoot sh = new Shoot(twoWheelShooter);
+        OI.getInstance().bind(sh, OI.LeftJoyButton4, OI.WhenPressed);
+        Stop st = new Stop(twoWheelShooter);
+        OI.getInstance().bind(st, OI.LeftJoyButton5, OI.WhenPressed);
+
     }
 
     public ControlPanel getControlPanel(){

@@ -13,15 +13,25 @@ import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OzoneException;
 import frc.robot.subsystem.PortMan;
 
 public class ControlPanel extends SubsystemBase {
-  private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
+    private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
 
-    private ColorSensorV3 m_colorSensor ;
+    private ColorSensorV3 m_colorSensor ; 
+    private TalonSRX spinner;
+    private int oneRevolution; // the number of clicks for one entire revolution
+    private int currentSpinnerPosition;
+    private int targetSpinnerPosition;
 
     private final ColorMatch m_colorMatcher = new ColorMatch();
     private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
@@ -49,6 +59,18 @@ public class ControlPanel extends SubsystemBase {
       colorString = "None";
         
       logger.exiting(ControlPanel.class.getName(), "init()");
+
+      spinner = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "ControlPanel"));
+      logger.exiting(ControlPanel.class.getName(), "init()");
+
+    }
+  
+    public void spin(int spinNum) {
+      logger.info("spinning");
+    
+      currentSpinnerPosition = spinner.getSelectedSensorPosition();
+      targetSpinnerPosition = currentSpinnerPosition + (spinNum * oneRevolution);
+      spinner.setSelectedSensorPosition(targetSpinnerPosition);
     }
 
     public void displayColors() {
