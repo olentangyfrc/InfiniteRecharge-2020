@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystem.DisplayManager;
 import frc.robot.subsystem.PortMan;
 import frc.robot.subsystem.SubsystemFactory;
 import frc.robot.subsystem.controlpanel.ControlPanel;
@@ -32,6 +33,8 @@ public class Robot extends TimedRobot {
     ControlPanel controlPanel;
   private static SubsystemFactory subsystemFactory;
 
+  private DisplayManager dManager;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -40,9 +43,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     subsystemFactory = SubsystemFactory.getInstance(isReal());
     OzoneLogger.getInstance().init(Level.FINE);
+    dManager = new DisplayManager();
 
     try {
-      subsystemFactory.init(new PortMan());
+      subsystemFactory.init(dManager, new PortMan());
 
     } catch (Exception e) {
       StringWriter writer = new StringWriter();
@@ -63,6 +67,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
        CommandScheduler.getInstance().run();
+       dManager.update();
   }
 
   /**

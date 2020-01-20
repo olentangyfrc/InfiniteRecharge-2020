@@ -25,46 +25,52 @@ import frc.robot.OzoneException;
 import frc.robot.subsystem.PortMan;
 
 public class ControlPanel extends SubsystemBase {
-  private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
+    private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
 
-  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+    private ColorSensorV3 m_colorSensor ; 
+    private TalonSRX spinner;
+    private int oneRevolution; // the number of clicks for one entire revolution
+    private int currentSpinnerPosition;
+    private int targetSpinnerPosition;
 
-  private final ColorMatch m_colorMatcher = new ColorMatch();
+    private final ColorMatch m_colorMatcher = new ColorMatch();
+    private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+    private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+    private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+    private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+    private Color detectedColor;
+    private ColorMatchResult match;
+    private String colorString;
 
-  private Color detectedColor;
-  private ColorMatchResult match;
-  private String colorString;
 
-  private TalonSRX spinner;
-  private int oneRevolution; // the number of clicks for one entire revolution
-  private int currentSpinnerPosition;
-  private int targetSpinnerPosition;
+    public void init(PortMan portMan) {
+      logger.entering(ControlPanel.class.getName(), "init()");
 
-  public void init(PortMan portMan) throws Exception {
-    logger.entering(ControlPanel.class.getName(), "init()");
+      m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
-    m_colorMatcher.addColorMatch(kBlueTarget);
-    m_colorMatcher.addColorMatch(kGreenTarget);
-    m_colorMatcher.addColorMatch(kRedTarget);
-    m_colorMatcher.addColorMatch(kYellowTarget);
+      m_colorMatcher.addColorMatch(kBlueTarget);
+      m_colorMatcher.addColorMatch(kGreenTarget);
+      m_colorMatcher.addColorMatch(kRedTarget);
+      m_colorMatcher.addColorMatch(kYellowTarget);   
 
-    spinner = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "ControlPanel"));
-    logger.exiting(ControlPanel.class.getName(), "init()");
+      detectedColor = m_colorSensor.getColor();
+      match = m_colorMatcher.matchClosestColor(detectedColor);
+      colorString = "None";
+        
+      logger.exiting(ControlPanel.class.getName(), "init()");
+
+      spinner = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "ControlPanel"));
+      logger.exiting(ControlPanel.class.getName(), "init()");
 
     }
-
+  
     public void spin(int spinNum) {
       logger.info("spinning");
     
       currentSpinnerPosition = spinner.getSelectedSensorPosition();
       targetSpinnerPosition = currentSpinnerPosition + (spinNum * oneRevolution);
       spinner.setSelectedSensorPosition(targetSpinnerPosition);
-           
     }
 
     public void displayColors() {

@@ -1,21 +1,17 @@
 package frc.robot.subsystem;
 
-import java.io.StringWriter;
 import java.net.InetAddress;
 import java.util.logging.Logger;
 
 import frc.robot.OI;
 import frc.robot.subsystem.climber.Climber;
-import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.DisplayColor;
-import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.transport.Transport;
-import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.transport.commands.TakeIn;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
@@ -31,6 +27,8 @@ public class SubsystemFactory {
     private static String botMacAddress;
 
     private String footballMacAddress = "00:80:2F:17:D7:4B";
+
+    private static DisplayManager displayManager;
 
     /**
      * keep all available subsystem declarations here.
@@ -54,7 +52,7 @@ public class SubsystemFactory {
         return me;
     }
 
-    public void init(PortMan portMan) throws Exception {
+    public void init(DisplayManager dm, PortMan portMan) throws Exception {
 
         logger.info("initializing");
 
@@ -62,6 +60,8 @@ public class SubsystemFactory {
         botMacAddress = footballMacAddress;
 
         logger.info("[" + botMacAddress + "]");
+
+        displayManager = dm;
 
         try {
 
@@ -106,7 +106,7 @@ public class SubsystemFactory {
          */
         Climber climber = new Climber();
         climber.init(portMan);
-        ClimberSBTab tab = new ClimberSBTab(climber);
+        displayManager.addClimber(climber);
         Command c = new Climb(climber);
         OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
 
@@ -116,6 +116,7 @@ public class SubsystemFactory {
          */
         controlPanel = new ControlPanel();
         controlPanel.init(portMan);
+        displayManager.addCP(controlPanel);
         DisplayColor dc = new DisplayColor(controlPanel);
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
 
@@ -125,8 +126,7 @@ public class SubsystemFactory {
          */
         transport  = new Transport();
         transport.init(portMan);
-        TransportSBTab transportTab = new TransportSBTab(transport);
-
+        displayManager.addTransport(transport);
         TakeIn tc    = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
 
