@@ -7,6 +7,10 @@ import frc.robot.OI;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.DisplayColor;
+import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
+import frc.robot.subsystem.onewheelshooter.commands.Shoot;
+import frc.robot.subsystem.onewheelshooter.commands.Stop;
+import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OzoneException;
@@ -37,6 +41,7 @@ public class SubsystemFactory {
     private Transport transport;
     private ControlPanel controlPanel;
     private Climber climber;
+    private OneWheelShooter oneWheelShooter;
     private TwoWheelShooter twoWheelShooter;
     
     private SubsystemFactory() {
@@ -131,6 +136,15 @@ public class SubsystemFactory {
         OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
 
         /**
+         * All of the OneWheelShooter stuff goes here
+         */
+        oneWheelShooter = new OneWheelShooter();
+        oneWheelShooter.init(portMan);
+        Stop st = new Stop(oneWheelShooter);
+        OI.getInstance().bind(st,OI.LeftJoyButton6, OI.WhenPressed);
+        Shoot sh = new Shoot(oneWheelShooter);
+        OI.getInstance().bind(sh,OI.LeftJoyButton7, OI.WhenPressed);
+
          * All of the TwoWheelShooter stuff goes here
          */
         twoWheelShooter = new TwoWheelShooter();
