@@ -15,6 +15,8 @@ import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.telemetry.TelemetrySBTab;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
 
 import java.util.logging.Logger;
 
@@ -28,7 +30,7 @@ public class DisplayManager {
     private TelemetrySBTab telemetryDisplay;
 
     private static Logger logger = Logger.getLogger(DisplayManager.class.getName());
-
+    private TwoWheelShooterSBTab twoWheelShooterDisplay;
 
     public DisplayManager(){
         
@@ -47,7 +49,10 @@ public class DisplayManager {
     }
     public void addTelemetry(Telemetry te){
         telemetryDisplay = new TelemetrySBTab(te);
+    }
         
+    public void addTwoWheelShooter(TwoWheelShooter tws){
+        twoWheelShooterDisplay = new TwoWheelShooterSBTab(tws);
     }
 
     public void update(){
@@ -60,6 +65,7 @@ public class DisplayManager {
             climberDisplay.update();
         else if(telemetryDisplay != null)
             telemetryDisplay.update();
-
+        else if(twoWheelShooterDisplay != null)
+            twoWheelShooterDisplay.update();
     }
 }
