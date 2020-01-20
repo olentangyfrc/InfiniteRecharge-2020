@@ -17,6 +17,10 @@ import frc.robot.subsystem.climber.commands.PatsCommand;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.transport.commands.TakeIn;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
+import frc.robot.subsystem.twowheelshooter.commands.Shoot;
+import frc.robot.subsystem.twowheelshooter.commands.Stop;
 
 public class SubsystemFactory {
 
@@ -35,6 +39,7 @@ public class SubsystemFactory {
     private Transport transport;
     private ControlPanel controlPanel;
     private Climber climber;
+    private TwoWheelShooter twoWheelShooter;
     
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
@@ -124,6 +129,18 @@ public class SubsystemFactory {
 
         TakeIn tc    = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
+
+        /**
+         * All of the TwoWheelShooter stuff goes here
+         */
+        twoWheelShooter = new TwoWheelShooter();
+        twoWheelShooter.init(portMan);
+        TwoWheelShooterSBTab twoWheelShooterTab = new TwoWheelShooterSBTab(twoWheelShooter);
+        Shoot sh = new Shoot(twoWheelShooter);
+        OI.getInstance().bind(sh, OI.LeftJoyButton4, OI.WhenPressed);
+        Stop st = new Stop(twoWheelShooter);
+        OI.getInstance().bind(st, OI.LeftJoyButton5, OI.WhenPressed);
+
     }
 
     public ControlPanel getControlPanel(){
