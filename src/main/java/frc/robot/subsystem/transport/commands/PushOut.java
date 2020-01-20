@@ -12,32 +12,29 @@ import java.util.logging.Logger;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystem.transport.Transport;
 
-public class TakeIn extends CommandBase {
+public class PushOut extends CommandBase {
 
-  private Logger logger = Logger.getLogger(TakeIn.class.getName());
+  private Logger logger = Logger.getLogger(PushOut.class.getName());
 
   private Transport transport;
-  
-  public TakeIn(Transport t) {
+
+  /**
+   * Creates a new PushOut.
+   */
+  public PushOut(Transport t) {
     transport = t;
     addRequirements(t);
   }
 
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (transport.count() < 5)
-    {
-      transport.take();
-    }
-    else
-    {
-      logger.info("At capacity, can't take.");
-      transport.stop();
-    }
+    transport.expel();
   }
 
   // Called once the command ends or is interrupted.

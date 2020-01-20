@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.transport.Transport;
+import frc.robot.subsystem.transport.TransportSBTab;
+import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
@@ -140,6 +142,10 @@ public class SubsystemFactory {
         transport.init(portMan);
         displayManager.addTransport(transport);
         TakeIn tc    = new TakeIn(transport);
+        OI.getInstance().bind(tc, OI.RightJoyButton4, OI.WhenPressed);
+
+        PushOut pc   = new PushOut(transport);
+        OI.getInstance().bind(pc, OI.RightJoyButton3, OI.WhenPressed);
         OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
 
         /**
@@ -161,7 +167,6 @@ public class SubsystemFactory {
         OI.getInstance().bind(sh, OI.LeftJoyButton4, OI.WhenPressed);
         Stop st = new Stop(twoWheelShooter);
         OI.getInstance().bind(st, OI.LeftJoyButton5, OI.WhenPressed);
-        
     }
 
     public ControlPanel getControlPanel(){
