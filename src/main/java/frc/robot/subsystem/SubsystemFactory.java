@@ -9,6 +9,7 @@ import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.DisplayColor;
+import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -124,6 +125,16 @@ public class SubsystemFactory {
 
         TakeIn tc    = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
+
+        /**
+         * All of the OneWheelShooter stuff goes here
+         */
+        Stop = new Stop(oneWheelShooter);
+        OI.getInstance().bind(Stop,OI.LeftJoyButton6, OI.WhenPressed);
+        Shoot = new Shoot(oneWheelShooter);
+        OI.getInstance().bind(Shoot,OI.LeftJoyButton7, OI.WhenPressed);
+
+
     }
 
     public ControlPanel getControlPanel(){
