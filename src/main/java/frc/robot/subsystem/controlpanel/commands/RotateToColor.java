@@ -9,6 +9,9 @@ package frc.robot.subsystem.controlpanel.commands;
 
 import java.util.logging.Logger;
 
+import com.revrobotics.ColorMatch;
+
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystem.controlpanel.ControlPanel;
@@ -18,6 +21,8 @@ public class RotateToColor extends CommandBase {
   
   private ControlPanel controlPanel;
   private boolean stop = true;
+
+  private Color targetColor = ColorMatch.makeColor(0.143, 0.427, 0.429);
   /**
    * Creates a new DisplayColor.
    */
@@ -35,7 +40,7 @@ public class RotateToColor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlPanel.goToColor();
+    controlPanel.goToColor(targetColor);
   }
 
   // Called once the command ends or is interrupted.

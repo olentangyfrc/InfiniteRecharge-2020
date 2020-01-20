@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OzoneException;
 import frc.robot.subsystem.PortMan;
+import frc.robot.subsystem.telemetry.Telemetry;
 
 public class ControlPanel extends SubsystemBase {
     private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
@@ -43,10 +44,13 @@ public class ControlPanel extends SubsystemBase {
     private ColorMatchResult match;
     private String colorString;
 
+    private Telemetry telemetry;
+    private int targetDistance = 0;
 
 
 
-    public void init(PortMan portMan) throws Exception {
+
+    public void init(PortMan portMan, Telemetry t) throws Exception {
       logger.entering(ControlPanel.class.getName(), "init()");
 
       m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
@@ -63,6 +67,8 @@ public class ControlPanel extends SubsystemBase {
       motor = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "ControlPanel.spinner"));
       logger.exiting(ControlPanel.class.getName(), "init()");
 
+      telemetry = t;
+
     }
   
     public void spin(int spinNum) {
@@ -73,28 +79,17 @@ public class ControlPanel extends SubsystemBase {
       motor.setSelectedSensorPosition(targetSpinnerPosition);
     }
 
-    public void goToColor() {
+    public void goToColor(Color targetColor) {
       logger.info("goToColor");
 
         detectedColor = m_colorSensor.getColor();
-    
         match = m_colorMatcher.matchClosestColor(detectedColor);
-    
-        if (match.color == kBlueTarget) {
-          motor.set(ControlMode.PercentOutput, .5);
-          colorString = "Blue";
-        } else if (match.color == kRedTarget) {
-          motor.set(ControlMode.PercentOutput, 0);
-          colorString = "Red";
-        } else if (match.color == kGreenTarget) {
-          motor.set(ControlMode.PercentOutput, 0);
-          colorString = "Green";
-        } else if (match.color == kYellowTarget) {
-          motor.set(ControlMode.PercentOutput, 0);
-          colorString = "Yellow";
-        } else {
-          motor.set(ControlMode.PercentOutput, 0);
-          colorString = "Unknown";
+        //match.color == kBlueTarget
+
+        if(telemetry.isSquare(targetDistance)){
+            while(match.color != targetColor)
+              motor.set(ControlMode.PercentOutput, .5);
+            motor.set(ControlMode.PercentOutput, 0);
         }
       }
 

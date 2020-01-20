@@ -7,6 +7,7 @@ import frc.robot.OI;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.RotateToColor;
+import frc.robot.subsystem.telemetry.Telemetry;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OzoneException;
@@ -38,6 +39,7 @@ public class SubsystemFactory {
     private ControlPanel controlPanel;
     private Climber climber;
     private TwoWheelShooter twoWheelShooter;
+    private Telemetry telemetry;
     
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
@@ -99,12 +101,17 @@ public class SubsystemFactory {
 
     private void initFootball(PortMan portMan) throws Exception {
         logger.info("Initializing Football");
-
+        /**
+         * All of the Telemery Stuff goes here
+         */
+        telemetry = new Telemetry();
+        telemetry.init(portMan);
+        displayManager.addTelemetry(telemetry);
 
         /**
          * All of the Climber stuff goes here
          */
-        Climber climber = new Climber();
+        climber = new Climber();
         climber.init(portMan);
         displayManager.addClimber(climber);
         Command c = new Climb(climber);
@@ -115,7 +122,7 @@ public class SubsystemFactory {
          * All of the ControlPanel stuff goes here
          */
         controlPanel = new ControlPanel();
-        controlPanel.init(portMan);
+        controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
         RotateToColor dc = new RotateToColor(controlPanel);
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhileHeld);

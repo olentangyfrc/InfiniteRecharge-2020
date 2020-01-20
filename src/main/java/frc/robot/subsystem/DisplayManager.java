@@ -11,6 +11,8 @@ import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
+import frc.robot.subsystem.telemetry.Telemetry;
+import frc.robot.subsystem.telemetry.TelemetrySBTab;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
 
@@ -23,6 +25,7 @@ public class DisplayManager {
     private ControlPanelSBTab controlPanelDisplay;
     private TransportSBTab transportDisplay;
     private ClimberSBTab climberDisplay;
+    private TelemetrySBTab telemetryDisplay;
 
     private static Logger logger = Logger.getLogger(DisplayManager.class.getName());
 
@@ -42,6 +45,10 @@ public class DisplayManager {
     public void addClimber(Climber c){
         climberDisplay = new ClimberSBTab(c);
     }
+    public void addTelemetry(Telemetry te){
+        telemetryDisplay = new TelemetrySBTab(te);
+        
+    }
 
     public void update(){
         logger.info("update");
@@ -51,6 +58,8 @@ public class DisplayManager {
             transportDisplay.update();
         else if(climberDisplay != null)
             climberDisplay.update();
+        else if(telemetryDisplay != null)
+            telemetryDisplay.update();
 
     }
 }
