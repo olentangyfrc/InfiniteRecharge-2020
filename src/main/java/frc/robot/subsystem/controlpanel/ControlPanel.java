@@ -45,7 +45,7 @@ public class ControlPanel extends SubsystemBase {
   private int currentSpinnerPosition;
   private int targetSpinnerPosition;
 
-  public void init(PortMan portMan) {
+  public void init(PortMan portMan) throws Exception {
     logger.entering(ControlPanel.class.getName(), "init()");
 
     m_colorMatcher.addColorMatch(kBlueTarget);
@@ -53,14 +53,8 @@ public class ControlPanel extends SubsystemBase {
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
 
-    try {
-      spinner = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "ControlPanel"));
-    } catch (OzoneException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-        
-        logger.exiting(ControlPanel.class.getName(), "init()");
+    spinner = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "ControlPanel"));
+    logger.exiting(ControlPanel.class.getName(), "init()");
 
     }
 

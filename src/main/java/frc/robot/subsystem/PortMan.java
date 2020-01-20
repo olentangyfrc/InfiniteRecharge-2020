@@ -265,6 +265,19 @@ public class PortMan {
             case can_47_label: return 47;
             case can_48_label: return 48;
             case can_49_label: return 49;
+            case can_50_label: return 50;
+            case can_51_label: return 51;
+            case can_52_label: return 52;
+            case can_53_label: return 53;
+            case can_54_label: return 54;
+            case can_55_label: return 55;
+            case can_56_label: return 56;
+            case can_57_label: return 57;
+            case can_58_label: return 58;
+            case can_59_label: return 59;
+            case can_60_label: return 60;
+            case can_61_label: return 61;
+            case can_62_label: return 62;
         }
 
         throw new OzoneException ("Unknown port identifier [" + label + "]") ;

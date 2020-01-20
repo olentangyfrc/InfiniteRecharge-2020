@@ -16,11 +16,14 @@ import frc.robot.subsystem.PortMan;
 
 public class TwoWheelShooter extends SubsystemBase {
     private static Logger logger = Logger.getLogger(TwoWheelShooter.class.getName());
-    private final TalonSRX leftMotor = new TalonSRX(49);
-    private final TalonSRX rightMotor = new TalonSRX(50);
+    private TalonSRX leftMotor;
+    private TalonSRX rightMotor;
     
     public void init(PortMan portMan) throws Exception {
+        leftMotor = new TalonSRX(portMan.acquirePort(PortMan.can_49_label, "TwoWheelShooter.leftMotor"));
+        rightMotor = new TalonSRX(portMan.acquirePort(PortMan.can_50_label, "TwoWheelShooter.rightMotor"));
 
+        // TODO: read CTRE documentation on how to set up motors that follow 
     }
     
     public void shoot(){
@@ -31,4 +34,3 @@ public class TwoWheelShooter extends SubsystemBase {
         logger.info("stop");
     }
 }
-

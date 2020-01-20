@@ -13,7 +13,7 @@ import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OzoneException;
-import frc.robot.subsystem.climber.commands.PatsCommand;
+import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.transport.commands.TakeIn;
@@ -107,7 +107,7 @@ public class SubsystemFactory {
         Climber climber = new Climber();
         climber.init(portMan);
         ClimberSBTab tab = new ClimberSBTab(climber);
-        Command c = new PatsCommand(climber);
+        Command c = new Climb(climber);
         OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
 
 
