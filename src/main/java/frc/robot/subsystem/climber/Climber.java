@@ -9,9 +9,10 @@ import frc.robot.subsystem.PortMan;
 
 public class Climber extends SubsystemBase {
     private static Logger logger = Logger.getLogger(Climber.class.getName());
-    private final TalonSRX leftIntake = new TalonSRX(57);
+    private TalonSRX motor;
     
     public void init(PortMan portMan) throws Exception {
+        motor = new TalonSRX(portMan.acquirePort(PortMan.can_47_label, "Climber.motor"));
 
     }
     

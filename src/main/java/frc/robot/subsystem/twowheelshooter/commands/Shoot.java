@@ -5,53 +5,42 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.controlpanel.commands;
-
-import java.util.logging.Logger;
+package frc.robot.subsystem.twowheelshooter.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
 
-import frc.robot.subsystem.controlpanel.ControlPanel;
-
-public class DisplayColor extends CommandBase {
-  private final Logger logger = Logger.getLogger(DisplayColor.class.getName());
-  
-  private ControlPanel controlPanel;
-  private boolean stop = true;
+public class Shoot extends CommandBase {
   /**
-   * Creates a new DisplayColor.
+   * Creates a new Shoot.
    */
-  public DisplayColor(ControlPanel c) {
-    controlPanel = c;
-    addRequirements(c);
+private TwoWheelShooter twoWheelShooter;
+
+  public Shoot(TwoWheelShooter shoot) {
+    twoWheelShooter = shoot;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shoot);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    stop = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlPanel.displayColors();
+    twoWheelShooter.shoot();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(final boolean interrupted) {
-      logger.info("Ended");
+  public void end(boolean interrupted) {
   }
 
-  @Override
-  public synchronized void cancel() {
-      logger.info("Canceled");
-      stop = true;
-  }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stop;
+    return false;
   }
 }
