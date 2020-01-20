@@ -44,7 +44,7 @@ public class ControlPanel extends SubsystemBase {
     private String colorString;
 
 
-    public void init(PortMan portMan) {
+    public void init(PortMan portMan) throws Exception {
       logger.entering(ControlPanel.class.getName(), "init()");
 
       m_colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
@@ -60,7 +60,7 @@ public class ControlPanel extends SubsystemBase {
         
       logger.exiting(ControlPanel.class.getName(), "init()");
 
-      spinner = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "ControlPanel"));
+      spinner = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "ControlPanel.spinner"));
       logger.exiting(ControlPanel.class.getName(), "init()");
 
     }
