@@ -57,8 +57,6 @@ public class ControlPanel extends SubsystemBase {
       detectedColor = m_colorSensor.getColor();
       match = m_colorMatcher.matchClosestColor(detectedColor);
       colorString = "None";
-        
-      logger.exiting(ControlPanel.class.getName(), "init()");
 
       spinner = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "ControlPanel.spinner"));
       logger.exiting(ControlPanel.class.getName(), "init()");
