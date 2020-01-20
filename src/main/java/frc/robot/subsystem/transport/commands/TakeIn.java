@@ -36,6 +36,7 @@ public class TakeIn extends CommandBase {
     else
     {
       logger.info("At capacity, can't take.");
+      transport.stop();
     }
   }
 
