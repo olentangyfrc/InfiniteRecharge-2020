@@ -135,12 +135,12 @@ public class SubsystemFactory {
          */
         twoWheelShooter = new TwoWheelShooter();
         twoWheelShooter.init(portMan);
-        TwoWheelShooterSBTab twoWheelShooterTab = new TwoWheelShooterSBTab(twoWheelShooter);
+        displayManager.addTwoWheelShooter(twoWheelShooter);
         Shoot sh = new Shoot(twoWheelShooter);
         OI.getInstance().bind(sh, OI.LeftJoyButton4, OI.WhenPressed);
         Stop st = new Stop(twoWheelShooter);
         OI.getInstance().bind(st, OI.LeftJoyButton5, OI.WhenPressed);
-
+        
     }
 
     public ControlPanel getControlPanel(){

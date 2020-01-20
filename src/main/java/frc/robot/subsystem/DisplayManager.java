@@ -21,6 +21,7 @@ public class DisplayManager {
     private ControlPanelSBTab controlPanelDisplay;
     private TransportSBTab transportDisplay;
     private ClimberSBTab climberDisplay;
+    private TwoWheelShooterSBTab twoWheelShooterDisplay;
 
 
     public DisplayManager(){
@@ -38,6 +39,9 @@ public class DisplayManager {
     public void addClimber(Climber c){
         climberDisplay = new ClimberSBTab(c);
     }
+    public void addTwoWheelShooter(TwoWheelShooter tws){
+        twoWheelShooterDisplay = new TwoWheelShooterSBTab(tws);
+    }
 
     public void update(){
         if(controlPanelDisplay != null)
@@ -46,6 +50,8 @@ public class DisplayManager {
             transportDisplay.update();
         else if(climberDisplay != null)
             climberDisplay.update();
+        else if(twoWheelShooterDisplay != null)
+            twoWheelShooterDisplay.update();
 
     }
 }
