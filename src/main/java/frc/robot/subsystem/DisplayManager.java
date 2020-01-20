@@ -13,10 +13,6 @@ import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 /**
  * Add your docs here.
@@ -26,34 +22,30 @@ public class DisplayManager {
     private TransportSBTab transportDisplay;
     private ClimberSBTab climberDisplay;
 
-    
-    private final int[] updateSubsystemArr = {0,1,2};
-    /*
-    update controlPanelDiplay = 0;
-    update transPortDisplay = 1;
-    update climberDisplay = 2;
-    */
 
     public DisplayManager(){
         
     }
+
     public void addCP(ControlPanel cp){
         controlPanelDisplay = new ControlPanelSBTab(cp);
     }
+
     public void addTransport(Transport t){
         transportDisplay = new TransportSBTab(t);
     }
+
     public void addClimber(Climber c){
         climberDisplay = new ClimberSBTab(c);
     }
 
-    public void update(int x){
-            if(controlPanelDisplay != null)
-                controlPanelDisplay.update();
-            else if(transportDisplay != null)
-                transportDisplay.update();
-            else if(climberDisplay != null)
-                climberDisplay.update();
+    public void update(){
+        if(controlPanelDisplay != null)
+            controlPanelDisplay.update();
+        else if(transportDisplay != null)
+            transportDisplay.update();
+        else if(climberDisplay != null)
+            climberDisplay.update();
 
     }
 }

@@ -1,22 +1,15 @@
 package frc.robot.subsystem;
 
-import java.io.StringWriter;
 import java.net.InetAddress;
 import java.util.logging.Logger;
 
 import frc.robot.OI;
 import frc.robot.subsystem.climber.Climber;
-import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.controlpanel.ControlPanel;
-import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
 import frc.robot.subsystem.controlpanel.commands.DisplayColor;
-import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.commands.PatsCommand;
 import frc.robot.subsystem.transport.Transport;
-import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.transport.commands.TakeIn;
 
 public class SubsystemFactory {
@@ -127,8 +120,6 @@ public class SubsystemFactory {
         transport  = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
-        TransportSBTab transportTab = new TransportSBTab(transport);
-
         TakeIn tc    = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
     }

@@ -30,7 +30,7 @@ public class ControlPanelSBTab {
         green = tab.add("Green", 0).getEntry();
         blue = tab.add("Blue", 0).getEntry();
         confidence = tab.add("Confidence", 0).getEntry();
-        detectedColor = tab.add("Detected Color", "").getEntry();
+        detectedColor = tab.add("Detected Color", "None").getEntry();
     }
 
 

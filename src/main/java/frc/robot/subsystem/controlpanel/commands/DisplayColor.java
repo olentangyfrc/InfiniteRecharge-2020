@@ -12,13 +12,11 @@ import java.util.logging.Logger;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystem.controlpanel.ControlPanel;
-import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
 
 public class DisplayColor extends CommandBase {
   private final Logger logger = Logger.getLogger(DisplayColor.class.getName());
   
   private ControlPanel controlPanel;
-  private ControlPanelSBTab shuffleBoard;
   private boolean stop = true;
   /**
    * Creates a new DisplayColor.
@@ -26,7 +24,6 @@ public class DisplayColor extends CommandBase {
   public DisplayColor(ControlPanel c) {
     controlPanel = c;
     addRequirements(c);
-    shuffleBoard = new ControlPanelSBTab(controlPanel);
   }
 
   // Called when the command is initially scheduled.
@@ -39,7 +36,6 @@ public class DisplayColor extends CommandBase {
   @Override
   public void execute() {
     controlPanel.displayColors();
-    shuffleBoard.update();
   }
 
   // Called once the command ends or is interrupted.
