@@ -10,6 +10,8 @@ import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.DisplayColor;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
+import frc.robot.subsystem.onewheelshooter.commands.Shoot;
+import frc.robot.subsystem.onewheelshooter.commands.Stop;
 import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -36,6 +38,7 @@ public class SubsystemFactory {
     private Transport transport;
     private ControlPanel controlPanel;
     private Climber climber;
+    private OneWheelShooter oneWheelShooter;
     
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
@@ -129,10 +132,12 @@ public class SubsystemFactory {
         /**
          * All of the OneWheelShooter stuff goes here
          */
-        Stop = new Stop(oneWheelShooter);
-        OI.getInstance().bind(Stop,OI.LeftJoyButton6, OI.WhenPressed);
-        Shoot = new Shoot(oneWheelShooter);
-        OI.getInstance().bind(Shoot,OI.LeftJoyButton7, OI.WhenPressed);
+        oneWheelShooter = new OneWheelShooter();
+        oneWheelShooter.init(portMan);
+        Stop st = new Stop(oneWheelShooter);
+        OI.getInstance().bind(st,OI.LeftJoyButton6, OI.WhenPressed);
+        Shoot sh = new Shoot(oneWheelShooter);
+        OI.getInstance().bind(sh,OI.LeftJoyButton7, OI.WhenPressed);
 
 
     }
