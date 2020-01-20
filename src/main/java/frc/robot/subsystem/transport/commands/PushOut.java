@@ -34,7 +34,6 @@ public class PushOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    logger.info("expel command");
     transport.expel();
   }
 
