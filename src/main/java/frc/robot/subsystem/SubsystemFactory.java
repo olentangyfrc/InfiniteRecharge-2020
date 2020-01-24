@@ -145,7 +145,6 @@ public class SubsystemFactory {
 
         PushOut pc   = new PushOut(transport);
         OI.getInstance().bind(pc, OI.RightJoyButton3, OI.WhenPressed);
-        OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
 
         /**
          * All of the OneWheelShooter stuff goes here
