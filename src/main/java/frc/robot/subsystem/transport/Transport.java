@@ -23,13 +23,11 @@ public class Transport extends SubsystemBase {
     }
 
     public void init(PortMan portMan) throws Exception {
-        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_58_label, "Transport.transportTalon1"));
-        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "Transport.transportTalon2"));
 
         logger.entering(Transport.class.getName(), "init()");
 
-        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_37_label, "Transport.leftIntake"));
-        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_38_label, "Transport.rightIntake"));
+        //leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_17_label, "Transport.leftIntake"));
+        //rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "Transport.rightIntake"));
 
         leftIntake.config_kP(0, .5, 0);
         leftIntake.config_kI(0, 0, 0);
