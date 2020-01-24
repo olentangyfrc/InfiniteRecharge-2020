@@ -52,12 +52,12 @@ public class Transport extends SubsystemBase {
     }
 
     public void take(){
-        logger.info("take");
+        logger.info("taking");
         leftIntake.set(ControlMode.PercentOutput, motorSpeedForward);
     }
 
     public void stop(){
-        logger.info("stop");
+        logger.info("stopping");
         leftIntake.set(ControlMode.Velocity, 0);
     }
 
@@ -66,7 +66,7 @@ public class Transport extends SubsystemBase {
     }
 
     public void expel(){
-        logger.info("expel");
+        logger.info("expelling");
         leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
     }
 
