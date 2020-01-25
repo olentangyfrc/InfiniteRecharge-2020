@@ -32,6 +32,9 @@ public class Telemetry extends SubsystemBase{
     
     public boolean isSquare(double targetDistance)
     {
+        frontLidarDistance = frontLidar.getDistance();
+        rearLidarDistance = rearLidar.getDistance();
+        
         if (Math.abs(frontLidarDistance-targetDistance) > lidarTolerance || Math.abs(rearLidarDistance-targetDistance) > lidarTolerance || Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
         {
             double angleError = Math.atan((Math.max(frontLidarDistance, rearLidarDistance) - Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
@@ -70,8 +73,8 @@ public class Telemetry extends SubsystemBase{
     public void init(PortMan portMan) {
         logger.entering(Telemetry.class.getName(), "init()");
 
-        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.lidar"));
-        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.lidar"));
+        // frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.lidar"));
+        // rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.lidar"));
 
         logger.exiting(Telemetry.class.getName(), "init()");
     }
