@@ -18,6 +18,7 @@ import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
@@ -32,49 +33,47 @@ public class DisplayManager {
     private static Logger logger = Logger.getLogger(DisplayManager.class.getName());
     private TwoWheelShooterSBTab twoWheelShooterDisplay;
 
+    private ArrayList<SBInterface> subsystemUpdateList;
+
     public DisplayManager(){
-        
+        subsystemUpdateList = new ArrayList<SBInterface>();
     }
 
     public void addCP(ControlPanel cp){
         controlPanelDisplay = new ControlPanelSBTab(cp);
+        subsystemUpdateList.add(controlPanelDisplay);
     }
 
     public void addTransport(Transport t){
         transportDisplay = new TransportSBTab(t);
+        subsystemUpdateList.add(transportDisplay);
+
     }
 
     public void addClimber(Climber c){
         climberDisplay = new ClimberSBTab(c);
+        subsystemUpdateList.add(climberDisplay);
+
     }
     public void addTelemetry(Telemetry te){
         telemetryDisplay = new TelemetrySBTab(te);
+        subsystemUpdateList.add(telemetryDisplay);
+
     }
         
     public void addTwoWheelShooter(TwoWheelShooter tws){
         twoWheelShooterDisplay = new TwoWheelShooterSBTab(tws);
+        subsystemUpdateList.add(twoWheelShooterDisplay);
+
     }
 
 
-    public ControlPanelSBTab getControlPanelSBTab() {
-        return controlPanelDisplay;
+
+
+    public void update() {
+        for (int j = 0; j < subsystemUpdateList.size(); j ++) {
+            subsystemUpdateList.get(j).update();
+          }
+
     }
-
-    public TransportSBTab getTransportSBTab() {
-        return transportDisplay;
-    }
-
-    public ClimberSBTab getClimberSBTab() {
-        return climberDisplay;
-    }
-
-    public TelemetrySBTab getTelemetrySBTab() {
-        return telemetryDisplay;
-    }
-
-    public TwoWheelShooterSBTab getTwoWheelShooterSBTab() {
-        return twoWheelShooterDisplay;
-    }
-
-
 }

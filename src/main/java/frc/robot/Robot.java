@@ -50,10 +50,9 @@ public class Robot extends TimedRobot {
     subsystemFactory = SubsystemFactory.getInstance(isReal());
     OzoneLogger.getInstance().init(Level.FINE);
     dManager = new DisplayManager();
-    subsystemUpdateList = new ArrayList<SBInterface>();
 
     try {
-      subsystemFactory.init(dManager, new PortMan(), subsystemUpdateList);
+      subsystemFactory.init(dManager, new PortMan());
 
     } catch (Exception e) {
       StringWriter writer = new StringWriter();
@@ -75,10 +74,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
        CommandScheduler.getInstance().run();
-       for (int j = 0; j < subsystemUpdateList.size(); j ++) {
-         subsystemUpdateList.get(j).update();
-       }
-
+       dManager.update();
   }
 
   /**

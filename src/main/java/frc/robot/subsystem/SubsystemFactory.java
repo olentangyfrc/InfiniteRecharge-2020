@@ -47,8 +47,8 @@ public class SubsystemFactory {
     private OneWheelShooter oneWheelShooter;
     private TwoWheelShooter twoWheelShooter;
     private Telemetry telemetry;
-    private ArrayList<SBInterface> subsystemInterfaceList;
-    
+    private static ArrayList<SBInterface> subsystemInterfaceList;
+
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
     }
@@ -62,7 +62,7 @@ public class SubsystemFactory {
         return me;
     }
 
-    public void init(DisplayManager dm, PortMan portMan, ArrayList<SBInterface> sbi) throws Exception {
+    public void init(DisplayManager dm, PortMan portMan) throws Exception {
 
         logger.info("initializing");
 
@@ -72,7 +72,7 @@ public class SubsystemFactory {
         logger.info("[" + botMacAddress + "]");
 
         displayManager = dm;
-        subsystemInterfaceList = sbi;
+        subsystemInterfaceList = new ArrayList<SBInterface>();
 
         try {
 
@@ -99,13 +99,13 @@ public class SubsystemFactory {
      */
 
     private void initCommon(PortMan portMan) {
-        
+
     }
 
     /**
-
+     * 
      * init subsystems specific to Football
-
+     * 
      */
 
     private void initFootball(PortMan portMan) throws Exception {
@@ -116,7 +116,6 @@ public class SubsystemFactory {
         telemetry = new Telemetry();
         telemetry.init(portMan);
         displayManager.addTelemetry(telemetry);
-        subsystemInterfaceList.add(displayManager.getTelemetrySBTab());
 
         /**
          * All of the Climber stuff goes here
@@ -126,7 +125,6 @@ public class SubsystemFactory {
         displayManager.addClimber(climber);
         Command c = new Climb(climber);
         OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
-        subsystemInterfaceList.add(displayManager.getClimberSBTab());
 
         /**
          * All of the ControlPanel stuff goes here
@@ -136,20 +134,18 @@ public class SubsystemFactory {
         displayManager.addCP(controlPanel);
         RotateToColor dc = new RotateToColor(controlPanel);
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhileHeld);
-        subsystemInterfaceList.add(displayManager.getControlPanelSBTab());
 
         /**
          * All of the Transport stuff goes here
          */
-        transport  = new Transport();
+        transport = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
-        subsystemInterfaceList.add(displayManager.getTransportSBTab());
 
-        TakeIn tc    = new TakeIn(transport);
+        TakeIn tc = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.RightJoyButton4, OI.WhenPressed);
 
-        PushOut pc   = new PushOut(transport);
+        PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.RightJoyButton3, OI.WhenPressed);
         OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
 
@@ -159,10 +155,9 @@ public class SubsystemFactory {
         oneWheelShooter = new OneWheelShooter();
         oneWheelShooter.init(portMan);
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
-        OI.getInstance().bind(st,OI.LeftJoyButton6, OI.WhenPressed);
+        OI.getInstance().bind(st, OI.LeftJoyButton6, OI.WhenPressed);
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
-        OI.getInstance().bind(sh,OI.LeftJoyButton7, OI.WhenPressed);
-
+        OI.getInstance().bind(sh, OI.LeftJoyButton7, OI.WhenPressed);
 
         /*
          * All of the TwoWheelShooter stuff goes here
@@ -170,7 +165,6 @@ public class SubsystemFactory {
         twoWheelShooter = new TwoWheelShooter();
         twoWheelShooter.init(portMan);
         displayManager.addTwoWheelShooter(twoWheelShooter);
-        subsystemInterfaceList.add(displayManager.getTwoWheelShooterSBTab());
 
         Shoot sh2 = new Shoot(twoWheelShooter);
         OI.getInstance().bind(sh2, OI.LeftJoyButton4, OI.WhenPressed);
@@ -178,7 +172,7 @@ public class SubsystemFactory {
         OI.getInstance().bind(st2, OI.LeftJoyButton5, OI.WhenPressed);
     }
 
-    public ControlPanel getControlPanel(){
+    public ControlPanel getControlPanel() {
         return controlPanel;
     }
 
@@ -190,7 +184,7 @@ public class SubsystemFactory {
         return transport;
     }
 
-    public ArrayList<SBInterface> getSBInterfaceList() {
+    public static ArrayList<SBInterface> getSBInterfaceList() {
         return subsystemInterfaceList;
     }
 }
