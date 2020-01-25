@@ -5,7 +5,6 @@
  * boolean isSquare(double distance)
  * 
  */
- 
 
 
 package frc.robot.subsystem.telemetry;
@@ -15,45 +14,69 @@ import frc.robot.subsystem.PortMan;
 import java.util.logging.Logger;
 
 
-
-
-
-
 public class Telemetry extends SubsystemBase{
-
-    //private LidarPWM frontLidar, rearLidar;
+    
+    private LidarPWM frontLidar, rearLidar;
     private double frontLidarDistance, rearLidarDistance;
     private static Logger logger = Logger.getLogger(Telemetry.class.getName());
 
+    private double betweenLidarDistance = 0;
     private double lidarTolerance = 5;
+    private double correction = 0;
 
     public Telemetry() {
 
 
     }
 
-    public boolean isSquare(double distance)
-    {
-        distance = frontLidarDistance;
-       /** 
-        if (Math.abs(frontLidarDistance - rearLidarDistance) <= lidarTolerance)
-        {
-            return true;
-        }
-        else {
-            return false;
-        }
-        */
-        return true;
-
-    } 
     
-    public void init(PortMan portMan) {
+    public boolean isSquare(double targetDistance)
+    {
+        frontLidarDistance = frontLidar.getDistance();
+        rearLidarDistance = rearLidar.getDistance();
+
+        if (Math.abs(frontLidarDistance-targetDistance) > lidarTolerance || Math.abs(rearLidarDistance-targetDistance) > lidarTolerance || Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
+        {
+            double angleError = Math.atan((Math.max(frontLidarDistance, rearLidarDistance) - Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
+
+            if (frontLidarDistance/Math.cos(angleError)-targetDistance > rearLidarDistance/Math.cos(angleError)-targetDistance)
+            {
+                //move front wheels by angleError
+            }
+            else
+            {
+                //move back wheels by angleError
+            }
+
+            while(Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
+            {
+                //move by correction
+            }
+            
+            double distanceError = Math.abs(frontLidarDistance - targetDistance);
+
+            if (distanceError > lidarTolerance)
+            {
+                if (frontLidarDistance > targetDistance)
+                {
+                    //move left distanceError
+                }
+                else
+                {
+                    //move right distanceError
+                }
+            }
+        }
+        return true;
+    }
+    
+    public void init(PortMan portMan) throws Exception{
         logger.entering(Telemetry.class.getName(), "init()");
 
-      //  frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.lidar"));
-        //rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.lidar"));
+        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.lidar"));
+        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.lidar"));
 
         logger.exiting(Telemetry.class.getName(), "init()");
     }
+
 }
