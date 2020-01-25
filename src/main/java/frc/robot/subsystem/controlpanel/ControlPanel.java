@@ -64,7 +64,7 @@ public class ControlPanel extends SubsystemBase {
       match = m_colorMatcher.matchClosestColor(detectedColor);
       colorString = "None";
 
-      motor = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "ControlPanel.spinner"));
+      motor = new TalonSRX(portMan.acquirePort(PortMan.can_60_label, "ControlPanel.spinner"));
       logger.exiting(ControlPanel.class.getName(), "init()");
 
       telemetry = t;
