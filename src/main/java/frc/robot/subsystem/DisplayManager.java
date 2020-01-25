@@ -55,17 +55,26 @@ public class DisplayManager {
         twoWheelShooterDisplay = new TwoWheelShooterSBTab(tws);
     }
 
-    public void update(){
-        logger.info("update");
-        if(controlPanelDisplay != null)
-            controlPanelDisplay.update();
-        else if(transportDisplay != null)
-            transportDisplay.update();
-        else if(climberDisplay != null)
-            climberDisplay.update();
-        else if(telemetryDisplay != null)
-            telemetryDisplay.update();
-        else if(twoWheelShooterDisplay != null)
-            twoWheelShooterDisplay.update();
+
+    public ControlPanelSBTab getControlPanelSBTab() {
+        return controlPanelDisplay;
     }
+
+    public TransportSBTab getTransportSBTab() {
+        return transportDisplay;
+    }
+
+    public ClimberSBTab getClimberSBTab() {
+        return climberDisplay;
+    }
+
+    public TelemetrySBTab getTelemetrySBTab() {
+        return telemetryDisplay;
+    }
+
+    public TwoWheelShooterSBTab getTwoWheelShooterSBTab() {
+        return twoWheelShooterDisplay;
+    }
+
+
 }

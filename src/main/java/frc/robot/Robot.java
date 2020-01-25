@@ -9,6 +9,7 @@ package frc.robot;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,9 @@ import frc.robot.subsystem.SubsystemFactory;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.util.OzoneLogger;
 
+import frc.robot.subsystem.SBInterface;
+import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -30,10 +34,12 @@ import frc.robot.util.OzoneLogger;
 public class Robot extends TimedRobot {
 
   static Logger logger = Logger.getLogger(Robot.class.getName());
-    ControlPanel controlPanel;
+  ControlPanel controlPanel;
   private static SubsystemFactory subsystemFactory;
 
   private DisplayManager dManager;
+
+  private ArrayList<SBInterface> subsystemUpdateList;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -44,9 +50,10 @@ public class Robot extends TimedRobot {
     subsystemFactory = SubsystemFactory.getInstance(isReal());
     OzoneLogger.getInstance().init(Level.FINE);
     dManager = new DisplayManager();
+    subsystemUpdateList = new ArrayList<SBInterface>();
 
     try {
-      subsystemFactory.init(dManager, new PortMan());
+      subsystemFactory.init(dManager, new PortMan(), subsystemUpdateList);
 
     } catch (Exception e) {
       StringWriter writer = new StringWriter();
@@ -54,6 +61,7 @@ public class Robot extends TimedRobot {
       e.printStackTrace(pw);
       logger.severe(writer.toString());
     }
+
   }
 
   /**
@@ -67,7 +75,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
        CommandScheduler.getInstance().run();
-       dManager.update();
+       for (int j = 0; j < subsystemUpdateList.size(); j ++) {
+         subsystemUpdateList.get(j).update();
+       }
+
   }
 
   /**
