@@ -42,6 +42,7 @@ public class DisplayManager {
     public void addCP(ControlPanel cp){
         controlPanelDisplay = new ControlPanelSBTab(cp);
         subsystemUpdateList.add(controlPanelDisplay);
+        
     }
 
     public void addTransport(Transport t){
@@ -66,8 +67,6 @@ public class DisplayManager {
         subsystemUpdateList.add(twoWheelShooterDisplay);
 
     }
-
-
 
 
     public void update() {

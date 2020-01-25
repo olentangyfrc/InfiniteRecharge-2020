@@ -39,8 +39,6 @@ public class Robot extends TimedRobot {
 
   private DisplayManager dManager;
 
-  private ArrayList<SBInterface> subsystemUpdateList;
-
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
