@@ -15,8 +15,8 @@ public class Transport extends SubsystemBase {
     private TalonSRX leftIntake;
     private TalonSRX rightIntake;
 
-    private double motorSpeedForward = .5;
-    private double motorSpeedBackward = .5;
+    private double motorSpeedForward = .1;
+    private double motorSpeedBackward = -.1;
     private double ballCount = 0;
 
     public Transport() {
@@ -26,8 +26,8 @@ public class Transport extends SubsystemBase {
 
         logger.entering(Transport.class.getName(), "init()");
 
-        //leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_17_label, "Transport.leftIntake"));
-        //rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "Transport.rightIntake"));
+        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_17_label, "Transport.leftIntake"));
+        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "Transport.rightIntake"));
 
         leftIntake.config_kP(0, .5, 0);
         leftIntake.config_kI(0, 0, 0);
@@ -65,7 +65,7 @@ public class Transport extends SubsystemBase {
 
     public void expel(){
         logger.info("expelling");
-        leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
+        leftIntake.set(ControlMode.PercentOutput, motorSpeedBackward);
     }
 
     public double getVelocity(){
