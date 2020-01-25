@@ -21,10 +21,12 @@ import java.util.logging.Logger;
 
 public class Telemetry extends SubsystemBase{
 
-    //private LidarPWM frontLidar, rearLidar;
+    /*
+    private LidarPWM frontLidar, rearLidar;
     private double frontLidarDistance, rearLidarDistance;
     private static Logger logger = Logger.getLogger(Telemetry.class.getName());
 
+    private double betweenLidarDistance = 0;
     private double lidarTolerance = 5;
 
     public Telemetry() {
@@ -32,28 +34,28 @@ public class Telemetry extends SubsystemBase{
 
     }
 
-    public boolean isSquare(double distance)
+    
+    public double isSquare(double frontLidarDistance, double rearLidarDistance)
     {
-        distance = frontLidarDistance;
-       /** 
         if (Math.abs(frontLidarDistance - rearLidarDistance) <= lidarTolerance)
         {
-            return true;
+            double angleError = Math.atan((Math.max(frontLidarDistance, rearLidarDistance) - Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
+            return angleError;
         }
         else {
-            return false;
+            return 0;
         }
-        */
-        return true;
 
-    } 
+    }
     
     public void init(PortMan portMan) {
         logger.entering(Telemetry.class.getName(), "init()");
 
-      //  frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.lidar"));
-        //rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.lidar"));
+        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.lidar"));
+        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.lidar"));
 
         logger.exiting(Telemetry.class.getName(), "init()");
     }
+    */
+
 }
