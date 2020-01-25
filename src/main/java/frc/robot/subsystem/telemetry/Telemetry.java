@@ -39,8 +39,7 @@ public class Telemetry extends SubsystemBase{
     {
         if (Math.abs(frontLidarDistance - rearLidarDistance) <= lidarTolerance)
         {
-            double angleError = Math.atan((Math.max(frontLidarDistance, rearLidarDistance) - Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
-            return angleError;
+            return Math.atan((Math.max(frontLidarDistance, rearLidarDistance) - Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
         }
         else {
             return 0;
