@@ -8,11 +8,9 @@ import java.util.logging.Logger;
 import frc.robot.subsystem.pixylinecam.commands.PollPixyLine;
 //import org.usfirst.frc.team4611.robot.subsystems.vision.commands.PollNetworkTable;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystem.SubsystemFactory;
 import io.github.pseudoresonance.pixy2api.Pixy2;
 import io.github.pseudoresonance.pixy2api.Pixy2Line;
 
@@ -23,35 +21,35 @@ public class PixyLineCam extends SubsystemBase{
 
     private Pixy2 pixy;
     private Pixy2Line line;
-    private NetworkTableEntry x0;
-    private NetworkTableEntry y0;
-    private NetworkTableEntry x1;
-    private NetworkTableEntry y1;
-    private NetworkTableEntry index;
-    private NetworkTableEntry flags;
-    private NetworkTableEntry arrayNumber;
-    private NetworkTableEntry slope;
-    private NetworkTableEntry angle;
-    private NetworkTableEntry leftStatus;
-    private NetworkTableEntry middleStatus;
-    private NetworkTableEntry rightStatus;
+    private double x0;
+    private double y0;
+    private double x1;
+    private double y1;
+    private double index;
+    private double flags;
+    private int arrayNumber;
+    private int slope;
+    private double angle;
+    private boolean leftStatus;
+    private boolean middleStatus;
+    private boolean rightStatus;
     
     public PixyLineCam() {
     }
 
     public void resetPixyLine() {
-        x0.setNumber(0);
-        y0.setNumber(0);
-        x1.setNumber(0);
-        y1.setNumber(0);
-        index.setNumber(0);
-        flags.setNumber(0);
-        arrayNumber.setNumber(0);
-        slope.setNumber(0);
-        angle.setNumber(0);
-        leftStatus.setBoolean(false);
-        middleStatus.setBoolean(false);
-        rightStatus.setBoolean(false);
+        x0 = 0;
+        y0 = 0;
+        x1 = 0;
+        y1 = 0;
+        index = 0;
+        flags = 0;
+        arrayNumber = 0;
+        slope = 0;
+        angle = 0;
+        leftStatus = false;
+        middleStatus = false;
+        rightStatus = false;
 
 
     }
@@ -64,7 +62,7 @@ public class PixyLineCam extends SubsystemBase{
         logger.info("Here comes the version! :) " + pixy.getVersionInfo().toString());
         line = pixy.getLine();
 
-        x0 = tab.add("Pixy x0", 0).getEntry();
+       /* x0 = tab.add("Pixy x0", 0).getEntry();
         y0 = tab.add("Pixy y0", 0).getEntry();
         x1 = tab.add("Pixy x1", 0).getEntry();
         y1 = tab.add("Pixy y1", 0).getEntry();
@@ -76,7 +74,8 @@ public class PixyLineCam extends SubsystemBase{
         leftStatus = tab.add("Left", false).getEntry();
         middleStatus = tab.add("MIDDLE !!!!!!!", false).getEntry();
         rightStatus = tab.add("Right", false).getEntry();
-  
+        */
+
       }
 
 
@@ -87,22 +86,22 @@ public class PixyLineCam extends SubsystemBase{
 
 
     public void writeLine(Pixy2Line.Vector line, int number) {
-        x0.setNumber(line.getX0());
-        y0.setNumber(line.getY0());
-        x1.setNumber(line.getX1());
-        y1.setNumber(line.getY1());
-        index.setNumber(line.getIndex());
-        flags.setNumber(line.getFlags());
-        arrayNumber.setNumber(number);
+        x0 = line.getX0();
+        y0 = line.getY0();
+        x1 = line.getX1();
+        y1 = line.getY1();
+        index = line.getIndex();
+        flags = line.getFlags();
+        arrayNumber = number; 
 
         //calculating slope
         int vectorSlope = (line.getY0()-line.getY1())/(line.getX0()-line.getX1());
-        slope.setNumber(vectorSlope);
+        slope = vectorSlope;
 
         //calculating angles
         double ratio = (double) (line.getX1()-line.getX0())/(line.getY1()-line.getY0());//Math.toDegrees(Math.atan((line.getX0()-line.getX1())/(line.getY0()-line.getY1())));
         double vectorAngle = Math.toDegrees(Math.atan(ratio));
-        angle.setDouble(vectorAngle);
+        angle = vectorAngle;
 
         //identifying relative location
         int averageX = (line.getX0() + line.getX1())/2;
@@ -118,12 +117,62 @@ public class PixyLineCam extends SubsystemBase{
         } else {
             middle = true;
         }
-        leftStatus.setBoolean(left);
-        rightStatus.setBoolean(right);
-        middleStatus.setBoolean(middle);
+        leftStatus = left;
+        rightStatus = right;
+        middleStatus = middle;
 
     }
-/**
+
+    public double getX0() {
+        return x0;
+    }
+
+    public double getY0() {
+        return y0;
+    }
+
+    public double getX1() {
+        return x1;
+    }
+
+    public double getY1() {
+        return y1;
+    }
+
+    public double getIndex() {
+        return index;
+    }
+
+    public double getFlags() {
+        return flags;
+    }
+
+    public int getArrayNumber() {
+        return arrayNumber;
+    }
+
+    public int getSlope() {
+        return slope;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public boolean getLeftStatus() {
+        return leftStatus;
+    }
+
+    public boolean getMiddleStatus() {
+        return middleStatus;
+    }
+
+    public boolean getRightStatus() {
+        return rightStatus;
+    }
+
+
+/*
  *     protected void initDefaultCommand() {
         setDefaultCommand(new PollPixyLine());
     } 

@@ -10,11 +10,10 @@ package frc.robot.subsystem.pixylinecam;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import io.github.pseudoresonance.pixy2api.Pixy2Line;
 
 public class PixyLineCamSBTab {
     private PixyLineCam pixyLineCam;
-    private Pixy2Line line;
+
     
     private ShuffleboardTab tab;
 
@@ -58,39 +57,17 @@ public class PixyLineCamSBTab {
      * get data from SB widgets and update subsystem
      */
     public void update() {
-        x0.setInt(line.getX0());
-        y0.setNumber(line.getY0());
-        x1.setNumber(line.getX1());
-        y1.setNumber(line.getY1());
-        index.setNumber(line.getIndex());
-        flags.setNumber(line.getFlags());
-        arrayNumber.setNumber(number);
-
-        //calculating slope
-        int vectorSlope = (line.getY0()-line.getY1())/(line.getX0()-line.getX1());
-        slope.setNumber(vectorSlope);
-
-        //calculating angles
-        double ratio = (double) (line.getX1()-line.getX0())/(line.getY1()-line.getY0());//Math.toDegrees(Math.atan((line.getX0()-line.getX1())/(line.getY0()-line.getY1())));
-        double vectorAngle = Math.toDegrees(Math.atan(ratio));
-        angle.setDouble(vectorAngle);
-
-        //identifying relative location
-        int averageX = (line.getX0() + line.getX1())/2;
-        int leftX = 37;
-        int rightX = 41;
-        boolean left = false;
-        boolean middle = false;
-        boolean right = false;
-        if (averageX < leftX || averageX < leftX) {
-            left = true;
-        } else if (averageX > rightX || averageX > rightX) {
-            right = true;
-        } else {
-            middle = true;
-        }
-        leftStatus.setBoolean(left);
-        rightStatus.setBoolean(right);
-        middleStatus.setBoolean(middle);
+        x0.setNumber(pixyLineCam.getX0());
+        y0.setNumber(pixyLineCam.getY0());
+        x1.setNumber(pixyLineCam.getX1());
+        y1.setNumber(pixyLineCam.getY1());
+        index.setNumber(pixyLineCam.getIndex());
+        flags.setNumber(pixyLineCam.getFlags());
+        arrayNumber.setNumber(pixyLineCam.getArrayNumber());
+        slope.setNumber(pixyLineCam.getSlope());
+        angle.setDouble(pixyLineCam.getAngle());
+        leftStatus.setBoolean(pixyLineCam.getLeftStatus());
+        rightStatus.setBoolean(pixyLineCam.getRightStatus());
+        middleStatus.setBoolean(pixyLineCam.getMiddleStatus());
     }
 }
