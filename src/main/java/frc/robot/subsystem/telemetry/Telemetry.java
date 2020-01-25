@@ -5,7 +5,6 @@
  * boolean isSquare(double distance)
  * 
  */
- 
 
 
 package frc.robot.subsystem.telemetry;
@@ -13,10 +12,6 @@ package frc.robot.subsystem.telemetry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystem.PortMan;
 import java.util.logging.Logger;
-
-
-
-
 
 
 public class Telemetry extends SubsystemBase{
