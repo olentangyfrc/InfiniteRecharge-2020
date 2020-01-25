@@ -32,11 +32,11 @@ public class Telemetry extends SubsystemBase{
     
     public boolean isSquare(double targetDistance)
     {
-        if (Math.abs(frontLidarDistance-targetDistance) > lidarTolerance || Math.abs(rearLidarDistance-targetDistance) > lidarTolerence || Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
+        if (Math.abs(frontLidarDistance-targetDistance) > lidarTolerance || Math.abs(rearLidarDistance-targetDistance) > lidarTolerance || Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
         {
-            angleError = Math.atan((Math.max(frontLidarDistance, rearLidarDistance) - Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
+            double angleError = Math.atan((Math.max(frontLidarDistance, rearLidarDistance) - Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
 
-            if (frontLidarDistance/Math.cos(angleError)-target > rearLidarDistance/Math.cos(angleError)-target)
+            if (frontLidarDistance/Math.cos(angleError)-targetDistance > rearLidarDistance/Math.cos(angleError)-targetDistance)
             {
                 //move front wheels by angleError
             }
@@ -44,12 +44,13 @@ public class Telemetry extends SubsystemBase{
             {
                 //move back wheels by angleError
             }
+
             while(Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
             {
                 //move by correction
             }
             
-            distanceError = Math.abs(frontLidarDistance - targetDistance);
+            double distanceError = Math.abs(frontLidarDistance - targetDistance);
 
             if (distanceError > lidarTolerance)
             {
