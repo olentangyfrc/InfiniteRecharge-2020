@@ -23,6 +23,7 @@ public class RotateToColor extends CommandBase {
   private boolean stop = true;
 
   private Color targetColor = ColorMatch.makeColor(0.143, 0.427, 0.429);
+
   /**
    * Creates a new DisplayColor.
    */
