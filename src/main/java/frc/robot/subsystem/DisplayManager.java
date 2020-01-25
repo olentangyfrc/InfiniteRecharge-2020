@@ -18,6 +18,7 @@ import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
@@ -32,40 +33,46 @@ public class DisplayManager {
     private static Logger logger = Logger.getLogger(DisplayManager.class.getName());
     private TwoWheelShooterSBTab twoWheelShooterDisplay;
 
+    private ArrayList<SBInterface> subsystemUpdateList;
+
     public DisplayManager(){
-        
+        subsystemUpdateList = new ArrayList<SBInterface>();
     }
 
     public void addCP(ControlPanel cp){
         controlPanelDisplay = new ControlPanelSBTab(cp);
+        subsystemUpdateList.add(controlPanelDisplay);
+        
     }
 
     public void addTransport(Transport t){
         transportDisplay = new TransportSBTab(t);
+        subsystemUpdateList.add(transportDisplay);
+
     }
 
     public void addClimber(Climber c){
         climberDisplay = new ClimberSBTab(c);
+        subsystemUpdateList.add(climberDisplay);
+
     }
     public void addTelemetry(Telemetry te){
         telemetryDisplay = new TelemetrySBTab(te);
+        subsystemUpdateList.add(telemetryDisplay);
+
     }
         
     public void addTwoWheelShooter(TwoWheelShooter tws){
         twoWheelShooterDisplay = new TwoWheelShooterSBTab(tws);
+        subsystemUpdateList.add(twoWheelShooterDisplay);
+
     }
 
-    public void update(){
-        logger.info("update");
-        if(controlPanelDisplay != null)
-            controlPanelDisplay.update();
-        else if(transportDisplay != null)
-            transportDisplay.update();
-        else if(climberDisplay != null)
-            climberDisplay.update();
-        else if(telemetryDisplay != null)
-            telemetryDisplay.update();
-        else if(twoWheelShooterDisplay != null)
-            twoWheelShooterDisplay.update();
+
+    public void update() {
+        for (int j = 0; j < subsystemUpdateList.size(); j ++) {
+            subsystemUpdateList.get(j).update();
+          }
+
     }
 }

@@ -9,6 +9,7 @@ package frc.robot;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,9 @@ import frc.robot.subsystem.SubsystemFactory;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.util.OzoneLogger;
 
+import frc.robot.subsystem.SBInterface;
+import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -30,7 +34,7 @@ import frc.robot.util.OzoneLogger;
 public class Robot extends TimedRobot {
 
   static Logger logger = Logger.getLogger(Robot.class.getName());
-    ControlPanel controlPanel;
+  ControlPanel controlPanel;
   private static SubsystemFactory subsystemFactory;
 
   private DisplayManager dManager;
@@ -54,6 +58,7 @@ public class Robot extends TimedRobot {
       e.printStackTrace(pw);
       logger.severe(writer.toString());
     }
+
   }
 
   /**

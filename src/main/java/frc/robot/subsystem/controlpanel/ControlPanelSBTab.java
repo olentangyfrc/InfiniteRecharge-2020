@@ -10,8 +10,9 @@ package frc.robot.subsystem.controlpanel;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.subsystem.SBInterface;
 
-public class ControlPanelSBTab {
+public class ControlPanelSBTab implements SBInterface{
     private ControlPanel controlPanel;
     private ShuffleboardTab tab;
 
