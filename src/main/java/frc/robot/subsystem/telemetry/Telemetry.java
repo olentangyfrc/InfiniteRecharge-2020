@@ -15,8 +15,7 @@ import java.util.logging.Logger;
 
 
 public class Telemetry extends SubsystemBase{
-
-    /*
+    
     private LidarPWM frontLidar, rearLidar;
     private double frontLidarDistance, rearLidarDistance;
     private static Logger logger = Logger.getLogger(Telemetry.class.getName());
@@ -75,6 +74,5 @@ public class Telemetry extends SubsystemBase{
 
         logger.exiting(Telemetry.class.getName(), "init()");
     }
-    */
 
 }
