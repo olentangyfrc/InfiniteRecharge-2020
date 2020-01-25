@@ -23,6 +23,7 @@ public class Telemetry extends SubsystemBase{
 
     private double betweenLidarDistance = 0;
     private double lidarTolerance = 5;
+    private double correction = 0;
 
     public Telemetry() {
 
@@ -30,16 +31,40 @@ public class Telemetry extends SubsystemBase{
     }
 
     
-    public double isSquare(double frontLidarDistance, double rearLidarDistance)
+    public boolean isSquare(double targetDistance)
     {
-        if (Math.abs(frontLidarDistance - rearLidarDistance) <= lidarTolerance)
+        if (Math.abs(frontLidarDistance-targetDistance) > lidarTolerance || Math.abs(rearLidarDistance-targetDistance) > lidarTolerence || Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
         {
-            return Math.atan((Math.max(frontLidarDistance, rearLidarDistance) - Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
-        }
-        else {
-            return 0;
-        }
+            angleError = Math.atan((Math.max(frontLidarDistance, rearLidarDistance) - Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
 
+            if (frontLidarDistance/Math.cos(angleError)-target > rearLidarDistance/Math.cos(angleError)-target)
+            {
+                //move front wheels by angleError
+            }
+            else
+            {
+                //move back wheels by angleError
+            }
+            while(Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
+            {
+                //move by correction
+            }
+            
+            distanceError = Math.abs(frontLidarDistance - targetDistance);
+
+            if (distanceError > lidarTolerance)
+            {
+                if (frontLidarDistance > targetDistance)
+                {
+                    //move left distanceError
+                }
+                else
+                {
+                    //move right distanceError
+                }
+            }
+        }
+        return true;
     }
     
     public void init(PortMan portMan) {
