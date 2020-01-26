@@ -2,12 +2,14 @@ package frc.robot.subsystem;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import frc.robot.OI;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.RotateToColor;
+
 import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
@@ -43,7 +45,8 @@ public class SubsystemFactory {
     private OneWheelShooter oneWheelShooter;
     private TwoWheelShooter twoWheelShooter;
     private Telemetry telemetry;
-    
+    private static ArrayList<SBInterface> subsystemInterfaceList;
+
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
     }
@@ -67,6 +70,7 @@ public class SubsystemFactory {
         logger.info("[" + botMacAddress + "]");
 
         displayManager = dm;
+        subsystemInterfaceList = new ArrayList<SBInterface>();
 
         try {
 
@@ -90,13 +94,13 @@ public class SubsystemFactory {
      */
 
     private void initCommon(PortMan portMan) {
-        
+
     }
 
     /**
-
+     * 
      * init subsystems specific to Football
-
+     * 
      */
 
     private void initFootball(PortMan portMan) throws Exception {
@@ -117,7 +121,6 @@ public class SubsystemFactory {
         Command c = new Climb(climber);
         OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
 
-
         /**
          * All of the ControlPanel stuff goes here
          */
@@ -127,19 +130,18 @@ public class SubsystemFactory {
         RotateToColor dc = new RotateToColor(controlPanel);
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhileHeld);
 
-
         /**
          * All of the Transport stuff goes here
          */
-        transport  = new Transport();
+        transport = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
-        TakeIn tc    = new TakeIn(transport);
+
+        TakeIn tc = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.RightJoyButton4, OI.WhenPressed);
 
-        PushOut pc   = new PushOut(transport);
+        PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.RightJoyButton3, OI.WhenPressed);
-        OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
 
         /**
          * All of the OneWheelShooter stuff goes here
@@ -147,10 +149,9 @@ public class SubsystemFactory {
         oneWheelShooter = new OneWheelShooter();
         oneWheelShooter.init(portMan);
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
-        OI.getInstance().bind(st,OI.LeftJoyButton6, OI.WhenPressed);
+        OI.getInstance().bind(st, OI.LeftJoyButton6, OI.WhenPressed);
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
-        OI.getInstance().bind(sh,OI.LeftJoyButton7, OI.WhenPressed);
-
+        OI.getInstance().bind(sh, OI.LeftJoyButton7, OI.WhenPressed);
 
         /*
          * All of the TwoWheelShooter stuff goes here
@@ -158,13 +159,14 @@ public class SubsystemFactory {
         twoWheelShooter = new TwoWheelShooter();
         twoWheelShooter.init(portMan);
         displayManager.addTwoWheelShooter(twoWheelShooter);
+
         Shoot sh2 = new Shoot(twoWheelShooter);
         OI.getInstance().bind(sh2, OI.LeftJoyButton4, OI.WhenPressed);
         Stop st2 = new Stop(twoWheelShooter);
         OI.getInstance().bind(st2, OI.LeftJoyButton5, OI.WhenPressed);
     }
 
-    public ControlPanel getControlPanel(){
+    public ControlPanel getControlPanel() {
         return controlPanel;
     }
 

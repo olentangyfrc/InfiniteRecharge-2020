@@ -9,11 +9,12 @@ package frc.robot.subsystem.climber;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.subsystem.SBInterface;
 
 /**
  * Add your docs here.
  */
-public class ClimberSBTab {
+public class ClimberSBTab implements SBInterface {
     private Climber climber;
     private ShuffleboardTab tab;
 

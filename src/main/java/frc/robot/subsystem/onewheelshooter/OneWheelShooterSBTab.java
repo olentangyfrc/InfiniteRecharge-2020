@@ -9,11 +9,12 @@ package frc.robot.subsystem.onewheelshooter;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.subsystem.SBInterface;
 
 /**
  * Add your docs here.
  */
-public class OneWheelShooterSBTab {
+public class OneWheelShooterSBTab implements SBInterface{
     private OneWheelShooter shooter;
     private ShuffleboardTab tab;
 

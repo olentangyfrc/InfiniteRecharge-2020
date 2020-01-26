@@ -9,11 +9,12 @@ package frc.robot.subsystem.telemetry;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.subsystem.SBInterface;
 
 /**
  * Add your docs here.
  */
-public class TelemetrySBTab {
+public class TelemetrySBTab implements SBInterface {
     public Telemetry telemetry;
     public ShuffleboardTab tab;
 
