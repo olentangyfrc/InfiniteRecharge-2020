@@ -52,24 +52,24 @@ public class Telemetry extends SubsystemBase{
             if (frontLidarDistance*Math.cos(angleError)-targetDistance > rearLidarDistance*Math.cos(angleError)-targetDistance)
             {
                 if (frontLidarDistance < rearLidarDistance)
-                    {
-                        //move front wheels right angleError, turn right
-                    }
-                    else
-                    {
-                        //move front wheels left angleError, turn left
-                    }
+                {
+                    //move front wheels right angleError, turn right
+                }
+                else
+                {
+                    //move front wheels left angleError, turn left
+                }
             }
             else
             {
                 if (frontLidarDistance < rearLidarDistance)
-                    {
-                        //move back wheels left angleError, turn right
-                    }
-                    else
-                    {
-                        //move back wheels right angleError, turn left
-                    }
+                {
+                    //move back wheels left angleError, turn right
+                }
+                else
+                {
+                    //move back wheels right angleError, turn left
+                }
             }
 
             while(Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
