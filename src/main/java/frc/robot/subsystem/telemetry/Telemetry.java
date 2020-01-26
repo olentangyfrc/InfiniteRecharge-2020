@@ -79,4 +79,10 @@ public class Telemetry extends SubsystemBase{
         }
         return true;
     }
+    public double getFrontLidarDistance(){
+        return frontLidarDistance;
+    }
+    public double getRearLidarDistance(){
+        return rearLidarDistance;
+    }
 }
