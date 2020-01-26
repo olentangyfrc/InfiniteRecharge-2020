@@ -56,16 +56,16 @@ public class DisplayManager {
     }
 
     public void update(){
-        logger.info("update");
+        //logger.info("update");
         if(controlPanelDisplay != null)
             controlPanelDisplay.update();
-        else if(transportDisplay != null)
+        if(transportDisplay != null)
             transportDisplay.update();
-        else if(climberDisplay != null)
+        if(climberDisplay != null)
             climberDisplay.update();
-        else if(telemetryDisplay != null)
+        if(telemetryDisplay != null)
             telemetryDisplay.update();
-        else if(twoWheelShooterDisplay != null)
+        if(twoWheelShooterDisplay != null)
             twoWheelShooterDisplay.update();
     }
 }
