@@ -10,11 +10,11 @@ package frc.robot.subsystem.pixylinecam;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.subsystem.SBInterface;
 
-public class PixyLineCamSBTab {
+public class PixyLineCamSBTab implements SBInterface{
     private PixyLineCam pixyLineCam;
 
-    
     private ShuffleboardTab tab;
 
     private NetworkTableEntry x0;
