@@ -1,6 +1,7 @@
 package frc.robot.subsystem;
 
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.logging.Logger;
 
 import frc.robot.OI;
@@ -12,15 +13,11 @@ import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelStop;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.transport.Transport;
-import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
-import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
 import frc.robot.subsystem.twowheelshooter.commands.Shoot;
 import frc.robot.subsystem.twowheelshooter.commands.Stop;
 
@@ -64,7 +61,7 @@ public class SubsystemFactory {
 
         logger.info("initializing");
 
-        botMacAddress = InetAddress.getLocalHost().getHostAddress().trim();
+        botMacAddress = getMACAddress();
         botMacAddress = footballMacAddress;
 
         logger.info("[" + botMacAddress + "]");
@@ -73,16 +70,13 @@ public class SubsystemFactory {
 
         try {
 
-            if (botMacAddress.equals(footballMacAddress) || botMacAddress == null || botMacAddress.equals("")) {
+            if (botMacAddress == null || botMacAddress.equals(footballMacAddress)) {
                 initFootball(portMan);
             } else {
                 throw new Exception("Unrecognized MAC Address [" + botMacAddress + "]");
             }
 
             initCommon(portMan);
-
-            // driverfeedback will create a shuffleboard tab that aggregates data from
-            // subsystems.
 
         } catch (Exception e) {
             throw e;
@@ -180,5 +174,25 @@ public class SubsystemFactory {
 
     public Transport getTransport() {
         return transport;
+    }
+
+    private String getMACAddress() {
+
+        InetAddress ip;
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            ip = InetAddress.getLocalHost();
+            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+            byte[] mac = network.getHardwareAddress();
+
+            for (int i = 0; i < mac.length; i++) {
+                sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));		
+            }
+            return sb.toString();
+
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
