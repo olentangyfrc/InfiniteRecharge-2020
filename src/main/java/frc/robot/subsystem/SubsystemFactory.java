@@ -14,6 +14,8 @@ import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelStop;
+import frc.robot.subsystem.pixylinecam.PixyLineCam;
+import frc.robot.subsystem.pixylinecam.commands.PollPixyLine;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.transport.Transport;
@@ -45,6 +47,7 @@ public class SubsystemFactory {
     private OneWheelShooter oneWheelShooter;
     private TwoWheelShooter twoWheelShooter;
     private Telemetry telemetry;
+    private PixyLineCam pixyLineCam;
     private static ArrayList<SBInterface> subsystemInterfaceList;
 
     private SubsystemFactory() {
@@ -164,6 +167,18 @@ public class SubsystemFactory {
         OI.getInstance().bind(sh2, OI.LeftJoyButton4, OI.WhenPressed);
         Stop st2 = new Stop(twoWheelShooter);
         OI.getInstance().bind(st2, OI.LeftJoyButton5, OI.WhenPressed);
+
+        /**
+         * All of the Pixy Line stuff goes here
+         */
+        pixyLineCam = new PixyLineCam();
+        pixyLineCam.init(portMan);
+        displayManager.addPixyLineCam(pixyLineCam);
+
+        PollPixyLine p = new PollPixyLine(pixyLineCam);
+        OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
+        
+
     }
 
     public ControlPanel getControlPanel() {

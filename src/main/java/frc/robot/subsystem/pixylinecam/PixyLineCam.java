@@ -4,12 +4,11 @@ package frc.robot.subsystem.pixylinecam;
 
 import java.util.logging.Logger;
 
+import frc.robot.subsystem.PortMan;
 //import frc.robot.networktables.NetTableManager;
 import frc.robot.subsystem.pixylinecam.commands.PollPixyLine;
 //import org.usfirst.frc.team4611.robot.subsystems.vision.commands.PollNetworkTable;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.pseudoresonance.pixy2api.Pixy2;
 import io.github.pseudoresonance.pixy2api.Pixy2Line;
@@ -17,10 +16,10 @@ import io.github.pseudoresonance.pixy2api.Pixy2Line;
 public class PixyLineCam extends SubsystemBase{
 
     private static Logger logger = Logger.getLogger(PixyLineCam.class.getName());
-    static private ShuffleboardTab tab = Shuffleboard.getTab("PixyLineCam");
 
     private Pixy2 pixy;
     private Pixy2Line line;
+    private PixyLineCam pixyLineCam;
     private double x0;
     private double y0;
     private double x1;
@@ -54,7 +53,7 @@ public class PixyLineCam extends SubsystemBase{
 
     }
 
-    public void init() {
+    public void init(PortMan portMan) {
         logger.info("initializing");
         logger.info("Creating Pixy with link type of SPI");
         pixy = Pixy2.createInstance(Pixy2.LinkType.SPI);
@@ -171,11 +170,8 @@ public class PixyLineCam extends SubsystemBase{
         return rightStatus;
     }
 
-
-/*
- *     protected void initDefaultCommand() {
-        setDefaultCommand(new PollPixyLine());
+     protected void initDefaultCommand() {
+        setDefaultCommand(new PollPixyLine(pixyLineCam));
     } 
-*/
 
 }
