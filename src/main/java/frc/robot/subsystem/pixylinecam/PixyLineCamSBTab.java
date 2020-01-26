@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class PixyLineCamSBTab {
     private PixyLineCam pixyLineCam;
-
     
     private ShuffleboardTab tab;
 
