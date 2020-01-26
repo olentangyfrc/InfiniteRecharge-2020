@@ -15,6 +15,7 @@ import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelStop;
 import frc.robot.subsystem.pixylinecam.PixyLineCam;
+import frc.robot.subsystem.pixylinecam.commands.PollPixyLine;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.transport.Transport;
@@ -172,9 +173,14 @@ public class SubsystemFactory {
          */
         pixyLineCam = new PixyLineCam();
         pixyLineCam.init(portMan);
-                
+        displayManager.addPixyLineCam(pixyLineCam);
+
+        PollPixyLine p = new PollPixyLine(pixyLineCam);
+        OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
+        
+
     }
-    
+
     public ControlPanel getControlPanel() {
         return controlPanel;
     }
