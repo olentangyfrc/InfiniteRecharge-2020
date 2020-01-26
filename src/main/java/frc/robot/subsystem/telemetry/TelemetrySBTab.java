@@ -7,6 +7,7 @@
 
 package frc.robot.subsystem.telemetry;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.subsystem.SBInterface;
@@ -18,12 +19,19 @@ public class TelemetrySBTab implements SBInterface {
     public Telemetry telemetry;
     public ShuffleboardTab tab;
 
+    public NetworkTableEntry frontDistance;
+    public NetworkTableEntry rearDistance;
+
     public TelemetrySBTab(Telemetry te){
         telemetry = te;
         
         tab = Shuffleboard.getTab("Telemetry");
+
+        frontDistance = tab.add("Front Lidar Distance", 0).getEntry();
+        rearDistance = tab.add("Rear Lidar Distance", 0).getEntry();
     }
     public void update(){
-        
+        frontDistance.setDouble(telemetry.getFrontLidarDistance());
+        rearDistance.setDouble(telemetry.getRearLidarDistance());
     }
 }
