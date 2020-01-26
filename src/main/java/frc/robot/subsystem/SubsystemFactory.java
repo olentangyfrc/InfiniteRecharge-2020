@@ -18,15 +18,11 @@ import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelStop;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.transport.Transport;
-import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
-import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
 import frc.robot.subsystem.twowheelshooter.commands.Shoot;
 import frc.robot.subsystem.twowheelshooter.commands.Stop;
 
@@ -77,18 +73,9 @@ public class SubsystemFactory {
     public void init(DisplayManager dm, PortMan portMan) throws Exception {
 
         logger.info("initializing");
-
-        Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
-        String activeMACs = "";
-        for (NetworkInterface net : Collections.list(networks)) {
-            String mac = formatMACAddress(net.getHardwareAddress());
-            activeMACs += (mac+" ");
-            logger.info("Network #"+net.getIndex()+" "+net.getName()+" "+mac);
-            if (allMACs.containsKey(mac)) {
-                botName = allMACs.get(mac);
-                logger.info("   this MAC is for "+botName);
-            }
-        }
+      
+        botName = getBotName();
+        botName = "football";
 
         logger.info("Running on "+botName);
 
@@ -103,12 +90,10 @@ public class SubsystemFactory {
                 case "unknown": initFootball(portMan); break;  // default to football if we don't know better
                 case "zombie": initZombie(portMan); break;
                 default: throw new Exception("Unrecognized MAC Address [" + activeMACs + "]");
+
             }
 
             initCommon(portMan);
-
-            // driverfeedback will create a shuffleboard tab that aggregates data from
-            // subsystems.
 
         } catch (Exception e) {
             throw e;
@@ -210,8 +195,19 @@ public class SubsystemFactory {
         return transport;
     }
 
-    public static ArrayList<SBInterface> getSBInterfaceList() {
-        return subsystemInterfaceList;
+    private String getBotName() {
+     
+        Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
+        String activeMACs = "";
+        for (NetworkInterface net : Collections.list(networks)) {
+            String mac = formatMACAddress(net.getHardwareAddress());
+            activeMACs += (mac+" ");
+            logger.info("Network #"+net.getIndex()+" "+net.getName()+" "+mac);
+            if (allMACs.containsKey(mac)) {
+                botName = allMACs.get(mac);
+                logger.info("   this MAC is for "+botName);
+            }
+        }
     }
 
     /**

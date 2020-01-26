@@ -28,6 +28,16 @@ public class Telemetry extends SubsystemBase{
 
 
     }
+    
+    public void init(PortMan portMan) throws Exception{
+        logger.entering(Telemetry.class.getName(), "init()");
+
+        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.frontLidar"));
+        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.rearLidar"));
+
+        logger.exiting(Telemetry.class.getName(), "init()");
+    }
+
 
     
     public boolean isSquare(double targetDistance)
@@ -69,14 +79,4 @@ public class Telemetry extends SubsystemBase{
         }
         return true;
     }
-    
-    public void init(PortMan portMan) throws Exception{
-        logger.entering(Telemetry.class.getName(), "init()");
-
-        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.lidar"));
-        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.lidar"));
-
-        logger.exiting(Telemetry.class.getName(), "init()");
-    }
-
 }
