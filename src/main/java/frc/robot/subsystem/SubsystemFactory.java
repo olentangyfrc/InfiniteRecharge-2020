@@ -3,6 +3,9 @@ package frc.robot.subsystem;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import frc.robot.OI;
@@ -31,9 +34,8 @@ public class SubsystemFactory {
 
     static Logger logger = Logger.getLogger(SubsystemFactory.class.getName());
 
-    private static String botMacAddress;
-
-    private String footballMacAddress = "00:80:2F:17:D7:4B";
+    private static String botName; 
+    private HashMap<String,String> allMACs; // will contain mapping of MACs to Bot Names
 
     private static DisplayManager displayManager;
 
@@ -52,6 +54,14 @@ public class SubsystemFactory {
 
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
+        botName = "unknown";
+        allMACs = new HashMap<>();  
+        // add all the mappings from MACs to names here
+        // as you add mappings here:
+        //    1) update the select statement in the init method 
+        //    2) add the init method for that robot
+        allMACs.put("00:80:2F:17:BD:76","zombie"); //usb0
+        allMACs.put("00:80:2F:17:BD:75","zombie"); //eth0
     }
 
     public static SubsystemFactory getInstance(boolean b) {
@@ -66,21 +76,24 @@ public class SubsystemFactory {
     public void init(DisplayManager dm, PortMan portMan) throws Exception {
 
         logger.info("initializing");
+      
+        botName = getBotName();
+        botName = "football";
 
-        botMacAddress = getMACAddress();
-        botMacAddress = footballMacAddress;
-
-        logger.info("[" + botMacAddress + "]");
+        logger.info("Running on "+botName);
 
         displayManager = dm;
         subsystemInterfaceList = new ArrayList<SBInterface>();
 
         try {
 
-            if (botMacAddress == null || botMacAddress.equals(footballMacAddress)) {
-                initFootball(portMan);
-            } else {
-                throw new Exception("Unrecognized MAC Address [" + botMacAddress + "]");
+            // Note that you should update this switch statement as you add bots to the list above
+            switch (botName) {
+                case "football": initFootball(portMan); break;
+                case "unknown": initFootball(portMan); break;  // default to football if we don't know better
+                case "zombie": initZombie(portMan); break;
+                default: throw new Exception("Unrecognized MAC Address [" + activeMACs + "]");
+
             }
 
             initCommon(portMan);
@@ -181,6 +194,10 @@ public class SubsystemFactory {
 
     }
 
+    private void initZombie(PortMan portMan) throws OzoneException {
+        logger.info("Initializing Zombie");
+    }
+
     public ControlPanel getControlPanel() {
         return controlPanel;
     }
@@ -193,23 +210,42 @@ public class SubsystemFactory {
         return transport;
     }
 
-    private String getMACAddress() {
-
-        InetAddress ip;
-        StringBuilder sb = new StringBuilder();
-
-        try {
-            ip = InetAddress.getLocalHost();
-            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
-            byte[] mac = network.getHardwareAddress();
-
-            for (int i = 0; i < mac.length; i++) {
-                sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));		
+    private String getBotName() {
+     
+        Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
+        String activeMACs = "";
+        for (NetworkInterface net : Collections.list(networks)) {
+            String mac = formatMACAddress(net.getHardwareAddress());
+            activeMACs += (mac+" ");
+            logger.info("Network #"+net.getIndex()+" "+net.getName()+" "+mac);
+            if (allMACs.containsKey(mac)) {
+                botName = allMACs.get(mac);
+                logger.info("   this MAC is for "+botName);
             }
-            return sb.toString();
-
-        } catch (Exception e) {
-            return null;
         }
     }
+
+    /**
+     * Formats the byte array representing the mac address as more human-readable form
+     * @param hardwareAddress byte array
+     * @return string of hex bytes separated by colons
+     */
+    private String formatMACAddress(byte[] hardwareAddress) {
+        if (hardwareAddress == null || hardwareAddress.length == 0) {
+            return "";
+        }
+        StringBuilder mac = new StringBuilder(); // StringBuilder is a premature optimization here, but done as best practice
+        for (int k=0;k<hardwareAddress.length;k++) {
+            int i = hardwareAddress[k] & 0xFF;  // unsigned integer from byte
+            String hex = Integer.toString(i,16);
+            if (hex.length() == 1) {  // we want to make all bytes two hex digits 
+                hex = "0"+hex;
+            }
+            mac.append(hex.toUpperCase());
+            mac.append(":");
+        }
+        mac.setLength(mac.length()-1);  // trim off the trailing colon
+        return mac.toString();
+    }
+
 }
