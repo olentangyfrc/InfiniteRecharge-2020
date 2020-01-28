@@ -27,14 +27,16 @@ public class Transport extends SubsystemBase {
     private MedianFilter filter;
     private double motorSpeedForward = .5;
     private double motorSpeedBackward = .5;
+
     private double ballCount = 0;
     public Transport() {
     }
 
     public void init(PortMan portMan) throws Exception {
         logger.entering(Transport.class.getName(), "init()");
-        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_58_label, "Transport.transportTalon1"));
-        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "Transport.transportTalon2"));
+
+        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_17_label, "Transport.leftIntake"));
+        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "Transport.rightIntake"));
         intakeSensor = new AnalogInput(portMan.acquirePort(PortMan.analog0_label, "Transport.IntakeSeonsor"));
 
         leftIntake.config_kP(0, .5, 0);
@@ -65,6 +67,7 @@ public class Transport extends SubsystemBase {
     public void stop() {
         logger.info("stop");
         leftIntake.set(ControlMode.PercentOutput, 0);
+
     }
 
     public int count() {

@@ -46,6 +46,8 @@ public class ControlPanel extends SubsystemBase {
 
     private Telemetry telemetry;
     private int targetDistance = 0;
+    private final double spinTimes = 2.025;
+    private Color targetColor;
 
 
 
@@ -64,7 +66,7 @@ public class ControlPanel extends SubsystemBase {
       match = m_colorMatcher.matchClosestColor(detectedColor);
       colorString = "None";
 
-      motor = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "ControlPanel.spinner"));
+      motor = new TalonSRX(portMan.acquirePort(PortMan.can_60_label, "ControlPanel.spinner"));
       logger.exiting(ControlPanel.class.getName(), "init()");
 
       telemetry = t;
@@ -79,18 +81,20 @@ public class ControlPanel extends SubsystemBase {
       motor.setSelectedSensorPosition(targetSpinnerPosition);
     }
 
-    public void goToColor(Color targetColor) {
+    public void goToColor(Color tC) {
       logger.info("goToColor");
+      targetColor = tC;
 
         detectedColor = m_colorSensor.getColor();
         match = m_colorMatcher.matchClosestColor(detectedColor);
         //match.color == kBlueTarget
 
         if(telemetry.isSquare(targetDistance)){
-            while(match.color != targetColor)
+            while(detectedColor != targetColor)
               motor.set(ControlMode.PercentOutput, .5);
             motor.set(ControlMode.PercentOutput, 0);
         }
+        motor.set(ControlMode.Position, 45);
       }
 
       public double getRedValue() {
