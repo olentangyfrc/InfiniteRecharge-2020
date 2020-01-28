@@ -22,7 +22,7 @@ public class Telemetry extends SubsystemBase{
 
     private double betweenLidarDistance = 0;
     private double lidarTolerance = 5;
-    private double correction = 0;
+    private double correction = Math.PI/180;
 
     public Telemetry() {
 
@@ -47,20 +47,56 @@ public class Telemetry extends SubsystemBase{
 
         if (Math.abs(frontLidarDistance-targetDistance) > lidarTolerance || Math.abs(rearLidarDistance-targetDistance) > lidarTolerance || Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
         {
-            double angleError = Math.atan((Math.max(frontLidarDistance, rearLidarDistance) - Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
+            double angleError = Math.atan((Math.max(frontLidarDistance, rearLidarDistance)-Math.min(frontLidarDistance, rearLidarDistance))/betweenLidarDistance);
 
-            if (frontLidarDistance/Math.cos(angleError)-targetDistance > rearLidarDistance/Math.cos(angleError)-targetDistance)
+            if (frontLidarDistance*Math.cos(angleError)-targetDistance > rearLidarDistance*Math.cos(angleError)-targetDistance)
             {
-                //move front wheels by angleError
+                if (frontLidarDistance < rearLidarDistance)
+                {
+                    //move front wheels right angleError, turn right
+                }
+                else
+                {
+                    //move front wheels left angleError, turn left
+                }
             }
             else
             {
-                //move back wheels by angleError
+                if (frontLidarDistance < rearLidarDistance)
+                {
+                    //move back wheels left angleError, turn right
+                }
+                else
+                {
+                    //move back wheels right angleError, turn left
+                }
             }
 
             while(Math.abs(frontLidarDistance-rearLidarDistance) > lidarTolerance)
             {
-                //move by correction
+                if (frontLidarDistance*Math.cos(angleError)-targetDistance > rearLidarDistance*Math.cos(angleError)-targetDistance)
+                {
+                    if (frontLidarDistance < rearLidarDistance)
+                    {
+                        //move front wheels right correction, turn right
+                    }
+                    else
+                    {
+                        //move front wheels left correction, turn left
+                    }
+                
+                }
+                else
+                {
+                    if (frontLidarDistance < rearLidarDistance)
+                    {
+                        //move back wheels left correction, turn right
+                    }
+                    else
+                    {
+                        //move back wheels right correction, turn left
+                    }
+                }
             }
             
             double distanceError = Math.abs(frontLidarDistance - targetDistance);
@@ -79,10 +115,13 @@ public class Telemetry extends SubsystemBase{
         }
         return true;
     }
+
     public double getFrontLidarDistance(){
         return frontLidarDistance;
     }
+
     public double getRearLidarDistance(){
         return rearLidarDistance;
     }
+    
 }
