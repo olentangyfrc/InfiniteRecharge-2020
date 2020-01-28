@@ -11,6 +11,7 @@ public class TransportSBTab implements SBInterface
     private ShuffleboardTab tab;
     private NetworkTableEntry speed;
     private NetworkTableEntry ballCount;
+    private NetworkTableEntry distance;
     private NetworkTableEntry direction;
     private NetworkTableEntry isLogging;
     
@@ -22,12 +23,14 @@ public class TransportSBTab implements SBInterface
       tab = Shuffleboard.getTab("Transport");
       speed = tab.add("speed", 0).getEntry();
       ballCount = tab.add("ballCount", 0).getEntry();
+      distance = tab.add("distance", 0).getEntry();
    }
 
    public void update() 
    {
      speed.setDouble(transport.getVelocity());
      ballCount.setDouble(transport.getBallCount());
+     distance.setDouble(transport.getDistance());
    }
 
 }

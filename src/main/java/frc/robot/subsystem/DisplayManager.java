@@ -81,6 +81,5 @@ public class DisplayManager {
         for (int j = 0; j < subsystemUpdateList.size(); j ++) {
             subsystemUpdateList.get(j).update();
           }
-
     }
 }
