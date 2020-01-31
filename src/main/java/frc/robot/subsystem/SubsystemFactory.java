@@ -136,6 +136,7 @@ public class SubsystemFactory {
         /**
          * All of the Transport stuff goes here
          */
+        /*
         transport = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
@@ -145,6 +146,7 @@ public class SubsystemFactory {
 
         PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.RightJoyButton3, OI.WhenPressed);
+        */
 
         /**
          * All of the OneWheelShooter stuff goes here

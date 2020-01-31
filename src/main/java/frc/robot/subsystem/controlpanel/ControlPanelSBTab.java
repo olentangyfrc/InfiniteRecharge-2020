@@ -21,6 +21,8 @@ public class ControlPanelSBTab implements SBInterface{
     private NetworkTableEntry blue;
     private NetworkTableEntry confidence;
     private NetworkTableEntry detectedColor;
+    private NetworkTableEntry distance;
+    private NetworkTableEntry current;
 
     public ControlPanelSBTab(ControlPanel c) {
         controlPanel = c;
@@ -32,6 +34,8 @@ public class ControlPanelSBTab implements SBInterface{
         blue = tab.add("Blue", 0).getEntry();
         confidence = tab.add("Confidence", 0).getEntry();
         detectedColor = tab.add("Detected Color", "None").getEntry();
+        distance = tab.add("Distance", 0).getEntry();
+        current = tab.add("Current", 0.0).getEntry();
     }
 
 
@@ -45,6 +49,8 @@ public class ControlPanelSBTab implements SBInterface{
         blue.setDouble(controlPanel.getBlueValue());
         confidence.setDouble(controlPanel.getConfidenceValue());
         detectedColor.setString(controlPanel.getDetectedColor());
+        distance.setDouble(controlPanel.getDistance());
+        current.setDouble(controlPanel.getCurrent());
         // finish this method based on controlpanel getvalues
         // make sure to call the init method in this method in order for all the values to be updated
     }
