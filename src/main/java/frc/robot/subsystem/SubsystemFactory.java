@@ -19,6 +19,7 @@ import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
 import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
+import frc.robot.subsystem.transport.commands.StopIntake;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
 import frc.robot.subsystem.twowheelshooter.commands.Shoot;
@@ -64,7 +65,7 @@ public class SubsystemFactory {
 
         logger.info("initializing");
 
-        botMacAddress = InetAddress.getLocalHost().getHostAddress().trim();
+        //botMacAddress = InetAddress.getLocalHost().getHostAddress().trim();
         botMacAddress = footballMacAddress;
 
         logger.info("[" + botMacAddress + "]");
@@ -141,11 +142,11 @@ public class SubsystemFactory {
         transport.init(portMan);
         displayManager.addTransport(transport);
         TakeIn tc    = new TakeIn(transport);
-        OI.getInstance().bind(tc, OI.RightJoyButton4, OI.WhenPressed);
-
+        OI.getInstance().bind(tc, OI.RightJoyButton7, OI.WhenPressed);
         PushOut pc   = new PushOut(transport);
-        OI.getInstance().bind(pc, OI.RightJoyButton3, OI.WhenPressed);
-        OI.getInstance().bind(tc, OI.LeftJoyButton3, OI.WhenPressed);
+        OI.getInstance().bind(pc, OI.RightJoyButton11, OI.WhenPressed);
+        StopIntake si = new StopIntake(transport);
+        OI.getInstance().bind(si, OI.RightJoyButton9, OI.WhenPressed);
 
         /**
          * All of the OneWheelShooter stuff goes here

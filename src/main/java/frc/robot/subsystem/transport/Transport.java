@@ -6,13 +6,17 @@ import javax.xml.namespace.QName;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OzoneException;
 import frc.robot.subsystem.PortMan;
-import frc.robot.subsystem.transport.commands.DistanceGet;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Transport extends SubsystemBase {
 
@@ -20,23 +24,49 @@ public class Transport extends SubsystemBase {
 
     private static Logger logger = Logger.getLogger(Transport.class.getName());
 
-    private TalonSRX leftIntake;
-    private TalonSRX rightIntake;
+    private CANSparkMax leftIntake;
+    private CANSparkMax rightIntake;
     private AnalogInput intakeSensor;
+    private CANPIDController leftPid;
+    private CANPIDController rightPid;
     private AnalogInput exitSensor;
     private MedianFilter filter;
-    private double motorSpeedForward = .5;
-    private double motorSpeedBackward = .5;
+    private double motorSpeedForward = .2;
+    private double motorSpeedBackward = .2;
     private double ballCount = 0;
+    private DigitalInput enterSwitch;
+    private DigitalInput exitSwitch;
     public Transport() {
     }
 
     public void init(PortMan portMan) throws Exception {
         logger.entering(Transport.class.getName(), "init()");
-        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_58_label, "Transport.transportTalon1"));
-        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_59_label, "Transport.transportTalon2"));
-        intakeSensor = new AnalogInput(portMan.acquirePort(PortMan.analog0_label, "Transport.IntakeSeonsor"));
 
+        enterSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Transport.IntakeEnterSensor"));
+        exitSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Transport.IntakeExitSensor"));
+        leftIntake = new CANSparkMax(portMan.acquirePort(PortMan.can_57_label, "Transport.transportSparkMax1"), com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+        rightIntake = new CANSparkMax(portMan.acquirePort(PortMan.can_58_label, "Transport.transportSparkMax2"), com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+        leftPid = leftIntake.getPIDController();
+        rightPid = rightIntake.getPIDController();
+
+        leftIntake.restoreFactoryDefaults();
+        rightIntake.restoreFactoryDefaults();
+
+        leftPid.setP(.1);
+        leftPid.setI(0);
+        leftPid.setD(0);
+        leftPid.setIZone(0);
+        leftPid.setFF(0);
+        leftPid.setOutputRange(-1, 1);
+
+        rightPid.setP(0.1);
+        rightPid.setI(0);
+        rightPid.setD(0);
+        rightPid.setIZone(0);
+        rightPid.setFF(0);
+        rightPid.setOutputRange(-1, 1);
+
+        /* Talon Code
         leftIntake.config_kP(0, .5, 0);
         leftIntake.config_kI(0, 0, 0);
         leftIntake.config_kD(0, 0, 0);
@@ -53,18 +83,25 @@ public class Transport extends SubsystemBase {
 
         rightIntake.follow(leftIntake);
         rightIntake.setInverted(true);
+        */
+
 
         logger.exiting(Transport.class.getName(), "init()");
     }
 
     public void take() {
         logger.info("take");
-        leftIntake.set(ControlMode.PercentOutput, motorSpeedForward);
+        //leftIntake.set(ControlMode.PercentOutput, motorSpeedForward);
+        //leftPid.setReference(motorSpeedForward, ControlType.kVelocity);
+        leftIntake.set(motorSpeedForward);
+        rightIntake.set(motorSpeedForward);
     }
 
     public void stop() {
         logger.info("stop");
-        leftIntake.set(ControlMode.PercentOutput, 0);
+        //leftIntake.set(ControlMode.PercentOutput, 0);
+        leftIntake.set(0);
+        rightIntake.set(0);
     }
 
     public int count() {
@@ -73,26 +110,26 @@ public class Transport extends SubsystemBase {
 
     public void expel() {
         logger.info("expel");
-        leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
+        //leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
+        leftIntake.set(-motorSpeedBackward);
+        rightIntake.set(-motorSpeedBackward);
     }
 
     public double getVelocity() {
-        return leftIntake.getSelectedSensorVelocity();
+        //return leftIntake.getSelectedSensorVelocity();
+        return leftIntake.get();
     }
 
     public double getBallCount() {
-        int pastDistance = 0;
-        int distance = 0;
-        if (distance < pastDistance) {
-            ballCount++;
-        }
         return ballCount;
     }
 
-    public double getDistance() {
-        logger.info("getting distance");
-        filter = new MedianFilter(10);
-        return filter.calculate(intakeSensor.getValue());
+    public boolean getDigitalInput1(){
+        return enterSwitch.get();
+    }
+
+    public boolean getDigitalInput2(){
+        return exitSwitch.get();
     }
     
     public void update(){
