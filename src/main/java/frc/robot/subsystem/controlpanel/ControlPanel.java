@@ -67,9 +67,26 @@ public class ControlPanel extends SubsystemBase {
       colorString = "None";
 
       motor = new TalonSRX(portMan.acquirePort(PortMan.can_60_label, "ControlPanel.spinner"));
+      
+      telemetry = t;
+
+      
+      motor.enableCurrentLimit(true);
+      motor.configPeakCurrentLimit(50);
+      motor.configContinuousCurrentLimit(40);
+      motor.configPeakCurrentDuration(400);
+      motor.configAllowableClosedloopError(0, 100);
+      motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+      motor.setSelectedSensorPosition(0, 0, 0);
+
+      motor.config_kP(0, .5, 0);
+      motor.config_kI(0, 0, 0);
+      motor.config_kD(0, 0, 0);
+      motor.config_kF(0, 0, 0);
+      
       logger.exiting(ControlPanel.class.getName(), "init()");
 
-      telemetry = t;
+
 
     }
   
@@ -94,7 +111,15 @@ public class ControlPanel extends SubsystemBase {
               motor.set(ControlMode.PercentOutput, .5);
             motor.set(ControlMode.PercentOutput, 0);
         }
-        motor.set(ControlMode.Position, 45);
+        motor.set(ControlMode.Position,101250);
+      }
+
+      public void testSensor(){
+        logger.info("testSenser");
+
+        motor.set(ControlMode.Velocity, 100);
+        distance = motor.getSelectedSensorPosition();
+        current = motor.getSupplyCurrent();
       }
 
       public double getRedValue() {
