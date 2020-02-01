@@ -131,7 +131,7 @@ public class SubsystemFactory {
         controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
         RotateToColor dc = new RotateToColor(controlPanel);
-        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhileHeld);
+        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
 
         /**
          * All of the Transport stuff goes here
@@ -173,12 +173,14 @@ public class SubsystemFactory {
         /**
          * All of the Pixy Line stuff goes here
          */
+        /*
         pixyLineCam = new PixyLineCam();
         pixyLineCam.init(portMan);
         displayManager.addPixyLineCam(pixyLineCam);
 
         PollPixyLine p = new PollPixyLine(pixyLineCam);
         OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
+        */
         
 
     }

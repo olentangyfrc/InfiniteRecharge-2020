@@ -49,8 +49,8 @@ public class ControlPanel extends SubsystemBase {
     private final double spinTimes = 2.025;
     private Color targetColor;
 
-    private int distance = 0;
-    private double current = 0;
+    private int distance;
+    private double current;
 
 
 
@@ -73,17 +73,23 @@ public class ControlPanel extends SubsystemBase {
       telemetry = t;
 
       motor.enableCurrentLimit(true);
-      motor.configPeakCurrentLimit(50);
-      motor.configContinuousCurrentLimit(40);
+      motor.configPeakCurrentLimit(30);
+      motor.configContinuousCurrentLimit(20);
       motor.configPeakCurrentDuration(400);
-      motor.configAllowableClosedloopError(0, 100);
+      motor.configAllowableClosedloopError(0, 5);
       motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
       motor.setSelectedSensorPosition(0, 0, 0);
 
-      motor.config_kP(0, .5, 0);
+      motor.config_kP(0, .45, 0);
       motor.config_kI(0, 0, 0);
-      motor.config_kD(0, 0, 0);
+      motor.config_kD(0, .3, 0);
       motor.config_kF(0, 0, 0);
+
+      motor.configMotionCruiseVelocity(4500);
+      motor.configMotionAcceleration(4096);
+
+      distance = 0;
+      current = 0;
 
     logger.exiting(ControlPanel.class.getName(), "exiting init");
 
@@ -115,9 +121,7 @@ public class ControlPanel extends SubsystemBase {
       public void testSensor(){
         logger.info("testSenser");
 
-        motor.set(ControlMode.Velocity, 100);
-        distance = motor.getSelectedSensorPosition();
-        current = motor.getSupplyCurrent();
+        motor.set(ControlMode.MotionMagic, 40000);
       }
 
       public double getRedValue() {
@@ -136,10 +140,10 @@ public class ControlPanel extends SubsystemBase {
         return colorString;
       }
       public int getDistance(){
-        return distance;
+        return motor.getSelectedSensorPosition();
       }
       public double getCurrent(){
-        return current;
+        return motor.getSupplyCurrent();
       }
       public double getVelocity() {
         return motor.getSelectedSensorVelocity();
