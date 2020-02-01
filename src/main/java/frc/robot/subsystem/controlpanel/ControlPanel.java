@@ -141,4 +141,7 @@ public class ControlPanel extends SubsystemBase {
       public double getCurrent(){
         return current;
       }
+      public double getVelocity() {
+        return motor.getSelectedSensorVelocity();
+      }
     }
