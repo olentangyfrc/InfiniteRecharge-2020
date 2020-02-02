@@ -3,8 +3,9 @@ package frc.robot.subsystem.transport;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.subsystem.SBInterface;
 
-public class TransportSBTab
+public class TransportSBTab implements SBInterface
 {
     private Transport transport;
     private ShuffleboardTab tab;

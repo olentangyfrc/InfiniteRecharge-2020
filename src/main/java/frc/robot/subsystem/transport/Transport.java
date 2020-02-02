@@ -33,6 +33,7 @@ public class Transport extends SubsystemBase {
     private MedianFilter filter;
     private double motorSpeedForward = .2;
     private double motorSpeedBackward = .2;
+
     private double ballCount = 0;
     private DigitalInput enterSwitch;
     private DigitalInput exitSwitch;
@@ -99,7 +100,7 @@ public class Transport extends SubsystemBase {
 
     public void stop() {
         logger.info("stop");
-        //leftIntake.set(ControlMode.PercentOutput, 0);
+
         leftIntake.set(0);
         rightIntake.set(0);
     }
@@ -110,13 +111,11 @@ public class Transport extends SubsystemBase {
 
     public void expel() {
         logger.info("expel");
-        //leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
         leftIntake.set(-motorSpeedBackward);
         rightIntake.set(-motorSpeedBackward);
     }
 
     public double getVelocity() {
-        //return leftIntake.getSelectedSensorVelocity();
         return leftIntake.get();
     }
 
