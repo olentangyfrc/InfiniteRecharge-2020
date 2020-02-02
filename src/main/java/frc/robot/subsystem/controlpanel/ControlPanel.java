@@ -49,7 +49,7 @@ public class ControlPanel extends SubsystemBase {
     private final double spinTimes = 2.025;
     private Color targetColor;
 
-    private int distance;
+    private int velocity;
     private double current;
 
 
@@ -88,7 +88,7 @@ public class ControlPanel extends SubsystemBase {
       motor.configMotionCruiseVelocity(4500);
       motor.configMotionAcceleration(4096);
 
-      distance = 0;
+      velocity = 0;
       current = 0;
 
     logger.exiting(ControlPanel.class.getName(), "exiting init");
@@ -121,7 +121,7 @@ public class ControlPanel extends SubsystemBase {
       public void testSensor(){
         logger.info("testSenser");
 
-        motor.set(ControlMode.MotionMagic, 40000);
+        motor.set(ControlMode.PercentOutput, 1);
       }
 
       public double getRedValue() {
@@ -138,9 +138,6 @@ public class ControlPanel extends SubsystemBase {
       }
       public String getDetectedColor() {
         return colorString;
-      }
-      public int getDistance(){
-        return motor.getSelectedSensorPosition();
       }
       public double getCurrent(){
         return motor.getSupplyCurrent();
