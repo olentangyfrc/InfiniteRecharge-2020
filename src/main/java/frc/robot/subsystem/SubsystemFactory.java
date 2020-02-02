@@ -2,6 +2,7 @@ package frc.robot.subsystem;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import frc.robot.OI;
+import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.RotateToColor;
@@ -35,8 +37,8 @@ public class SubsystemFactory {
 
     static Logger logger = Logger.getLogger(SubsystemFactory.class.getName());
 
-    private static String botName; 
-    private HashMap<String,String> allMACs; // will contain mapping of MACs to Bot Names
+    private static String botName;
+    private HashMap<String, String> allMACs; // will contain mapping of MACs to Bot Names
 
     private static DisplayManager displayManager;
 
@@ -56,13 +58,13 @@ public class SubsystemFactory {
     private SubsystemFactory() {
         // private constructor to enforce Singleton pattern
         botName = "unknown";
-        allMACs = new HashMap<>();  
+        allMACs = new HashMap<>();
         // add all the mappings from MACs to names here
         // as you add mappings here:
-        //    1) update the select statement in the init method 
-        //    2) add the init method for that robot
-        allMACs.put("00:80:2F:17:BD:76","zombie"); //usb0
-        allMACs.put("00:80:2F:17:BD:75","zombie"); //eth0
+        // 1) update the select statement in the init method
+        // 2) add the init method for that robot
+        allMACs.put("00:80:2F:17:BD:76", "zombie"); // usb0
+        allMACs.put("00:80:2F:17:BD:75", "zombie"); // eth0
     }
 
     public static SubsystemFactory getInstance(boolean b) {
@@ -77,22 +79,30 @@ public class SubsystemFactory {
     public void init(DisplayManager dm, PortMan portMan) throws Exception {
 
         logger.info("initializing");
-      
+
         botName = getBotName();
         botName = "football";
-        logger.info("Running on "+botName);
+        logger.info("Running on " + botName);
 
         displayManager = dm;
         subsystemInterfaceList = new ArrayList<SBInterface>();
 
         try {
 
-            // Note that you should update this switch statement as you add bots to the list above
+            // Note that you should update this switch statement as you add bots to the list
+            // above
             switch (botName) {
-                case "football": initFootball(portMan); break;
-                case "unknown": initFootball(portMan); break;  // default to football if we don't know better
-                case "zombie": initZombie(portMan); break;
-                default: throw new Exception("Unrecognized MAC Address [" + activeMACs + "]");
+            case "football":
+                initFootball(portMan);
+                break;
+            case "unknown":
+                initFootball(portMan);
+                break; // default to football if we don't know better
+            case "zombie":
+                initZombie(portMan);
+                break;
+            default:
+                throw new Exception("Unrecognized Robot [" + botName + "]");
 
             }
 
@@ -152,13 +162,12 @@ public class SubsystemFactory {
         transport = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
-        TakeIn tc    = new TakeIn(transport);
+        TakeIn tc = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.RightJoyButton7, OI.WhenPressed);
-        PushOut pc   = new PushOut(transport);
+        PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.RightJoyButton11, OI.WhenPressed);
         StopIntake si = new StopIntake(transport);
         OI.getInstance().bind(si, OI.RightJoyButton9, OI.WhenPressed);
-
 
         /**
          * All of the OneWheelShooter stuff goes here
@@ -191,7 +200,6 @@ public class SubsystemFactory {
 
         PollPixyLine p = new PollPixyLine(pixyLineCam);
         OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
-        
 
     }
 
@@ -211,20 +219,24 @@ public class SubsystemFactory {
         return transport;
     }
 
-    private String getBotName() {
-     
-        Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
-        String activeMACs = "";
-        for (NetworkInterface net : Collections.list(networks)) {
-            String mac = formatMACAddress(net.getHardwareAddress());
-            activeMACs += (mac+" ");
-            logger.info("Network #"+net.getIndex()+" "+net.getName()+" "+mac);
-            if (allMACs.containsKey(mac)) {
-                botName = allMACs.get(mac);
-                logger.info("   this MAC is for "+botName);
+    private String getBotName() throws Exception {
+
+        Enumeration<NetworkInterface> networks;
+            networks = NetworkInterface.getNetworkInterfaces();
+
+            String activeMACs = "";
+            for (NetworkInterface net : Collections.list(networks)) {
+                String mac = formatMACAddress(net.getHardwareAddress());
+                activeMACs += (mac+" ");
+                logger.info("Network #"+net.getIndex()+" "+net.getName()+" "+mac);
+                if (allMACs.containsKey(mac)) {
+                    botName = allMACs.get(mac);
+                    logger.info("   this MAC is for "+botName);
+                }
             }
+
+            return botName;
         }
-    }
 
     /**
      * Formats the byte array representing the mac address as more human-readable form
