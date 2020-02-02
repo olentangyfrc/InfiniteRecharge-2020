@@ -11,7 +11,8 @@ public class TransportSBTab implements SBInterface
     private ShuffleboardTab tab;
     private NetworkTableEntry speed;
     private NetworkTableEntry ballCount;
-    private NetworkTableEntry distance;
+    private NetworkTableEntry dio1;
+    private NetworkTableEntry dio2;
     private NetworkTableEntry direction;
     private NetworkTableEntry isLogging;
     
@@ -23,14 +24,16 @@ public class TransportSBTab implements SBInterface
       tab = Shuffleboard.getTab("Transport");
       speed = tab.add("speed", 0).getEntry();
       ballCount = tab.add("ballCount", 0).getEntry();
-      distance = tab.add("distance", 0).getEntry();
+      dio1 = tab.add("Digital Input 1", false).getEntry();
+      dio2 = tab.add("Digital Input 2", false).getEntry();
    }
 
    public void update() 
    {
      speed.setDouble(transport.getVelocity());
      ballCount.setDouble(transport.getBallCount());
-     distance.setDouble(transport.getDistance());
+     dio1.setBoolean(transport.getDigitalInput1());
+     dio2.setBoolean(transport.getDigitalInput2());
    }
 
 }

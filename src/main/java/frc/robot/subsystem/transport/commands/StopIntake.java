@@ -12,30 +12,31 @@ import java.util.logging.Logger;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystem.transport.Transport;
 
-public class DistanceGet extends CommandBase {
+public class StopIntake extends CommandBase {
 
-  private Logger logger = Logger.getLogger(TakeIn.class.getName());
+  private Logger logger = Logger.getLogger(StopIntake.class.getName());
 
   private Transport transport;
-  
-  public DistanceGet(Transport t) {
+
+  public StopIntake(Transport t) {
     transport = t;
     addRequirements(t);
   }
 
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      //transport.logDistance();
+    transport.stop();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.
