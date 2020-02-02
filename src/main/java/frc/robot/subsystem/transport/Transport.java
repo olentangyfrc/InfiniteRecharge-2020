@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OzoneException;
@@ -34,9 +35,12 @@ public class Transport extends SubsystemBase {
     private double motorSpeedForward = .2;
     private double motorSpeedBackward = .2;
 
-    private double ballCount = 0;
+    private int ballCount = 0;
+    private boolean pastValue1 = false;
+    private boolean pastValue2 = false;
     private DigitalInput enterSwitch;
     private DigitalInput exitSwitch;
+    //private Counter ballCount;
     public Transport() {
     }
 
@@ -49,6 +53,7 @@ public class Transport extends SubsystemBase {
         rightIntake = new CANSparkMax(portMan.acquirePort(PortMan.can_58_label, "Transport.transportSparkMax2"), com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
         leftPid = leftIntake.getPIDController();
         rightPid = rightIntake.getPIDController();
+        //ballCount = new Counter(Counter.Mode.kSemiperiod);
 
         leftIntake.restoreFactoryDefaults();
         rightIntake.restoreFactoryDefaults();
@@ -86,6 +91,8 @@ public class Transport extends SubsystemBase {
         rightIntake.setInverted(true);
         */
 
+        //ballCount.setUpSource(enterSwitch);
+        //ballCount.setSemiPeriodMode(true);
 
         logger.exiting(Transport.class.getName(), "init()");
     }
@@ -119,7 +126,15 @@ public class Transport extends SubsystemBase {
         return leftIntake.get();
     }
 
-    public double getBallCount() {
+    public int getBallCount() {
+        if(getDigitalInput1() == true && pastValue1 == false){
+            ballCount++;
+        }
+        if(getDigitalInput2() == true && pastValue2 == false){
+            ballCount--;
+        }
+        pastValue1 = getDigitalInput1();
+        pastValue2 = getDigitalInput2();
         return ballCount;
     }
 
