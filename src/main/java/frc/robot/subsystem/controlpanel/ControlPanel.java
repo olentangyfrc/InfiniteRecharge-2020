@@ -30,7 +30,7 @@ public class ControlPanel extends SubsystemBase {
 
     private ColorSensorV3 m_colorSensor ; 
     private TalonSRX motor;
-    private int oneRevolution; // the number of clicks for one entire revolution
+    private final int oneRevolution = 324000; // the number of clicks for one entire revolution of control panel
     private int currentSpinnerPosition;
     private int targetSpinnerPosition;
 
@@ -46,10 +46,7 @@ public class ControlPanel extends SubsystemBase {
 
     private Telemetry telemetry;
     private int targetDistance = 0;
-    private final double spinTimes = 2.025;
     private Color targetColor;
-
-
 
 
     public void init(PortMan portMan, Telemetry t) throws Exception {
@@ -66,7 +63,7 @@ public class ControlPanel extends SubsystemBase {
       match = m_colorMatcher.matchClosestColor(detectedColor);
       colorString = "None";
 
-      motor = new TalonSRX(portMan.acquirePort(PortMan.can_60_label, "ControlPanel.spinner"));
+      motor = new TalonSRX(portMan.acquirePort(PortMan.can_17_label, "ControlPanel.spinner"));
       logger.exiting(ControlPanel.class.getName(), "init()");
 
       telemetry = t;
@@ -94,7 +91,7 @@ public class ControlPanel extends SubsystemBase {
               motor.set(ControlMode.PercentOutput, .5);
             motor.set(ControlMode.PercentOutput, 0);
         }
-        motor.set(ControlMode.Position, 45);
+        motor.set(ControlMode.Position, 101250);
       }
 
       public double getRedValue() {

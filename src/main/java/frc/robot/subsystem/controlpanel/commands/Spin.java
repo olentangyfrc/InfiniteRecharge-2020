@@ -19,7 +19,7 @@ public class Spin extends CommandBase {
   
   private ControlPanel controlPanel;
   private boolean stop = true;
-  private int spinNum = 3;
+  private int spinNum = 4;
   /**
    * Creates a new Spin.
    */
