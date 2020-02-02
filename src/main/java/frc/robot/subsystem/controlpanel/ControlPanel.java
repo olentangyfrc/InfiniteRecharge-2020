@@ -121,7 +121,7 @@ public class ControlPanel extends SubsystemBase {
       public void testSensor(){
         logger.info("testSenser");
 
-        motor.set(ControlMode.PercentOutput, 1);
+        motor.set(ControlMode.PercentOutput, .5);
       }
 
       public double getRedValue() {
