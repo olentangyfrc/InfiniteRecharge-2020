@@ -32,6 +32,19 @@ public class PixyLineCam extends SubsystemBase{
     private boolean leftStatus;
     private boolean middleStatus;
     private boolean rightStatus;
+    //logger variables
+    private String logX0;
+    private String logY0;
+    private String logX1;
+    private String logY1;
+    private String logIndex;
+    private String logFlags;
+    private String logArrayNumber;
+    private String logSlope;
+    private String logAngle;
+    private String logLeftStatus;
+    private String logMiddleStatus;
+    private String logRightStatus;
     
     public PixyLineCam() {
     }
@@ -54,6 +67,8 @@ public class PixyLineCam extends SubsystemBase{
     }
 
     public void init(PortMan portMan) {
+        logger.entering(PixyLineCam.class.getName(), "init()");
+
         logger.info("initializing");
         logger.info("Creating Pixy with link type of SPI");
         pixy = Pixy2.createInstance(Pixy2.LinkType.SPI);
@@ -61,28 +76,12 @@ public class PixyLineCam extends SubsystemBase{
         logger.info("Here comes the version! :) " + pixy.getVersionInfo().toString());
         line = pixy.getLine();
 
-       /* x0 = tab.add("Pixy x0", 0).getEntry();
-        y0 = tab.add("Pixy y0", 0).getEntry();
-        x1 = tab.add("Pixy x1", 0).getEntry();
-        y1 = tab.add("Pixy y1", 0).getEntry();
-        flags = tab.add("Pixy Flags", 0).getEntry();
-        index = tab.add("Pixy Index", 0).getEntry();
-        arrayNumber = tab.add("Number of Verticals", 0).getEntry();
-        slope = tab.add("Vector Slope", 0).getEntry();
-        angle = tab.add("Vector Angle", 0).getEntry();
-        leftStatus = tab.add("Left", false).getEntry();
-        middleStatus = tab.add("MIDDLE !!!!!!!", false).getEntry();
-        rightStatus = tab.add("Right", false).getEntry();
-        */
-
-      }
-
-
-    public Pixy2Line getLine() {
-        return this.line;
     }
 
-
+    public Pixy2Line getLine() {
+        logger.info("There's a line here");
+        return this.line;
+    }
 
     public void writeLine(Pixy2Line.Vector line, int number) {
         x0 = line.getX0();
@@ -91,7 +90,7 @@ public class PixyLineCam extends SubsystemBase{
         y1 = line.getY1();
         index = line.getIndex();
         flags = line.getFlags();
-        arrayNumber = number; 
+        arrayNumber = number;
 
         //calculating slope
         int vectorSlope = (line.getY0()-line.getY1())/(line.getX0()-line.getX1());
@@ -123,50 +122,62 @@ public class PixyLineCam extends SubsystemBase{
     }
 
     public double getX0() {
+        logger.info("x0: " + x0);
         return x0;
     }
 
     public double getY0() {
+        logger.info("y0: " + y0);
         return y0;
     }
 
     public double getX1() {
+        logger.info("x1: " + x1);
         return x1;
     }
 
     public double getY1() {
+        logger.info("y1: " + y1);
         return y1;
     }
 
     public double getIndex() {
+        logger.info("index: " + index);
         return index;
     }
 
     public double getFlags() {
+        logger.info("flags: " + flags);
         return flags;
     }
 
     public int getArrayNumber() {
+        logger.info("array number: " + arrayNumber);
         return arrayNumber;
     }
 
     public int getSlope() {
+        logger.info("slope: " + slope);
         return slope;
     }
 
     public double getAngle() {
+        logger.info("angle: " + angle);
         return angle;
     }
 
     public boolean getLeftStatus() {
+        logger.info("left status: " + leftStatus);
         return leftStatus;
     }
 
     public boolean getMiddleStatus() {
+        logger.info("middle status: " + middleStatus);
         return middleStatus;
     }
 
     public boolean getRightStatus() {
+        logger.info("right status: " + rightStatus);
         return rightStatus;
     }
 

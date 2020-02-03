@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import frc.robot.OI;
+import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.RotateToColor;
@@ -77,7 +78,7 @@ public class SubsystemFactory {
 
         logger.info("initializing");
       
-        botName = getBotName();
+     //   botName = getBotName();
         botName = "football";
 
         logger.info("Running on "+botName);
@@ -92,7 +93,7 @@ public class SubsystemFactory {
                 case "football": initFootball(portMan); break;
                 case "unknown": initFootball(portMan); break;  // default to football if we don't know better
                 case "zombie": initZombie(portMan); break;
-                default: throw new Exception("Unrecognized MAC Address [" + activeMACs + "]");
+            //    default: throw new Exception("Unrecognized MAC Address [" + activeMACs + "]");
 
             }
 
@@ -152,13 +153,20 @@ public class SubsystemFactory {
         transport = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
-
         TakeIn tc = new TakeIn(transport);
         OI.getInstance().bind(tc, OI.RightJoyButton4, OI.WhenPressed);
-
         PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.RightJoyButton3, OI.WhenPressed);
-
+        
+        /**
+         * All of the Pixy Line stuff goes here
+         */
+        pixyLineCam = new PixyLineCam();
+        pixyLineCam.init(portMan);
+        displayManager.addPixyLineCam(pixyLineCam);
+        PollPixyLine p = new PollPixyLine(pixyLineCam);
+        OI.getInstance().bind(p, OI.LeftJoyButton10, OI.WhenPressed);
+        
         /**
          * All of the OneWheelShooter stuff goes here
          */
@@ -175,22 +183,10 @@ public class SubsystemFactory {
         twoWheelShooter = new TwoWheelShooter();
         twoWheelShooter.init(portMan);
         displayManager.addTwoWheelShooter(twoWheelShooter);
-
         Shoot sh2 = new Shoot(twoWheelShooter);
         OI.getInstance().bind(sh2, OI.LeftJoyButton4, OI.WhenPressed);
         Stop st2 = new Stop(twoWheelShooter);
-        OI.getInstance().bind(st2, OI.LeftJoyButton5, OI.WhenPressed);
-
-        /**
-         * All of the Pixy Line stuff goes here
-         */
-        pixyLineCam = new PixyLineCam();
-        pixyLineCam.init(portMan);
-        displayManager.addPixyLineCam(pixyLineCam);
-
-        PollPixyLine p = new PollPixyLine(pixyLineCam);
-        OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
-        
+        OI.getInstance().bind(st2, OI.LeftJoyButton5, OI.WhenPressed);      
 
     }
 
@@ -210,7 +206,7 @@ public class SubsystemFactory {
         return transport;
     }
 
-    private String getBotName() {
+  /*  private String getBotName() {
      
         Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
         String activeMACs = "";
@@ -223,7 +219,7 @@ public class SubsystemFactory {
                 logger.info("   this MAC is for "+botName);
             }
         }
-    }
+    }*/
 
     /**
      * Formats the byte array representing the mac address as more human-readable form
