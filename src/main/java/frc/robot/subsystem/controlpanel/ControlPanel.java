@@ -50,11 +50,15 @@ public class ControlPanel extends SubsystemBase {
     private final double spinTimes = 2.025;
     private Color targetColor;
 
-    private int velocity;
+    private double velocity;
     private double current;
 
     private ArrayList<Double> totalVelocity;
     private double avgVelocity;
+
+    private double pValue;
+    private double iValue;
+    private double dValue;
 
 
 
@@ -76,6 +80,9 @@ public class ControlPanel extends SubsystemBase {
 
       telemetry = t;
 
+      pValue = .2;
+      iValue = 0;
+      dValue = .2;
 
       motor.enableCurrentLimit(true);
       motor.configPeakCurrentLimit(30);
@@ -85,15 +92,15 @@ public class ControlPanel extends SubsystemBase {
       motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
       motor.setSelectedSensorPosition(0, 0, 0);
 
-      motor.config_kP(0, .45, 0);
-      motor.config_kI(0, 0, 0);
-      motor.config_kD(0, .3, 0);
+      motor.config_kP(0, pValue, 0);
+      motor.config_kI(0, iValue, 0);
+      motor.config_kD(0, dValue, 0);
       motor.config_kF(0, 0, 0);
 
       motor.configMotionCruiseVelocity(4500);
       motor.configMotionAcceleration(4096);
 
-      velocity = 0;
+      velocity = 20000;
       current = 0;
       avgVelocity = 0.0;
       totalVelocity = new ArrayList<Double>();
@@ -105,9 +112,7 @@ public class ControlPanel extends SubsystemBase {
     public void spin(int spinNum) {
       logger.info("spinning");
     
-      currentSpinnerPosition = motor.getSelectedSensorPosition();
-      targetSpinnerPosition = currentSpinnerPosition + (spinNum * oneRevolution);
-      motor.setSelectedSensorPosition(targetSpinnerPosition);
+     motor.set(ControlMode.MotionMagic, 320000);
     }
 
     public void goToColor(Color tC) {
@@ -128,7 +133,7 @@ public class ControlPanel extends SubsystemBase {
       public void testSensor(){
         logger.info("testSenser");
 
-        motor.set(ControlMode.PercentOutput, .5);
+       motor.set(ControlMode.PercentOutput, .5);
       }
 
       public double getRedValue() {
@@ -153,6 +158,9 @@ public class ControlPanel extends SubsystemBase {
         totalVelocity.add((double)motor.getSelectedSensorVelocity());
         return motor.getSelectedSensorVelocity();
       }
+      public double getPosition(){
+        return motor.getSelectedSensorPosition();
+      }
       public double getAverageVelocity(){
         double total = 0;
         for(int i = 0; i < totalVelocity.size(); i++){
@@ -160,5 +168,23 @@ public class ControlPanel extends SubsystemBase {
         }
         total /= totalVelocity.size();
         return total;
+      }
+
+      public void changePID(double p, double i, double d){
+       if(p != pValue){
+         pValue = p;
+       }
+       if(i != iValue){
+         iValue = i;
+       }
+       if(d != dValue){
+         dValue = d;
+       }
+      }
+      public void setZero(){
+        motor.setSelectedSensorPosition(0);
+      }
+      public void setVelocity(double a){
+        velocity = a;
       }
     }

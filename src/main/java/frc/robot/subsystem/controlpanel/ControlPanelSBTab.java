@@ -24,6 +24,12 @@ public class ControlPanelSBTab implements SBInterface{
     private NetworkTableEntry velocity;
     private NetworkTableEntry current;
     private NetworkTableEntry avgVelocity;
+    private NetworkTableEntry position;
+    private NetworkTableEntry pValue;
+    private NetworkTableEntry iValue;
+    private NetworkTableEntry dValue;
+    private NetworkTableEntry encoderPosition;
+
 
     public ControlPanelSBTab(ControlPanel c) {
         controlPanel = c;
@@ -35,9 +41,14 @@ public class ControlPanelSBTab implements SBInterface{
         blue = tab.add("Blue", 0).getEntry();
         confidence = tab.add("Confidence", 0).getEntry();
         detectedColor = tab.add("Detected Color", "None").getEntry();
-        velocity = tab.add("Velocity", 0).getEntry();
+        velocity = tab.add("Velocity", 20000).getEntry();
         current = tab.add("Current", 0.0).getEntry();
         avgVelocity = tab.add("Average Velocity", 0.0).getEntry();
+        position = tab.add("Encoder Position", 0.0).getEntry();
+        pValue = tab.add("P Value", 0.2).getEntry();
+        iValue = tab.add("I Value", 0.0).getEntry();
+        dValue = tab.add("D Value", 0.2).getEntry();
+        encoderPosition = tab.add("Setting Encoder Position", false).withSize(1, 1).withPosition(0, 1).getEntry();
     }
 
 
@@ -54,6 +65,13 @@ public class ControlPanelSBTab implements SBInterface{
         velocity.setDouble(controlPanel.getVelocity());
         current.setDouble(controlPanel.getCurrent());
         avgVelocity.setDouble(controlPanel.getAverageVelocity());
+        position.setDouble(controlPanel.getPosition());
+        controlPanel.changePID(pValue.getDouble(0.2), iValue.getDouble(0.0), dValue.getDouble(0.2));
+        if(encoderPosition.getBoolean(false) == true){
+            controlPanel.setZero();
+            encoderPosition.setBoolean(false);
+        }
+        controlPanel.setVelocity(velocity.getDouble(20000));
         // finish this method based on controlpanel getvalues
         // make sure to call the init method in this method in order for all the values to be updated
     }
