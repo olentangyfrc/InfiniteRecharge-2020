@@ -23,6 +23,7 @@ public class ControlPanelSBTab implements SBInterface{
     private NetworkTableEntry detectedColor;
     private NetworkTableEntry velocity;
     private NetworkTableEntry current;
+    private NetworkTableEntry avgVelocity;
 
     public ControlPanelSBTab(ControlPanel c) {
         controlPanel = c;
@@ -36,6 +37,7 @@ public class ControlPanelSBTab implements SBInterface{
         detectedColor = tab.add("Detected Color", "None").getEntry();
         velocity = tab.add("Velocity", 0).getEntry();
         current = tab.add("Current", 0.0).getEntry();
+        avgVelocity = tab.add("Average Velocity", 0.0).getEntry();
     }
 
 
@@ -51,6 +53,7 @@ public class ControlPanelSBTab implements SBInterface{
         detectedColor.setString(controlPanel.getDetectedColor());
         velocity.setDouble(controlPanel.getVelocity());
         current.setDouble(controlPanel.getCurrent());
+        avgVelocity.setDouble(controlPanel.getAverageVelocity());
         // finish this method based on controlpanel getvalues
         // make sure to call the init method in this method in order for all the values to be updated
     }

@@ -7,6 +7,7 @@
 
 package frc.robot.subsystem.controlpanel;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.revrobotics.ColorSensorV3;
@@ -52,6 +53,9 @@ public class ControlPanel extends SubsystemBase {
     private int velocity;
     private double current;
 
+    private ArrayList<Double> totalVelocity;
+    private double avgVelocity;
+
 
 
     public void init(PortMan portMan, Telemetry t) throws Exception {
@@ -72,6 +76,7 @@ public class ControlPanel extends SubsystemBase {
 
       telemetry = t;
 
+
       motor.enableCurrentLimit(true);
       motor.configPeakCurrentLimit(30);
       motor.configContinuousCurrentLimit(20);
@@ -90,6 +95,8 @@ public class ControlPanel extends SubsystemBase {
 
       velocity = 0;
       current = 0;
+      avgVelocity = 0.0;
+      totalVelocity = new ArrayList<Double>();
 
     logger.exiting(ControlPanel.class.getName(), "exiting init");
 
@@ -143,6 +150,15 @@ public class ControlPanel extends SubsystemBase {
         return motor.getSupplyCurrent();
       }
       public double getVelocity() {
+        totalVelocity.add((double)motor.getSelectedSensorVelocity());
         return motor.getSelectedSensorVelocity();
+      }
+      public double getAverageVelocity(){
+        double total = 0;
+        for(int i = 0; i < totalVelocity.size(); i++){
+          total += totalVelocity.get(i);
+        }
+        total /= totalVelocity.size();
+        return total;
       }
     }
