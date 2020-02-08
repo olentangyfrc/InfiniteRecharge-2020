@@ -40,7 +40,6 @@ public class ControlPanel extends SubsystemBase {
     private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
     private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-    private Color detectedColor;
     private ColorMatchResult match;
     private String colorString;
 
@@ -59,11 +58,10 @@ public class ControlPanel extends SubsystemBase {
       m_colorMatcher.addColorMatch(kRedTarget);
       m_colorMatcher.addColorMatch(kYellowTarget);   
 
-      detectedColor = m_colorSensor.getColor();
-      match = m_colorMatcher.matchClosestColor(detectedColor);
+      
       colorString = "None";
 
-      motor = new TalonSRX(portMan.acquirePort(PortMan.can_17_label, "ControlPanel.spinner"));
+      motor = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "ControlPanel.spinner"));
       logger.exiting(ControlPanel.class.getName(), "init()");
 
       telemetry = t;
@@ -82,31 +80,53 @@ public class ControlPanel extends SubsystemBase {
       logger.info("goToColor");
       targetColor = tC;
 
-        detectedColor = m_colorSensor.getColor();
-        match = m_colorMatcher.matchClosestColor(detectedColor);
+        match = m_colorMatcher.matchClosestColor(m_colorSensor.getColor());
         //match.color == kBlueTarget
 
         if(telemetry.isSquare(targetDistance)){
-            while(detectedColor != targetColor)
+            while(m_colorSensor.getColor() != targetColor)
               motor.set(ControlMode.PercentOutput, .5);
             motor.set(ControlMode.PercentOutput, 0);
         }
         motor.set(ControlMode.Position, 101250);
       }
-
       public double getRedValue() {
-        return detectedColor.red;
+        return m_colorSensor.getColor().red;
       }
       public double getGreenValue() {
-        return detectedColor.green;
+        return m_colorSensor.getColor().green;
       }
       public double getBlueValue() {
-        return detectedColor.blue;
+        return m_colorSensor.getColor().blue;
       }
       public double getConfidenceValue() {
-        return match.confidence;
+        return m_colorMatcher.matchClosestColor(m_colorSensor.getColor()).confidence;
       }
       public String getDetectedColor() {
-        return colorString;
+        return m_colorSensor.getColor().toString();
       }
+      public Color getColor(){
+        return m_colorSensor.getColor();
+      }
+      public void spin(double speed){
+        motor.set(ControlMode.PercentOutput, speed);
+      }
+
+      public void rotate(int number) {
+        Color startColor = m_colorSensor.getColor();
+        Color pastColor = startColor;
+        int count = 0;
+        motor.set(ControlMode.PercentOutput, 0.2);
+        do
+        {
+          Color color = m_colorSensor.getColor();
+          if(pastColor != color && color == startColor)
+          {
+            count++;
+          }
+          pastColor = color;
+        }
+        while(count < number);
+        motor.set(ControlMode.PercentOutput, 0);
+    }
     }
