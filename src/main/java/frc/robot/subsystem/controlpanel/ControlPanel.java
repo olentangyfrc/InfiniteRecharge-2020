@@ -123,7 +123,7 @@ public class ControlPanel extends SubsystemBase {
               motor.set(ControlMode.PercentOutput, .5);
             motor.set(ControlMode.PercentOutput, 0);
         }
-        motor.set(ControlMode.Position, 45);
+        motor.set(ControlMode.MotionMagic, 101250);
       }
       public void testSensor(){
         logger.info("testSenser");
