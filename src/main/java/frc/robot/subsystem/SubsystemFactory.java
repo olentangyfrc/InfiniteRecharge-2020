@@ -196,12 +196,14 @@ public class SubsystemFactory {
         /**
          * All of the Pixy Line stuff goes here
          */
+        /*
         pixyLineCam = new PixyLineCam();
         pixyLineCam.init(portMan);
         displayManager.addPixyLineCam(pixyLineCam);
 
         PollPixyLine p = new PollPixyLine(pixyLineCam);
         OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
+        */
 
     }
 

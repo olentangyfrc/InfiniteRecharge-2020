@@ -51,11 +51,11 @@ public class SensorSpin extends CommandBase {
     logger.info("pastColor RGB: " + pastColor.red + ", " + pastColor.green + ", " + pastColor.blue);
     logger.info("color RGB: " + color.red + ", " + color.green + ", " + color.blue);
     logger.info("startColor RGB: " + startColor.red + ", " + startColor.green + ", " + startColor.blue);
-    //if(!(pastColor.equals(color)) && color.equals(startColor))
-    //{
-      //logger.info("color is equal to startColor");
+    if(!(pastColor.equals(color)) && color.equals(startColor))
+    {
+      logger.info("color is equal to startColor");
       count++;
-    //}
+    }
     pastColor = color;
   }
 
@@ -63,7 +63,7 @@ public class SensorSpin extends CommandBase {
   @Override
   public void end(final boolean interrupted) {
       logger.info("Ended");
-      controlPanel.spin(0);
+      controlPanel.spin(0.0);
   }
 
   @Override
