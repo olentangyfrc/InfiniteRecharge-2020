@@ -65,6 +65,10 @@ public class SubsystemFactory {
         // 2) add the init method for that robot
         allMACs.put("00:80:2F:17:BD:76", "zombie"); // usb0
         allMACs.put("00:80:2F:17:BD:75", "zombie"); // eth0
+        allMACs.put("00:80:2F:28:64:39", "plank"); //usb0
+        allMACs.put("00:80:2F:28:64:38", "plank"); //eth0
+        allMACs.put("00:80:2F:27:04:C7", "RIO3"); //usb0 
+        allMACs.put("00:80:2F:27:04:C6", "RIO3"); //eth0
     }
 
     public static SubsystemFactory getInstance(boolean b) {
@@ -81,7 +85,6 @@ public class SubsystemFactory {
         logger.info("initializing");
 
         botName = getBotName();
-        botName = "football";
         logger.info("Running on " + botName);
 
         displayManager = dm;
@@ -95,6 +98,9 @@ public class SubsystemFactory {
             case "football":
                 initFootball(portMan);
                 break;
+            case "plank":
+                initFootball(portMan);
+                break; // init Football to use commands
             case "unknown":
                 initFootball(portMan);
                 break; // default to football if we don't know better
