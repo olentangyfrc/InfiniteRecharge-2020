@@ -19,6 +19,7 @@ public class RotateToColor extends CommandBase {
   private ControlPanel controlPanel;
   private boolean stop = false;
   private String targetColor;
+  private String oppositeColor;
 
   /**
    * Creates a new DisplayColor.
@@ -36,16 +37,16 @@ public class RotateToColor extends CommandBase {
     controlPanel.setBrakeMode(true);
     switch(targetColor){
       case ("Blue"):
-        targetColor = "Red";
+        oppositeColor = "Red";
         break;
       case ("Red"):
-        targetColor = "Blue";
+        oppositeColor = "Blue";
         break;
       case ("Green"):
-        targetColor = "Yellow";
+        oppositeColor = "Yellow";
         break;
       case ("Yellow"):
-        targetColor = "Green";
+        oppositeColor = "Green";
         break;
     }
   }
@@ -53,9 +54,9 @@ public class RotateToColor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (controlPanel.getDetectedColor().equals(targetColor))
+    if (controlPanel.getDetectedColor().equals(oppositeColor))
       stop = true;
-    controlPanel.spin(0.2);
+    controlPanel.spin(0.6);
   }
 
   // Called once the command ends or is interrupted.
