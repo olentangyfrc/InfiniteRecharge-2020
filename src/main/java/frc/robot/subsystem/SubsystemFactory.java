@@ -70,6 +70,8 @@ public class SubsystemFactory {
         allMACs.put("00:80:2F:28:64:38", "plank"); //eth0
         allMACs.put("00:80:2F:27:04:C7", "RIO3"); //usb0 
         allMACs.put("00:80:2F:27:04:C6", "RIO3"); //eth0
+        allMACs.put("00:80:2F:17:D7:4B", "RIO2"); //eth0
+        allMACs.put("00:80:2F:17:D7:4C", "RIO2"); //usb0
     }
 
     public static SubsystemFactory getInstance(boolean b) {
@@ -105,6 +107,9 @@ public class SubsystemFactory {
                 break;
             case "zombie":
                 initZombie(portMan);
+                break;
+            case "RIO2":
+                initRio2(portMan);
                 break;
             default:
                 initFootball(portMan); // default to football if we don't know better
@@ -219,6 +224,10 @@ public class SubsystemFactory {
 
     private void initZombie(PortMan portMan) throws OzoneException {
         logger.info("Initializing Zombie");
+    }
+
+    private void initRio2(PortMan portMan) throws OzoneException {
+        logger.info("Initializing RIO2");
     }
 
     public ControlPanel getControlPanel() {
