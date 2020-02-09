@@ -9,7 +9,6 @@ package frc.robot.subsystem.controlpanel.commands;
 
 import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 
@@ -19,8 +18,8 @@ public class SensorSpin extends CommandBase {
   private ControlPanel controlPanel;
   private int spinCount;
   private int count;
-  private Color startColor;
-  private Color pastColor;
+  private String startColor;
+  private String pastColor;
   private boolean stop;
   
 
@@ -34,9 +33,10 @@ public class SensorSpin extends CommandBase {
   @Override
   public void initialize() {
     count = 0;
-    startColor = controlPanel.getColor();
+    startColor = controlPanel.getDetectedColor();
     pastColor = startColor;
     stop = false;
+    controlPanel.setBrakeMode(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,11 +46,8 @@ public class SensorSpin extends CommandBase {
       stop = true;
       return;
     }
-    controlPanel.spin(0.2);
-    Color color = controlPanel.getColor();
-    logger.info("pastColor RGB: " + pastColor.red + ", " + pastColor.green + ", " + pastColor.blue);
-    logger.info("color RGB: " + color.red + ", " + color.green + ", " + color.blue);
-    logger.info("startColor RGB: " + startColor.red + ", " + startColor.green + ", " + startColor.blue);
+    controlPanel.spin(0.6);
+    String color = controlPanel.getDetectedColor();
     if(!(pastColor.equals(color)) && color.equals(startColor))
     {
       logger.info("color is equal to startColor");

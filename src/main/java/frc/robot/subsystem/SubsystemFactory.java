@@ -162,8 +162,8 @@ public class SubsystemFactory {
         controlPanel = new ControlPanel();
         controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
-        RotateToColor dc = new RotateToColor(controlPanel);
-        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhileHeld);
+        RotateToColor dc = new RotateToColor(controlPanel, "Blue");
+        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
         SensorSpin ss = new SensorSpin(controlPanel, 6);
         OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
 
