@@ -27,6 +27,7 @@ import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
 import frc.robot.subsystem.transport.commands.StopIntake;
+
 import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
 import frc.robot.subsystem.twowheelshooter.commands.Shoot;
 import frc.robot.subsystem.twowheelshooter.commands.Stop;
@@ -85,6 +86,7 @@ public class SubsystemFactory {
         logger.info("initializing");
 
         botName = getBotName();
+
         logger.info("Running on " + botName);
 
         displayManager = dm;
@@ -100,16 +102,13 @@ public class SubsystemFactory {
                 break;
             case "plank":
                 initFootball(portMan);
-                break; // init Football to use commands
-            case "unknown":
-                initFootball(portMan);
-                break; // default to football if we don't know better
+                break;
             case "zombie":
                 initZombie(portMan);
                 break;
             default:
-                throw new Exception("Unrecognized Robot [" + botName + "]");
-
+                initFootball(portMan); // default to football if we don't know better
+;
             }
 
             initCommon(portMan);
@@ -141,7 +140,7 @@ public class SubsystemFactory {
          * All of the Telemery Stuff goes here
          */
 
-        /*
+       
         telemetry = new Telemetry();
         telemetry.init(portMan);
         displayManager.addTelemetry(telemetry);
@@ -149,7 +148,7 @@ public class SubsystemFactory {
         /**
          * All of the Climber stuff goes here
          */
-        /*
+        
         climber = new Climber();
         climber.init(portMan);
         displayManager.addClimber(climber);
@@ -159,7 +158,7 @@ public class SubsystemFactory {
         /**
          * All of the ControlPanel stuff goes here
          */
-        /*
+        
         controlPanel = new ControlPanel();
         controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
@@ -171,7 +170,7 @@ public class SubsystemFactory {
         /**
          * All of the Transport stuff goes here
          */
-        /*
+        
         transport = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
@@ -185,7 +184,7 @@ public class SubsystemFactory {
         /**
          * All of the OneWheelShooter stuff goes here
          */
-        /*
+        
         oneWheelShooter = new OneWheelShooter();
         oneWheelShooter.init(portMan);
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
@@ -196,7 +195,7 @@ public class SubsystemFactory {
         /*
          * All of the TwoWheelShooter stuff goes here
          */
-        /*
+        
         twoWheelShooter = new TwoWheelShooter();
         twoWheelShooter.init(portMan);
         displayManager.addTwoWheelShooter(twoWheelShooter);
@@ -209,15 +208,17 @@ public class SubsystemFactory {
         /**
          * All of the Pixy Line stuff goes here
          */
-        /*
+        
         pixyLineCam = new PixyLineCam();
         pixyLineCam.init(portMan);
         displayManager.addPixyLineCam(pixyLineCam);
 
         PollPixyLine p = new PollPixyLine(pixyLineCam);
         OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
-        */
+    }
 
+    private void initZombie(PortMan portMan) throws OzoneException {
+        logger.info("Initializing Zombie");
     }
 
     private void initZombie(PortMan portMan) throws OzoneException {

@@ -7,6 +7,7 @@
 
 package frc.robot.subsystem.controlpanel;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.revrobotics.ColorSensorV3;
@@ -47,6 +48,15 @@ public class ControlPanel extends SubsystemBase {
     private int targetDistance = 0;
     private Color targetColor;
 
+    private double velocity;
+    private double current;
+
+    private ArrayList<Double> totalVelocity;
+    private double avgVelocity;
+
+    private double pValue;
+    private double iValue;
+    private double dValue;
 
     public void init(PortMan portMan, Telemetry t) throws Exception {
       logger.entering(ControlPanel.class.getName(), "init()");
@@ -61,19 +71,43 @@ public class ControlPanel extends SubsystemBase {
       
       colorString = "None";
 
-      motor = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "ControlPanel.spinner"));
-      logger.exiting(ControlPanel.class.getName(), "init()");
+      motor = new TalonSRX(portMan.acquirePort(PortMan.can_17_label, "ControlPanel.spinner"));
 
       telemetry = t;
+
+      pValue = .2;
+      iValue = 0;
+      dValue = .2;
+
+      motor.enableCurrentLimit(true);
+      motor.configPeakCurrentLimit(30);
+      motor.configContinuousCurrentLimit(20);
+      motor.configPeakCurrentDuration(400);
+      motor.configAllowableClosedloopError(0, 5);
+      motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+      motor.setSelectedSensorPosition(0, 0, 0);
+
+      motor.config_kP(0, pValue, 0);
+      motor.config_kI(0, iValue, 0);
+      motor.config_kD(0, dValue, 0);
+      motor.config_kF(0, 0, 0);
+
+      motor.configMotionCruiseVelocity(4500);
+      motor.configMotionAcceleration(4096);
+
+      velocity = 20000;
+      current = 0;
+      avgVelocity = 0.0;
+      totalVelocity = new ArrayList<Double>();
+
+    logger.exiting(ControlPanel.class.getName(), "exiting init");
 
     }
   
     public void spin(int spinNum) {
       logger.info("spinning");
     
-      currentSpinnerPosition = motor.getSelectedSensorPosition();
-      targetSpinnerPosition = currentSpinnerPosition + (spinNum * oneRevolution);
-      motor.setSelectedSensorPosition(targetSpinnerPosition);
+     motor.set(ControlMode.MotionMagic, 320000);
     }
 
     public void goToColor(Color tC) {
@@ -88,8 +122,13 @@ public class ControlPanel extends SubsystemBase {
               motor.set(ControlMode.PercentOutput, .5);
             motor.set(ControlMode.PercentOutput, 0);
         }
-        motor.set(ControlMode.Position, 101250);
+        motor.set(ControlMode.MotionMagic, 101250);
       }
+      public void testSensor(){
+        logger.info("testSenser")
+        motor.set(ControlMode.PercentOutput, .5);
+      }
+  
       public double getRedValue() {
         return m_colorSensor.getColor().red;
       }
@@ -107,6 +146,42 @@ public class ControlPanel extends SubsystemBase {
       }
       public Color getColor(){
         return m_colorSensor.getColor();
+      }
+      public double getCurrent(){
+        return motor.getSupplyCurrent();
+      }
+      public double getVelocity() {
+        totalVelocity.add((double)motor.getSelectedSensorVelocity());
+        return motor.getSelectedSensorVelocity();
+      }
+      public double getPosition(){
+        return motor.getSelectedSensorPosition();
+      }
+      public double getAverageVelocity(){
+        double total = 0;
+        for(int i = 0; i < totalVelocity.size(); i++){
+          total += totalVelocity.get(i);
+        }
+        total /= totalVelocity.size();
+        return total;
+      }
+
+      public void changePID(double p, double i, double d){
+       if(p != pValue){
+         pValue = p;
+       }
+       if(i != iValue){
+         iValue = i;
+       }
+       if(d != dValue){
+         dValue = d;
+       }
+      }
+      public void setZero(){
+        motor.setSelectedSensorPosition(0);
+      }
+      public void setVelocity(double a){
+        velocity = a;
       }
       public void spin(double speed){
         motor.set(ControlMode.PercentOutput, speed);
