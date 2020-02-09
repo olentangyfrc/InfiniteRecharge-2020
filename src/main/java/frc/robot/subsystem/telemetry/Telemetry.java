@@ -6,9 +6,9 @@
  * 
  */
 
-
 package frc.robot.subsystem.telemetry;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystem.PortMan;
 import java.util.logging.Logger;
@@ -34,6 +34,11 @@ public class Telemetry extends SubsystemBase{
 
         frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.frontLidar"));
         rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.rearLidar"));
+
+        //CameraServer server = CameraServer.getInstance();
+        CameraServer.getInstance().startAutomaticCapture();
+        CameraServer.getInstance().startAutomaticCapture();
+        //server.startAutomaticCapture("cam0", );
 
         logger.exiting(Telemetry.class.getName(), "init()");
     }
