@@ -221,10 +221,6 @@ public class SubsystemFactory {
         logger.info("Initializing Zombie");
     }
 
-    private void initZombie(PortMan portMan) throws OzoneException {
-        logger.info("Initializing Zombie");
-    }
-
     public ControlPanel getControlPanel() {
         return controlPanel;
     }
