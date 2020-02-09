@@ -18,7 +18,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
@@ -32,10 +31,6 @@ public class ControlPanel extends SubsystemBase {
 
     private ColorSensorV3 m_colorSensor ; 
     private TalonSRX motor;
-    private final int oneRevolution = 324000; // the number of clicks for one entire revolution of control panel
-    private int currentSpinnerPosition;
-    private int targetSpinnerPosition;
-
     private final ColorMatch m_colorMatcher = new ColorMatch();
     private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
     private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
@@ -50,10 +45,6 @@ public class ControlPanel extends SubsystemBase {
     private Color targetColor;
 
     private double velocity;
-    private double current;
-
-    private ArrayList<Double> totalVelocity;
-    private double avgVelocity;
 
     private double pValue;
     private double iValue;
@@ -97,9 +88,6 @@ public class ControlPanel extends SubsystemBase {
       motor.configMotionAcceleration(4096);
 
       velocity = 20000;
-      current = 0;
-      avgVelocity = 0.0;
-      totalVelocity = new ArrayList<Double>();
 
     logger.exiting(ControlPanel.class.getName(), "exiting init");
 
@@ -134,7 +122,9 @@ public class ControlPanel extends SubsystemBase {
         return "Green";
       else
         return "Unknown";
-      }
+    }
+
+   
       public String getDetectedColor() {
         return convertColorToString(m_colorMatcher.matchClosestColor(m_colorSensor.getColor()).color);
       }
@@ -145,19 +135,10 @@ public class ControlPanel extends SubsystemBase {
         return motor.getSupplyCurrent();
       }
       public double getVelocity() {
-        totalVelocity.add((double)motor.getSelectedSensorVelocity());
         return motor.getSelectedSensorVelocity();
       }
       public double getPosition(){
         return motor.getSelectedSensorPosition();
-      }
-      public double getAverageVelocity(){
-        double total = 0;
-        for(int i = 0; i < totalVelocity.size(); i++){
-          total += totalVelocity.get(i);
-        }
-        total /= totalVelocity.size();
-        return total;
       }
 
       public void changePID(double p, double i, double d){
