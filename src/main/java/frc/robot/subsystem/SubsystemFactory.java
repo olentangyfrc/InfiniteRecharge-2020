@@ -140,6 +140,8 @@ public class SubsystemFactory {
         /**
          * All of the Telemery Stuff goes here
          */
+
+        /*
         telemetry = new Telemetry();
         telemetry.init(portMan);
         displayManager.addTelemetry(telemetry);
@@ -147,6 +149,7 @@ public class SubsystemFactory {
         /**
          * All of the Climber stuff goes here
          */
+        /*
         climber = new Climber();
         climber.init(portMan);
         displayManager.addClimber(climber);
@@ -156,6 +159,7 @@ public class SubsystemFactory {
         /**
          * All of the ControlPanel stuff goes here
          */
+        /*
         controlPanel = new ControlPanel();
         controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
@@ -165,6 +169,7 @@ public class SubsystemFactory {
         /**
          * All of the Transport stuff goes here
          */
+        /*
         transport = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
@@ -178,6 +183,7 @@ public class SubsystemFactory {
         /**
          * All of the OneWheelShooter stuff goes here
          */
+        /*
         oneWheelShooter = new OneWheelShooter();
         oneWheelShooter.init(portMan);
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
@@ -188,6 +194,7 @@ public class SubsystemFactory {
         /*
          * All of the TwoWheelShooter stuff goes here
          */
+        /*
         twoWheelShooter = new TwoWheelShooter();
         twoWheelShooter.init(portMan);
         displayManager.addTwoWheelShooter(twoWheelShooter);
@@ -200,12 +207,14 @@ public class SubsystemFactory {
         /**
          * All of the Pixy Line stuff goes here
          */
+        /*
         pixyLineCam = new PixyLineCam();
         pixyLineCam.init(portMan);
         displayManager.addPixyLineCam(pixyLineCam);
 
         PollPixyLine p = new PollPixyLine(pixyLineCam);
         OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
+        */
 
     }
 
