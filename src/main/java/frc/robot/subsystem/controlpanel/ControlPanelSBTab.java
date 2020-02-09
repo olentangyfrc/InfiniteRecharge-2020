@@ -21,11 +21,9 @@ public class ControlPanelSBTab implements SBInterface{
     private NetworkTableEntry red;
     private NetworkTableEntry green;
     private NetworkTableEntry blue;
-    private NetworkTableEntry confidence;
     private NetworkTableEntry detectedColor;
     private NetworkTableEntry velocity;
     private NetworkTableEntry current;
-    private NetworkTableEntry avgVelocity;
     private NetworkTableEntry position;
     private NetworkTableEntry pValue;
     private NetworkTableEntry iValue;
@@ -44,11 +42,9 @@ public class ControlPanelSBTab implements SBInterface{
         red = tab.add("Red", 0).getEntry();
         green = tab.add("Green", 0).getEntry();
         blue = tab.add("Blue", 0).getEntry();
-        confidence = tab.add("Confidence", 0).getEntry();
         detectedColor = tab.add("Detected Color", "None").getEntry();
         velocity = tab.add("Velocity", 20000).getEntry();
         current = tab.add("Current", 0.0).getEntry();
-        avgVelocity = tab.add("Average Velocity", 0.0).getEntry();
         position = tab.add("Encoder Position", 0.0).getEntry();
         pValue = tab.add("P Value", 0.2).getEntry();
         iValue = tab.add("I Value", 0.0).getEntry();
@@ -65,11 +61,9 @@ public class ControlPanelSBTab implements SBInterface{
         red.setDouble(controlPanel.getRedValue());
         green.setDouble(controlPanel.getGreenValue());
         blue.setDouble(controlPanel.getBlueValue());
-        confidence.setDouble(controlPanel.getConfidenceValue());
         detectedColor.setString(controlPanel.getDetectedColor());
         velocity.setDouble(controlPanel.getVelocity());
         current.setDouble(controlPanel.getCurrent());
-        avgVelocity.setDouble(controlPanel.getAverageVelocity());
         position.setDouble(controlPanel.getPosition());
         controlPanel.changePID(pValue.getDouble(0.2), iValue.getDouble(0.0), dValue.getDouble(0.2));
         if(encoderPosition.getBoolean(false) == true){
