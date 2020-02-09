@@ -16,6 +16,7 @@ import com.revrobotics.ColorMatch;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -98,32 +99,34 @@ public class ControlPanel extends SubsystemBase {
      motor.set(ControlMode.MotionMagic, 320000);
     }
 
-    public void goToColor(Color tC) {
-      logger.info("goToColor");
-      targetColor = tC;
+    public double getRedValue() {
+      return m_colorSensor.getColor().red;
+    }
+    public double getGreenValue() {
+      return m_colorSensor.getColor().green;
+    }
+    public double getBlueValue() {
+      return m_colorSensor.getColor().blue;
+    }
+    public double getConfidenceValue() {
+      return m_colorMatcher.matchClosestColor(m_colorSensor.getColor()).confidence;
+    }
+    public String convertColorToString(Color c){
+      if (c.equals(kBlueTarget))
+        return "Blue";
+      else if (c.equals(kRedTarget))
+        return "Red";
+      else if (c.equals(kYellowTarget))
+        return "Yellow";
+      else if (c.equals(kGreenTarget))
+        return "Green";
+      else
+        return "Unknown";
+    }
 
-        match = m_colorMatcher.matchClosestColor(m_colorSensor.getColor());
-        //match.color == kBlueTarget
-
-        if(telemetry.isSquare(targetDistance)){
-            while(m_colorSensor.getColor() != targetColor)
-              motor.set(ControlMode.PercentOutput, .5);
-            motor.set(ControlMode.PercentOutput, 0);
-        }
-        motor.set(ControlMode.MotionMagic, 101250);
-      }
-  
-      public double getRedValue() {
-        return m_colorSensor.getColor().red;
-      }
-      public double getGreenValue() {
-        return m_colorSensor.getColor().green;
-      }
-      public double getBlueValue() {
-        return m_colorSensor.getColor().blue;
-      }
+   
       public String getDetectedColor() {
-        return m_colorSensor.getColor().toString();
+        return convertColorToString(m_colorMatcher.matchClosestColor(m_colorSensor.getColor()).color);
       }
       public Color getColor(){
         return m_colorSensor.getColor();
@@ -157,6 +160,15 @@ public class ControlPanel extends SubsystemBase {
       }
       public void spin(double speed){
         motor.set(ControlMode.PercentOutput, speed);
+      }
+      public void setBrakeMode(boolean on){
+        if (on == true)
+          motor.setNeutralMode(NeutralMode.Brake);
+        else 
+          motor.setNeutralMode(NeutralMode.Coast);
+      }
+      public void spinMotionMagic(int magicNumber) {
+        motor.set(ControlMode.MotionMagic, magicNumber);
       }
 
       public void rotate(int number) {

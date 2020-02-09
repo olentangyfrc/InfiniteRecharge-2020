@@ -9,9 +9,6 @@ package frc.robot.subsystem.controlpanel.commands;
 
 import java.util.logging.Logger;
 
-import com.revrobotics.ColorMatch;
-
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystem.controlpanel.ControlPanel;
@@ -20,38 +17,57 @@ public class RotateToColor extends CommandBase {
   private final Logger logger = Logger.getLogger(RotateToColor.class.getName());
   
   private ControlPanel controlPanel;
-  private boolean stop = true;
-
-  private Color targetColor = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  private boolean stop = false;
+  private String targetColor;
 
   /**
    * Creates a new DisplayColor.
    */
-  public RotateToColor(ControlPanel c) {
+  public RotateToColor(ControlPanel c, String target) {
     controlPanel = c;
     addRequirements(c);
+    targetColor = target;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    stop = true;
+    stop = false;
+    controlPanel.setBrakeMode(true);
+    switch(targetColor){
+      case ("Blue"):
+        targetColor = "Red";
+        break;
+      case ("Red"):
+        targetColor = "Blue";
+        break;
+      case ("Green"):
+        targetColor = "Yellow";
+        break;
+      case ("Yellow"):
+        targetColor = "Green";
+        break;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlPanel.goToColor(targetColor);
+    if (controlPanel.getDetectedColor().equals(targetColor))
+      stop = true;
+    controlPanel.spin(0.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(final boolean interrupted) {
+      controlPanel.spin(0.0);
       logger.info("Ended");
   }
 
   @Override
   public synchronized void cancel() {
+      controlPanel.spin(0.0);
       logger.info("Canceled");
       stop = true;
   }
