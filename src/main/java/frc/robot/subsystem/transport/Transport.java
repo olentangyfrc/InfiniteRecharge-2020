@@ -131,10 +131,14 @@ public class Transport extends SubsystemBase {
             ballCount++;
         }
         if(getDigitalInput2() == true && pastValue2 == false){
-            ballCount--;
+            ballCount++;
         }
         pastValue1 = getDigitalInput1();
         pastValue2 = getDigitalInput2();
+        if(ballCount >= 5){
+            leftIntake.set(0);
+            rightIntake.set(0);
+        }
         return ballCount;
     }
 
