@@ -5,55 +5,41 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.controlpanel.commands;
-
-import java.util.logging.Logger;
+package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import java.util.logging.Logger;
 
-import frc.robot.subsystem.controlpanel.ControlPanel;
 
+public class TestAuton extends CommandBase {
 
-public class Spin extends CommandBase {
-  private final Logger logger = Logger.getLogger(Spin.class.getName());
-  
-  private ControlPanel controlPanel;
-  private boolean stop = true;
-  private int spinNum = 4;
+  private final Logger logger = Logger.getLogger(TestAuton.class.getName());
   /**
-   * Creates a new Spin.
+   * Creates a new TestAuton.
    */
-  public Spin(ControlPanel c) {
-    controlPanel = c;
-    addRequirements(c);
+  public TestAuton() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    stop = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlPanel.spin(spinNum);
+    logger.info("TestingAuton");
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(final boolean interrupted) {
-      logger.info("Ended");
+  public void end(boolean interrupted) {
   }
 
-  @Override
-  public synchronized void cancel() {
-      logger.info("Canceled");
-      stop = true;
-  }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stop;
+    return false;
   }
 }
