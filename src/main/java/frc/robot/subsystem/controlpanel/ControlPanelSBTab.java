@@ -7,6 +7,8 @@
 
 package frc.robot.subsystem.controlpanel;
 
+import java.util.logging.Logger;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -22,7 +24,10 @@ public class ControlPanelSBTab implements SBInterface{
     private NetworkTableEntry confidence;
     private NetworkTableEntry detectedColor;
 
+    private static Logger logger = Logger.getLogger(ControlPanelSBTab.class.getName());
+
     public ControlPanelSBTab(ControlPanel c) {
+        
         controlPanel = c;
 
         tab = Shuffleboard.getTab("Control Panel");

@@ -14,7 +14,7 @@ import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.RotateToColor;
-
+import frc.robot.subsystem.controlpanel.commands.SensorSpin;
 import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
@@ -165,6 +165,8 @@ public class SubsystemFactory {
         displayManager.addCP(controlPanel);
         RotateToColor dc = new RotateToColor(controlPanel);
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhileHeld);
+        SensorSpin ss = new SensorSpin(controlPanel, 6);
+        OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
 
         /**
          * All of the Transport stuff goes here
