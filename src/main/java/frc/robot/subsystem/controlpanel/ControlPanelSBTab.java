@@ -29,7 +29,8 @@ public class ControlPanelSBTab implements SBInterface{
     private NetworkTableEntry iValue;
     private NetworkTableEntry dValue;
     private NetworkTableEntry encoderPosition;
-
+    private NetworkTableEntry stickStatus;
+    
 
     private static Logger logger = Logger.getLogger(ControlPanelSBTab.class.getName());
 
@@ -50,6 +51,7 @@ public class ControlPanelSBTab implements SBInterface{
         iValue = tab.add("I Value", 0.0).getEntry();
         dValue = tab.add("D Value", 0.2).getEntry();
         encoderPosition = tab.add("Setting Encoder Position", false).withSize(1, 1).withPosition(0, 1).getEntry();
+        stickStatus = tab.add("Stick Status", false).getEntry();
     }
 
 
@@ -66,6 +68,7 @@ public class ControlPanelSBTab implements SBInterface{
         current.setDouble(controlPanel.getCurrent());
         position.setDouble(controlPanel.getPosition());
         controlPanel.changePID(pValue.getDouble(0.2), iValue.getDouble(0.0), dValue.getDouble(0.2));
+        stickStatus.setBoolean(controlPanel.getStickStatus());
         if(encoderPosition.getBoolean(false) == true){
             controlPanel.setZero();
             encoderPosition.setBoolean(false);
