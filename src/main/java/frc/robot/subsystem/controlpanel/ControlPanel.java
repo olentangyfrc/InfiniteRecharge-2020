@@ -45,6 +45,8 @@ public class ControlPanel extends SubsystemBase {
     private Color targetColor;
 
     private double velocity;
+    private double percentOutput;
+    private boolean brakeOnOff;
 
     private double pValue;
     private double iValue;
@@ -158,19 +160,31 @@ public class ControlPanel extends SubsystemBase {
       public void setVelocity(double a){
         velocity = a;
       }
+      public void setPercentOutput(double sp){
+        percentOutput = sp;
+      }
+      public double getPercentOutput(){
+        return percentOutput;
+      }
       public void spin(double speed){
         motor.set(ControlMode.PercentOutput, speed);
       }
       public void setBrakeMode(boolean on){
-        if (on == true)
+        if (on == true){
           motor.setNeutralMode(NeutralMode.Brake);
-        else 
+          brakeOnOff = true;
+        }
+        else{
           motor.setNeutralMode(NeutralMode.Coast);
+          brakeOnOff = false;
+        }
       }
       public void spinMotionMagic(int magicNumber) {
         motor.set(ControlMode.MotionMagic, magicNumber);
       }
-
+      public boolean getBrakeOnOff(){
+        return brakeOnOff;
+      }
       public void rotate(int number) {
         Color startColor = m_colorSensor.getColor();
         Color pastColor = startColor;
