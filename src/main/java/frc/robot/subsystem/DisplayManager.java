@@ -11,14 +11,14 @@ import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
+import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
+import frc.robot.subsystem.onewheelshooter.OneWheelShooterSBTab;
 import frc.robot.subsystem.pixylinecam.PixyLineCam;
 import frc.robot.subsystem.pixylinecam.PixyLineCamSBTab;
 import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.telemetry.TelemetrySBTab;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.TransportSBTab;
-import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
-import frc.robot.subsystem.twowheelshooter.TwoWheelShooterSBTab;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -32,9 +32,9 @@ public class DisplayManager {
     private ClimberSBTab climberDisplay;
     private TelemetrySBTab telemetryDisplay;
     private PixyLineCamSBTab pixyDisplay;
+    private OneWheelShooterSBTab oneWheelShooter;
 
     private static Logger logger = Logger.getLogger(DisplayManager.class.getName());
-    private TwoWheelShooterSBTab twoWheelShooterDisplay;
 
     private ArrayList<SBInterface> subsystemUpdateList;
 
@@ -69,11 +69,10 @@ public class DisplayManager {
         pixyDisplay = new PixyLineCamSBTab(p);
         subsystemUpdateList.add(pixyDisplay);
     }
-        
-    public void addTwoWheelShooter(TwoWheelShooter tws){
-        twoWheelShooterDisplay = new TwoWheelShooterSBTab(tws);
-        subsystemUpdateList.add(twoWheelShooterDisplay);
 
+    public void addShooter(OneWheelShooter s){
+        oneWheelShooter = new OneWheelShooterSBTab(s);
+        subsystemUpdateList.add(oneWheelShooter);
     }
 
 
