@@ -7,6 +7,7 @@
 
 package frc.robot.subsystem.climber;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.subsystem.SBInterface;
@@ -17,12 +18,13 @@ import frc.robot.subsystem.SBInterface;
 public class ClimberSBTab implements SBInterface {
     private Climber climber;
     private ShuffleboardTab tab;
+    private NetworkTableEntry limitSwitch;
 
     public ClimberSBTab(Climber c) {
         climber = c;
 
         tab = Shuffleboard.getTab("Climber");
-        tab.add("data", 0);
+        limitSwitch = tab.add("Limit Switch", false).getEntry();
     }
 
 
