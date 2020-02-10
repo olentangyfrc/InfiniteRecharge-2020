@@ -56,7 +56,7 @@ public class RotateToColor extends CommandBase {
   public void execute() {
     if (controlPanel.getDetectedColor().equals(oppositeColor))
       stop = true;
-    controlPanel.spin(0.6);
+    controlPanel.spin(controlPanel.getPercentOutput());
   }
 
   // Called once the command ends or is interrupted.

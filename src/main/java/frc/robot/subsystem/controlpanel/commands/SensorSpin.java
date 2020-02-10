@@ -46,7 +46,7 @@ public class SensorSpin extends CommandBase {
       stop = true;
       return;
     }
-    controlPanel.spin(0.6);
+    controlPanel.spin(controlPanel.getPercentOutput());
     String color = controlPanel.getDetectedColor();
     if(!(pastColor.equals(color)) && color.equals(startColor))
     {
