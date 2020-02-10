@@ -18,6 +18,9 @@ public class Telemetry extends SubsystemBase{
     
     private LidarPWM frontLidar, rearLidar;
     private double frontLidarDistance, rearLidarDistance;
+    private double frontLidarOffset = 0;
+    private double rearLidarOffset = 0;
+
     private static Logger logger = Logger.getLogger(Telemetry.class.getName());
 
     private double betweenLidarDistance = 0;
@@ -32,8 +35,8 @@ public class Telemetry extends SubsystemBase{
     public void init(PortMan portMan) throws Exception{
         logger.entering(Telemetry.class.getName(), "init()");
 
-        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.frontLidar"));
-        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.rearLidar"));
+        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.digital0_label, "Telemetry.frontLidar"));
+        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.digital1_label, "Telemetry.rearLidar"));
 
         //CameraServer server = CameraServer.getInstance();
         CameraServer.getInstance().startAutomaticCapture();
@@ -44,7 +47,7 @@ public class Telemetry extends SubsystemBase{
     }
 
 
-    
+    //breaks lidar on shuffleboard
     public boolean isSquare(double targetDistance)
     {
         frontLidarDistance = frontLidar.getDistance();
@@ -122,11 +125,16 @@ public class Telemetry extends SubsystemBase{
     }
 
     public double getFrontLidarDistance(){
-        return frontLidarDistance;
+        return frontLidar.getDistance();
     }
 
     public double getRearLidarDistance(){
-        return rearLidarDistance;
+        return rearLidar.getDistance();
+    }
+
+    public boolean isSquare()
+    {
+        return isSquare(100);
     }
     
 }
