@@ -26,6 +26,8 @@ import frc.robot.OzoneException;
 import frc.robot.subsystem.PortMan;
 import frc.robot.subsystem.telemetry.Telemetry;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 public class ControlPanel extends SubsystemBase {
     private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
 
@@ -51,6 +53,9 @@ public class ControlPanel extends SubsystemBase {
     private double pValue;
     private double iValue;
     private double dValue;
+
+    private boolean isControlSpinnerUp;
+    private DoubleSolenoid pusher;
 
     public void init(PortMan portMan, Telemetry t) throws Exception {
       logger.entering(ControlPanel.class.getName(), "init()");
@@ -90,6 +95,10 @@ public class ControlPanel extends SubsystemBase {
       motor.configMotionAcceleration(4096);
 
       velocity = 20000;
+
+      pusher = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm4_label, "Stick.inDoubleSolenoidx"), portMan.acquirePort(PortMan.pcm5_label, "Stick.outDoubleSolenoidx"));
+
+      isControlSpinnerUp = false;
 
     logger.exiting(ControlPanel.class.getName(), "exiting init");
 
@@ -141,6 +150,9 @@ public class ControlPanel extends SubsystemBase {
       }
       public double getPosition(){
         return motor.getSelectedSensorPosition();
+      }
+      public boolean getStickStatus() {
+        return isControlSpinnerUp;
       }
 
       public void changePID(double p, double i, double d){
@@ -201,5 +213,18 @@ public class ControlPanel extends SubsystemBase {
         }
         while(count < number);
         motor.set(ControlMode.PercentOutput, 0);
-    }
+      }
+
+      public void pushColorSpinnerUp() {
+        pusher.set(DoubleSolenoid.Value.kForward);
+
+        isControlSpinnerUp = true;
+      }
+        
+      public void retractPistons() {
+        pusher.set(DoubleSolenoid.Value.kReverse);
+
+        isControlSpinnerUp = false;
+      }
+      
     }
