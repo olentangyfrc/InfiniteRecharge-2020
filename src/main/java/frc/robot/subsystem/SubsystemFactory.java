@@ -17,6 +17,7 @@ import frc.robot.subsystem.controlpanel.commands.RotateToColor;
 import frc.robot.subsystem.controlpanel.commands.SensorSpin;
 import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
+import frc.robot.subsystem.onewheelshooter.commands.OneWheelReverse;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelStop;
 import frc.robot.subsystem.pixylinecam.PixyLineCam;
@@ -192,6 +193,8 @@ public class SubsystemFactory {
         OI.getInstance().bind(st, OI.LeftJoyButton6, OI.WhenPressed);
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
         OI.getInstance().bind(sh, OI.LeftJoyButton7, OI.WhenPressed);
+        OneWheelReverse sr = new OneWheelReverse(oneWheelShooter);
+        OI.getInstance().bind(sr, OI.LeftJoyButton8, OI.WhenPressed);
 
 
         /**
