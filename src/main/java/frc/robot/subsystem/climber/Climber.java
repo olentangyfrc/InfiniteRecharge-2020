@@ -13,12 +13,12 @@ public class Climber extends SubsystemBase {
     private static Logger logger = Logger.getLogger(Climber.class.getName());
     private TalonSRX motor;
     private boolean pastValue1 = false;
-    private DigitalInput Switch;
+    private DigitalInput switch1;
     
     public void init(PortMan portMan) throws Exception {
         logger.info("init");
         motor = new TalonSRX(portMan.acquirePort(PortMan.can_16_label, "Climber.motor"));
-        Switch = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Climber.HeightSensor"));
+        switch1 = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Climber.HeightSensor"));
 
       motor.enableCurrentLimit(true);
       motor.configPeakCurrentLimit(30);
@@ -43,6 +43,7 @@ public class Climber extends SubsystemBase {
             motor.set(ControlMode.PercentOutput, .5);
         }
         else{
+            logger.info("extend off");
             motor.set(ControlMode.PercentOutput, 0.0);
         }
         
@@ -53,6 +54,6 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean getDigitalInput1(){
-        return Switch.get();
+        return switch1.get();
     }
 }

@@ -145,10 +145,11 @@ public class SubsystemFactory {
          * All of the Telemery Stuff goes here
          */
 
-       
+        /*
         telemetry = new Telemetry();
         telemetry.init(portMan);
         displayManager.addTelemetry(telemetry);
+        */
 
         /**
          * All of the Climber stuff goes here
@@ -163,7 +164,7 @@ public class SubsystemFactory {
         /**
          * All of the ControlPanel stuff goes here
          */
-        
+        /*
         controlPanel = new ControlPanel();
         controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
@@ -171,11 +172,13 @@ public class SubsystemFactory {
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
         SensorSpin ss = new SensorSpin(controlPanel, 6);
         OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
+        */
 
         /**
          * All of the Transport stuff goes here
          */
         
+        /*
         transport = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
@@ -185,22 +188,26 @@ public class SubsystemFactory {
         OI.getInstance().bind(pc, OI.RightJoyButton11, OI.WhenPressed);
         StopIntake si = new StopIntake(transport);
         OI.getInstance().bind(si, OI.RightJoyButton9, OI.WhenPressed);
+        */
 
         /**
          * All of the OneWheelShooter stuff goes here
          */
         
+        /*
         oneWheelShooter = new OneWheelShooter();
         oneWheelShooter.init(portMan);
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
         OI.getInstance().bind(st, OI.LeftJoyButton6, OI.WhenPressed);
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
         OI.getInstance().bind(sh, OI.LeftJoyButton7, OI.WhenPressed);
+        */
 
         /*
          * All of the TwoWheelShooter stuff goes here
          */
         
+        /*
         twoWheelShooter = new TwoWheelShooter();
         twoWheelShooter.init(portMan);
         displayManager.addTwoWheelShooter(twoWheelShooter);
@@ -209,17 +216,20 @@ public class SubsystemFactory {
         OI.getInstance().bind(sh2, OI.LeftJoyButton4, OI.WhenPressed);
         Stop st2 = new Stop(twoWheelShooter);
         OI.getInstance().bind(st2, OI.LeftJoyButton5, OI.WhenPressed);
+        */
 
         /**
          * All of the Pixy Line stuff goes here
          */
         
+        /*
         pixyLineCam = new PixyLineCam();
         pixyLineCam.init(portMan);
         displayManager.addPixyLineCam(pixyLineCam);
 
         PollPixyLine p = new PollPixyLine(pixyLineCam);
         OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
+        */
     }
 
     private void initZombie(PortMan portMan) throws OzoneException {

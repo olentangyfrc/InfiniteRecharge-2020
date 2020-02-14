@@ -33,5 +33,6 @@ public class ClimberSBTab implements SBInterface {
      * get data from SB widgets and update subsystem
      */
     public void update() {
+        limitSwitch.setBoolean(climber.getDigitalInput1());
     }
 }
