@@ -61,6 +61,18 @@ public class PixyLineCam extends SubsystemBase{
         logger.info("Here comes the version! :) " + pixy.getVersionInfo().toString());
         line = pixy.getLine();
 
+        logger.info(getX0() + "");
+        logger.info(getY0() + "");
+        logger.info(getX1() + "");
+        logger.info(getY1() + "");
+        logger.info(getFlags() + "");
+        logger.info(getIndex() + "");
+        logger.info(getSlope() + "");
+        logger.info(getAngle() + "");
+        logger.info(getLeftStatus() + "");
+        logger.info(getMiddleStatus() + "");
+        logger.info(getRightStatus() + "");
+
        /* x0 = tab.add("Pixy x0", 0).getEntry();
         y0 = tab.add("Pixy y0", 0).getEntry();
         x1 = tab.add("Pixy x1", 0).getEntry();
