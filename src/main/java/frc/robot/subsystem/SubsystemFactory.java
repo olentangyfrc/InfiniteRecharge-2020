@@ -15,6 +15,8 @@ import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.RotateToColor;
 import frc.robot.subsystem.controlpanel.commands.SensorSpin;
+import frc.robot.subsystem.controlpanel.commands.SpinnerRetract;
+import frc.robot.subsystem.controlpanel.commands.SpinnerUp;
 import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelReverse;
@@ -166,6 +168,10 @@ public class SubsystemFactory {
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
         SensorSpin ss = new SensorSpin(controlPanel, 6);
         OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
+        SpinnerUp su = new SpinnerUp(controlPanel);
+        OI.getInstance().bind(su, OI.LeftJoyButton8, OI.WhenPressed);
+        SpinnerRetract sr = new SpinnerRetract(controlPanel);
+        OI.getInstance().bind(sr, OI.LeftJoyButton9, OI.WhenPressed);
 
         /**
          * All of the Transport stuff goes here
