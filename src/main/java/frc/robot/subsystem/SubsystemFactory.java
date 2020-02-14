@@ -30,10 +30,6 @@ import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
 import frc.robot.subsystem.transport.commands.StopIntake;
 
-import frc.robot.subsystem.twowheelshooter.TwoWheelShooter;
-import frc.robot.subsystem.twowheelshooter.commands.Shoot;
-import frc.robot.subsystem.twowheelshooter.commands.Stop;
-
 public class SubsystemFactory {
 
     private static SubsystemFactory me;
@@ -53,7 +49,6 @@ public class SubsystemFactory {
     private ControlPanel controlPanel;
     private Climber climber;
     private OneWheelShooter oneWheelShooter;
-    private TwoWheelShooter twoWheelShooter;
     private Telemetry telemetry;
     private PixyLineCam pixyLineCam;
     private static ArrayList<SBInterface> subsystemInterfaceList;
@@ -198,23 +193,12 @@ public class SubsystemFactory {
         
         oneWheelShooter = new OneWheelShooter();
         oneWheelShooter.init(portMan);
+        displayManager.addShooter(oneWheelShooter);
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
         OI.getInstance().bind(st, OI.LeftJoyButton6, OI.WhenPressed);
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
         OI.getInstance().bind(sh, OI.LeftJoyButton7, OI.WhenPressed);
 
-        /*
-         * All of the TwoWheelShooter stuff goes here
-         */
-        
-        twoWheelShooter = new TwoWheelShooter();
-        twoWheelShooter.init(portMan);
-        displayManager.addTwoWheelShooter(twoWheelShooter);
-
-        Shoot sh2 = new Shoot(twoWheelShooter);
-        OI.getInstance().bind(sh2, OI.LeftJoyButton4, OI.WhenPressed);
-        Stop st2 = new Stop(twoWheelShooter);
-        OI.getInstance().bind(st2, OI.LeftJoyButton5, OI.WhenPressed);
 
         /**
          * All of the Pixy Line stuff goes here
