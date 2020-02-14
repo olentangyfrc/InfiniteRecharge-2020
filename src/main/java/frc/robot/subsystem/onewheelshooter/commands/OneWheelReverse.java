@@ -10,18 +10,15 @@ package frc.robot.subsystem.onewheelshooter.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 
-public class OneWheelStop extends CommandBase {
-  /**
-   * Creates a new Stop.
-   */
-
+public class OneWheelReverse extends CommandBase {
   private OneWheelShooter oneWheelShooter;
   private boolean stop;
-
-  public OneWheelStop(OneWheelShooter s) {
+  /**
+   * Creates a new OneWheelReverse.
+   */
+  public OneWheelReverse(OneWheelShooter s) {
     oneWheelShooter = s;
     stop = false;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s);
   }
 
@@ -33,8 +30,7 @@ public class OneWheelStop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    oneWheelShooter.stop();
-    
+    oneWheelShooter.reverse();
   }
 
   // Called once the command ends or is interrupted.
