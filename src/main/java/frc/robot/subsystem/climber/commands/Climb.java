@@ -16,9 +16,11 @@ public class Climb extends CommandBase {
    */
 
   private Climber climber;
+  private boolean stop;
 
   public Climb(Climber climb) {
     climber = climb;
+    stop = false;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climb);
   }
@@ -32,17 +34,17 @@ public class Climb extends CommandBase {
   @Override
   public void execute() {
     climber.extend();
-    climber.retract();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    stop = true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return stop;
   }
 }

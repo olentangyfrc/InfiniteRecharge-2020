@@ -141,7 +141,6 @@ public class SubsystemFactory {
          * All of the Telemery Stuff goes here
          */
 
-       
         telemetry = new Telemetry();
         telemetry.init(portMan);
         displayManager.addTelemetry(telemetry);
@@ -159,7 +158,7 @@ public class SubsystemFactory {
         /**
          * All of the ControlPanel stuff goes here
          */
-        
+
         controlPanel = new ControlPanel();
         controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
