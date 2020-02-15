@@ -182,14 +182,14 @@ public class SubsystemFactory {
         oneWheelShooter.init(portMan);
         displayManager.addShooter(oneWheelShooter);
 
-        OneWheelStop st = new OneWheelStop(oneWheelShooter);
-        OI.getInstance().bind(st, OI.AuxJoyButton8, OI.WhenPressed);
-
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
-        OI.getInstance().bind(sh, OI.AuxJoyButton9, OI.WhenPressed);
+        OI.getInstance().bind(sh, OI.RightJoyButton1, OI.WhenPressed);
 
         OneWheelReverse owr = new OneWheelReverse(oneWheelShooter);
-        OI.getInstance().bind(owr, OI.LeftJoyButton8, OI.WhenPressed);
+        OI.getInstance().bind(owr, OI.RightJoyButton3, OI.WhenPressed);
+
+        OneWheelStop st = new OneWheelStop(oneWheelShooter);
+        OI.getInstance().bind(st, OI.RightJoyButton2, OI.WhenPressed);
     }
     /**
      * 
