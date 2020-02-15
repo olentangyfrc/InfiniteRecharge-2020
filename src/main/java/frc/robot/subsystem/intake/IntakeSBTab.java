@@ -19,6 +19,7 @@ public class IntakeSBTab implements SBInterface{
     private ShuffleboardTab tab;
 
     private NetworkTableEntry gateStatus;
+    private NetworkTableEntry velocity;
 
 
     private static Logger logger = Logger.getLogger(IntakeSBTab.class.getName());
@@ -30,6 +31,7 @@ public class IntakeSBTab implements SBInterface{
         tab = Shuffleboard.getTab("Intake");
 
         gateStatus = tab.add("Gate Up", false).getEntry();
+        velocity = tab.add("Velocity", 0.0).getEntry();
     }
 
 
@@ -39,5 +41,7 @@ public class IntakeSBTab implements SBInterface{
      */
     public void update() {
         gateStatus.setBoolean(intake.getGateStatus());
+        intake.setVelocity(velocity.getDouble(10000));
+
     }
 }

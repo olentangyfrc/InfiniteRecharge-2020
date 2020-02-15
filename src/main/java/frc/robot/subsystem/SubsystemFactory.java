@@ -17,7 +17,13 @@ import frc.robot.subsystem.controlpanel.commands.RotateToColor;
 import frc.robot.subsystem.controlpanel.commands.SensorSpin;
 import frc.robot.subsystem.controlpanel.commands.SpinnerRetract;
 import frc.robot.subsystem.controlpanel.commands.SpinnerUp;
+import frc.robot.subsystem.intake.Intake;
+import frc.robot.subsystem.intake.commands.IntakeDown;
+import frc.robot.subsystem.intake.commands.IntakeSpinBack;
+import frc.robot.subsystem.intake.commands.IntakeSpinForward;
+import frc.robot.subsystem.intake.commands.IntakeUp;
 import frc.robot.subsystem.telemetry.Telemetry;
+import frc.robot.subsystem.telemetry.commands.SquareSelf;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelReverse;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
@@ -26,6 +32,9 @@ import frc.robot.subsystem.pixylinecam.PixyLineCam;
 import frc.robot.subsystem.pixylinecam.commands.PollPixyLine;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystem.climber.commands.Climb;
+import frc.robot.subsystem.climber.commands.ClimberControl;
+import frc.robot.subsystem.climber.commands.ClimberControlBack;
+import frc.robot.subsystem.climber.commands.ClimberRetract;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
@@ -54,6 +63,8 @@ public class SubsystemFactory {
     private Telemetry telemetry;
     private PixyLineCam pixyLineCam;
     private DrivetrainSubsystem driveTrain;
+    private Intake intake;
+    
     private static ArrayList<SBInterface> subsystemInterfaceList;
 
     private SubsystemFactory() {
@@ -154,7 +165,8 @@ public class SubsystemFactory {
         telemetry = new Telemetry();
         telemetry.init(portMan);
         displayManager.addTelemetry(telemetry);
-
+        Command sqs = new SquareSelf(telemetry, 10);
+        OI.getInstance().bind(sqs, OI.LeftJoyButton10, OI.WhenPressed);
         /**
          * All of the Climber stuff goes here
          */
@@ -162,8 +174,16 @@ public class SubsystemFactory {
         climber = new Climber();
         climber.init(portMan);
         displayManager.addClimber(climber);
-        Command c = new Climb(climber);
-        OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
+        Climb c = new Climb(climber);
+        OI.getInstance().bind(c, OI.RightJoyButton11, OI.WhenPressed);
+        ClimberRetract cr = new ClimberRetract(climber);
+        OI.getInstance().bind(cr, OI.RightJoyButton10, OI.WhenPressed);
+        ClimberControl cc = new ClimberControl(climber);
+        OI.getInstance().bind(cc, OI.RightJoyButton8, OI.WhileHeld);
+        ClimberControlBack ccb = new ClimberControlBack(climber);
+        OI.getInstance().bind(ccb,OI.RightJoyButton6, OI.WhileHeld);
+        
+        
 
         /**
          * All of the ControlPanel stuff goes here
@@ -194,6 +214,10 @@ public class SubsystemFactory {
         OI.getInstance().bind(pc, OI.RightJoyButton11, OI.WhenPressed);
         StopIntake si = new StopIntake(transport);
         OI.getInstance().bind(si, OI.RightJoyButton9, OI.WhenPressed);
+        TransportUp tu = new TransportUp(transport);
+        OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);
+        TransportDown td = new TransportDown(transport);
+        OI.getInstance().bind(td, OI.AuxJoyButton9, OI.WhenPressed);
 
         /**
          * All of the OneWheelShooter stuff goes here
@@ -208,6 +232,8 @@ public class SubsystemFactory {
         OI.getInstance().bind(sh, OI.LeftJoyButton7, OI.WhenPressed);
         OneWheelReverse owr = new OneWheelReverse(oneWheelShooter);
         OI.getInstance().bind(owr, OI.LeftJoyButton8, OI.WhenPressed);
+        OneWheelReverse shooterReverse = new OneWheelReverse(oneWheelShooter);
+        OI.getInstance().bind(shooterReverse, OI.LeftJoyButton8, OI.WhenPressed);
 
 
         /**
@@ -220,6 +246,22 @@ public class SubsystemFactory {
 
         PollPixyLine p = new PollPixyLine(pixyLineCam);
         OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
+
+        /**
+         * All of Intake Stuff goes here
+         */
+        intake = new Intake();
+        intake.init(portMan);
+        displayManager.addIntake(intake);
+        IntakeUp iu = new IntakeUp(intake);
+        OI.getInstance().bind(iu,OI.AuxJoyButton6, OI.WhenPressed);
+        IntakeDown id = new IntakeDown(intake);
+        OI.getInstance().bind(id,OI.AuxJoyButton7, OI.WhenPressed);
+        IntakeSpinForward isf = new IntakeSpinForward(intake);
+        OI.getInstance().bind(isf,OI.RightJoyButton1, OI.WhenPressed);
+        IntakeSpinBack isb = new IntakeSpinBack(intake);
+        OI.getInstance().bind(isb,OI.RightJoyButton2, OI.WhenPressed);
+        
     }
 
     private void initZombie(PortMan portMan) throws OzoneException {

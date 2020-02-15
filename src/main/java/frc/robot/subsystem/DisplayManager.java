@@ -11,6 +11,8 @@ import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.climber.ClimberSBTab;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.ControlPanelSBTab;
+import frc.robot.subsystem.intake.Intake;
+import frc.robot.subsystem.intake.IntakeSBTab;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooterSBTab;
 import frc.robot.subsystem.pixylinecam.PixyLineCam;
@@ -33,6 +35,7 @@ public class DisplayManager {
     private TelemetrySBTab telemetryDisplay;
     private PixyLineCamSBTab pixyDisplay;
     private OneWheelShooterSBTab oneWheelShooter;
+    private IntakeSBTab intake;
 
     private static Logger logger = Logger.getLogger(DisplayManager.class.getName());
 
@@ -73,6 +76,11 @@ public class DisplayManager {
     public void addShooter(OneWheelShooter s){
         oneWheelShooter = new OneWheelShooterSBTab(s);
         subsystemUpdateList.add(oneWheelShooter);
+    }
+
+    public void addIntake(Intake i){
+        intake = new IntakeSBTab(i);
+        subsystemUpdateList.add(intake);
     }
 
 
