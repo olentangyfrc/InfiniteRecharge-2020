@@ -23,6 +23,9 @@ public class Telemetry extends SubsystemBase{
     private LidarPWM frontLidar, rearLidar;
     private TalonSRX testMotor;
     private double frontLidarDistance, rearLidarDistance;
+    private double frontLidarOffset = 0;
+    private double rearLidarOffset = 0;
+
     private static Logger logger = Logger.getLogger(Telemetry.class.getName());
 
     private double betweenLidarDistance = 0;
@@ -44,6 +47,7 @@ public class Telemetry extends SubsystemBase{
         filterFront = new MedianFilter(10);
         filterRear = new MedianFilter(10);
         testMotor = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "Telemetry.testMotor"));
+
         //CameraServer server = CameraServer.getInstance();
         CameraServer.getInstance().startAutomaticCapture();
         CameraServer.getInstance().startAutomaticCapture();
@@ -59,8 +63,8 @@ public class Telemetry extends SubsystemBase{
             return false;
     }
     
-
     /*
+    //breaks lidar on shuffleboard
     public boolean isSquare(double targetDistance)
     {
         frontLidarDistance = frontLidar.getDistance();
@@ -144,6 +148,11 @@ public class Telemetry extends SubsystemBase{
 
     public double getRearLidarDistance(){
         return filterRear.calculate(rearLidar.getDistance());
+    }
+
+    public boolean isSquare()
+    {
+        return isSquare(100);
     }
     
     public double getTolerance(){

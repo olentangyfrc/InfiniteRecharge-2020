@@ -35,6 +35,7 @@ public class TelemetrySBTab implements SBInterface {
         tolerance = tab.add("Lidar Tolerance", 0.0).getEntry();
     }
     public void update(){
+        isSquare.setBoolean(telemetry.isSquare());
         frontDistance.setDouble(telemetry.getFrontLidarDistance());
         rearDistance.setDouble(telemetry.getRearLidarDistance());
         isSquare.setBoolean(telemetry.isSquare(5));
