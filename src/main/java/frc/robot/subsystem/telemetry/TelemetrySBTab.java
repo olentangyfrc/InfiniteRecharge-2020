@@ -21,6 +21,8 @@ public class TelemetrySBTab implements SBInterface {
 
     public NetworkTableEntry frontDistance;
     public NetworkTableEntry rearDistance;
+    public NetworkTableEntry isSquare;
+    public NetworkTableEntry tolerance;
 
     public TelemetrySBTab(Telemetry te){
         telemetry = te;
@@ -29,9 +31,14 @@ public class TelemetrySBTab implements SBInterface {
 
         frontDistance = tab.add("Front Lidar Distance", 0).getEntry();
         rearDistance = tab.add("Rear Lidar Distance", 0).getEntry();
+        isSquare = tab.add("Is Squared?", false).getEntry();
+        tolerance = tab.add("Lidar Tolerance", 0.0).getEntry();
     }
     public void update(){
         frontDistance.setDouble(telemetry.getFrontLidarDistance());
         rearDistance.setDouble(telemetry.getRearLidarDistance());
+        isSquare.setBoolean(telemetry.isSquare(5));
+        tolerance.setDouble(telemetry.getTolerance());
+        telemetry.setTolerance(tolerance.getDouble(5.0));
     }
 }

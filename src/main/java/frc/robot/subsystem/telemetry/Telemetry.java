@@ -9,20 +9,27 @@
 package frc.robot.subsystem.telemetry;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystem.PortMan;
 import java.util.logging.Logger;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 
 public class Telemetry extends SubsystemBase{
     
     private LidarPWM frontLidar, rearLidar;
+    private TalonSRX testMotor;
     private double frontLidarDistance, rearLidarDistance;
     private static Logger logger = Logger.getLogger(Telemetry.class.getName());
 
     private double betweenLidarDistance = 0;
     private double lidarTolerance = 5;
     private double correction = Math.PI/180;
+    private MedianFilter filterFront;
+    private MedianFilter filterRear;
 
     public Telemetry() {
 
@@ -32,9 +39,11 @@ public class Telemetry extends SubsystemBase{
     public void init(PortMan portMan) throws Exception{
         logger.entering(Telemetry.class.getName(), "init()");
 
-        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.can_19_label, "Telemetry.frontLidar"));
-        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.can_20_label, "Telemetry.rearLidar"));
-
+        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.digital0_label, "Telemetry.frontLidar"));
+        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.digital1_label, "Telemetry.rearLidar"));
+        filterFront = new MedianFilter(10);
+        filterRear = new MedianFilter(10);
+        testMotor = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "Telemetry.testMotor"));
         //CameraServer server = CameraServer.getInstance();
         CameraServer.getInstance().startAutomaticCapture();
         CameraServer.getInstance().startAutomaticCapture();
@@ -43,8 +52,15 @@ public class Telemetry extends SubsystemBase{
         logger.exiting(Telemetry.class.getName(), "init()");
     }
 
-
+    public boolean isSquare(double tolerance){
+        if (Math.abs(getFrontLidarDistance() - getRearLidarDistance()) <= tolerance)
+            return true;
+        else
+            return false;
+    }
     
+
+    /*
     public boolean isSquare(double targetDistance)
     {
         frontLidarDistance = frontLidar.getDistance();
@@ -120,13 +136,29 @@ public class Telemetry extends SubsystemBase{
         }
         return true;
     }
+    */
 
     public double getFrontLidarDistance(){
-        return frontLidarDistance;
+        return filterFront.calculate(frontLidar.getDistance() - 10);
     }
 
     public double getRearLidarDistance(){
-        return rearLidarDistance;
+        return filterRear.calculate(rearLidar.getDistance());
     }
     
+    public double getTolerance(){
+        return lidarTolerance;
+    }
+
+    public void setTolerance(double tol){
+        lidarTolerance = tol;
+    }
+
+    public double getBetweenLidar(){
+        return betweenLidarDistance;
+    }
+
+    public void testMotor(double po){
+        testMotor.set(ControlMode.PercentOutput, po);
+    }
 }
