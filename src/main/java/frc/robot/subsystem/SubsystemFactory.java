@@ -198,8 +198,8 @@ public class SubsystemFactory {
         OI.getInstance().bind(st, OI.LeftJoyButton6, OI.WhenPressed);
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
         OI.getInstance().bind(sh, OI.LeftJoyButton7, OI.WhenPressed);
-        OneWheelReverse sr = new OneWheelReverse(oneWheelShooter);
-        OI.getInstance().bind(sr, OI.LeftJoyButton8, OI.WhenPressed);
+        OneWheelReverse shooterReverse = new OneWheelReverse(oneWheelShooter);
+        OI.getInstance().bind(shooterReverse, OI.LeftJoyButton8, OI.WhenPressed);
 
 
         /**
