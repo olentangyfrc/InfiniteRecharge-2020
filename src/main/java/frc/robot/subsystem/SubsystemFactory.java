@@ -32,6 +32,9 @@ import frc.robot.subsystem.pixylinecam.PixyLineCam;
 import frc.robot.subsystem.pixylinecam.commands.PollPixyLine;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystem.climber.commands.Climb;
+import frc.robot.subsystem.climber.commands.ClimberControl;
+import frc.robot.subsystem.climber.commands.ClimberControlBack;
+import frc.robot.subsystem.climber.commands.ClimberRetract;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
@@ -163,8 +166,16 @@ public class SubsystemFactory {
         climber = new Climber();
         climber.init(portMan);
         displayManager.addClimber(climber);
-        Command c = new Climb(climber);
-        OI.getInstance().bind(c, OI.LeftJoyButton1, OI.WhenPressed);
+        Climb c = new Climb(climber);
+        OI.getInstance().bind(c, OI.RightJoyButton11, OI.WhenPressed);
+        ClimberRetract cr = new ClimberRetract(climber);
+        OI.getInstance().bind(cr, OI.RightJoyButton10, OI.WhenPressed);
+        ClimberControl cc = new ClimberControl(climber);
+        OI.getInstance().bind(cc, OI.RightJoyButton8, OI.WhileHeld);
+        ClimberControlBack ccb = new ClimberControlBack(climber);
+        OI.getInstance().bind(ccb,OI.RightJoyButton6, OI.WhileHeld);
+        
+        
 
         /**
          * All of the ControlPanel stuff goes here
