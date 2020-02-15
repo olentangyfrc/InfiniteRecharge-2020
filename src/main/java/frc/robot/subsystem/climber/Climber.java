@@ -14,11 +14,15 @@ public class Climber extends SubsystemBase {
     private TalonSRX motor;
     private boolean pastValue1 = false;
     private DigitalInput switch1;
+    private DigitalInput switch2;
+    private DigitalInput hardTopLimit;
     
     public void init(PortMan portMan) throws Exception {
         logger.info("init");
         motor = new TalonSRX(portMan.acquirePort(PortMan.can_16_label, "Climber.motor"));
-        switch1 = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Climber.HeightSensor"));
+        switch1 = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Climber.HardLowLimit"));
+        switch2 = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Climber.MinimumLimit"));
+
 
       motor.enableCurrentLimit(true);
       motor.configPeakCurrentLimit(30);
@@ -45,15 +49,25 @@ public class Climber extends SubsystemBase {
         else{
             logger.info("extend off");
             motor.set(ControlMode.PercentOutput, 0.0);
-        }
-        
+        }  
     }
 
     public void retract(){
         logger.info("retract");
+        if(getDigitalInput2() == false && getDigitalInput1() == true)
+        {
+            motor.set(ControlMode.PercentOutput, -.5);
+        }
+        else{
+            motor.set(ControlMode.PercentOutput, 0.0);
+        }
     }
 
     public boolean getDigitalInput1(){
         return switch1.get();
+    }
+
+    public boolean getDigitalInput2(){
+        return switch2.get();
     }
 }

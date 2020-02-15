@@ -18,13 +18,15 @@ import frc.robot.subsystem.SBInterface;
 public class ClimberSBTab implements SBInterface {
     private Climber climber;
     private ShuffleboardTab tab;
-    private NetworkTableEntry limitSwitch;
+    private NetworkTableEntry limitSwitch1;
+    private NetworkTableEntry limitSwitch2;
 
     public ClimberSBTab(Climber c) {
         climber = c;
 
         tab = Shuffleboard.getTab("Climber");
-        limitSwitch = tab.add("Limit Switch", false).getEntry();
+        limitSwitch1 = tab.add("Limit Switch1", false).getEntry();
+        limitSwitch2 = tab.add("Limit Switch2", false).getEntry();
     }
 
 
@@ -33,6 +35,6 @@ public class ClimberSBTab implements SBInterface {
      * get data from SB widgets and update subsystem
      */
     public void update() {
-        limitSwitch.setBoolean(climber.getDigitalInput1());
+        limitSwitch1.setBoolean(climber.getDigitalInput1());
     }
 }
