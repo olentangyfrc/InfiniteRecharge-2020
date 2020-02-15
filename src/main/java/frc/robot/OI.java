@@ -26,8 +26,8 @@ public class OI {
     private Joystick leftJoy;
     private Joystick rightJoy;
     private Joystick auxJoy;
-    private Joystick buttonsA;
-    private Joystick buttonsB;
+    private Joystick leftButtonBox;
+    private Joystick rightButtonBox;
     private XboxController xbox;  
 
     static Logger logger = Logger.getLogger(SubsystemFactory.class.getName());
@@ -118,8 +118,8 @@ public class OI {
        leftJoy = new Joystick(0); // The left joystick exists on this port in robot map
        rightJoy = new Joystick(1); // The right joystick exists on this port in robot map
        auxJoy = new Joystick(2);
-       buttonsB = new Joystick(3);
-       buttonsA = new Joystick(4);
+       leftButtonBox = new Joystick(3);
+       rightButtonBox = new Joystick(4);
     }
 
     public double getLeftJoystickXValue() {
@@ -190,11 +190,11 @@ public class OI {
             button -= 22;
         }
         else if(button >= 34 && button <= 43){
-            j = buttonsA;
+            j = leftButtonBox;
             button -= 33;
         } 
         else if(button >= 44 && button <= 53){
-            j = buttonsB;
+            j = rightButtonBox;
             button -= 44;
         }
         else {

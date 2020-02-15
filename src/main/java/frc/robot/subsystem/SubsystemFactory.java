@@ -23,6 +23,7 @@ import frc.robot.subsystem.intake.commands.IntakeSpinBack;
 import frc.robot.subsystem.intake.commands.IntakeSpinForward;
 import frc.robot.subsystem.intake.commands.IntakeUp;
 import frc.robot.subsystem.telemetry.Telemetry;
+import frc.robot.subsystem.telemetry.commands.SquareSelf;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelReverse;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
@@ -153,7 +154,8 @@ public class SubsystemFactory {
         telemetry = new Telemetry();
         telemetry.init(portMan);
         displayManager.addTelemetry(telemetry);
-
+        Command sqs = new SquareSelf(telemetry, 10);
+        OI.getInstance().bind(sqs, OI.LeftJoyButton10, OI.WhenPressed);
         /**
          * All of the Climber stuff goes here
          */
