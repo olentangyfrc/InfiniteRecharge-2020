@@ -30,6 +30,7 @@ import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
 import frc.robot.subsystem.transport.commands.StopIntake;
+import frc.robot.subsystem.swerve.DrivetrainSubsystem;
 
 public class SubsystemFactory {
 
@@ -52,6 +53,7 @@ public class SubsystemFactory {
     private OneWheelShooter oneWheelShooter;
     private Telemetry telemetry;
     private PixyLineCam pixyLineCam;
+    private DrivetrainSubsystem driveTrain;
     private static ArrayList<SBInterface> subsystemInterfaceList;
 
     private SubsystemFactory() {
@@ -110,8 +112,7 @@ public class SubsystemFactory {
                 initRio2(portMan);
                 break;
             default:
-                initFootball(portMan); // default to football if we don't know better
-;
+                initComp(portMan); // default to football if we don't know better
             }
 
             initCommon(portMan);
@@ -131,6 +132,13 @@ public class SubsystemFactory {
 
     }
 
+    private void initComp(PortMan portMan ) throws Exception {
+
+        logger.info("initiatizing");
+        driveTrain  = new DrivetrainSubsystem();
+        driveTrain.init(portMan);
+
+    }
     /**
      * 
      * init subsystems specific to Football
@@ -198,8 +206,8 @@ public class SubsystemFactory {
         OI.getInstance().bind(st, OI.LeftJoyButton6, OI.WhenPressed);
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
         OI.getInstance().bind(sh, OI.LeftJoyButton7, OI.WhenPressed);
-        OneWheelReverse sr = new OneWheelReverse(oneWheelShooter);
-        OI.getInstance().bind(sr, OI.LeftJoyButton8, OI.WhenPressed);
+        OneWheelReverse owr = new OneWheelReverse(oneWheelShooter);
+        OI.getInstance().bind(owr, OI.LeftJoyButton8, OI.WhenPressed);
 
 
         /**
