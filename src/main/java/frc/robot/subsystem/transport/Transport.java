@@ -25,8 +25,8 @@ public class Transport extends SubsystemBase {
 
     private static Logger logger = Logger.getLogger(Transport.class.getName());
 
-    private CANSparkMax leftIntake;
-    private CANSparkMax rightIntake;
+    private TalonSRX leftIntake;
+    private TalonSRX rightIntake;
     private AnalogInput intakeSensor;
     private CANPIDController leftPid;
     private CANPIDController rightPid;
@@ -49,30 +49,10 @@ public class Transport extends SubsystemBase {
 
         enterSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Transport.IntakeEnterSensor"));
         exitSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Transport.IntakeExitSensor"));
-        leftIntake = new CANSparkMax(portMan.acquirePort(PortMan.can_57_label, "Transport.transportSparkMax1"), com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-        rightIntake = new CANSparkMax(portMan.acquirePort(PortMan.can_58_label, "Transport.transportSparkMax2"), com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-        leftPid = leftIntake.getPIDController();
-        rightPid = rightIntake.getPIDController();
-        //ballCount = new Counter(Counter.Mode.kSemiperiod);
+        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_57_label, "Transport.LeftIntake"));
+        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_58_label, "Transport.RightIntake"));
+        //ballCount = new Counter(Counter.Mode.kSemiperiod)
 
-        leftIntake.restoreFactoryDefaults();
-        rightIntake.restoreFactoryDefaults();
-
-        leftPid.setP(.1);
-        leftPid.setI(0);
-        leftPid.setD(0);
-        leftPid.setIZone(0);
-        leftPid.setFF(0);
-        leftPid.setOutputRange(-1, 1);
-
-        rightPid.setP(0.1);
-        rightPid.setI(0);
-        rightPid.setD(0);
-        rightPid.setIZone(0);
-        rightPid.setFF(0);
-        rightPid.setOutputRange(-1, 1);
-
-        /* Talon Code
         leftIntake.config_kP(0, .5, 0);
         leftIntake.config_kI(0, 0, 0);
         leftIntake.config_kD(0, 0, 0);
@@ -89,7 +69,6 @@ public class Transport extends SubsystemBase {
 
         rightIntake.follow(leftIntake);
         rightIntake.setInverted(true);
-        */
 
         //ballCount.setUpSource(enterSwitch);
         //ballCount.setSemiPeriodMode(true);
@@ -99,17 +78,15 @@ public class Transport extends SubsystemBase {
 
     public void take() {
         logger.info("take");
-        //leftIntake.set(ControlMode.PercentOutput, motorSpeedForward);
-        //leftPid.setReference(motorSpeedForward, ControlType.kVelocity);
-        leftIntake.set(motorSpeedForward);
-        rightIntake.set(motorSpeedForward);
+        leftIntake.set(ControlMode.PercentOutput, motorSpeedForward);
+        leftPid.setReference(motorSpeedForward, ControlType.kVelocity);
     }
 
     public void stop() {
         logger.info("stop");
 
-        leftIntake.set(0);
-        rightIntake.set(0);
+        leftIntake.set(ControlMode.PercentOutput,0);
+        rightIntake.set(ControlMode.PercentOutput,0);
     }
 
     public int count() {
@@ -118,12 +95,11 @@ public class Transport extends SubsystemBase {
 
     public void expel() {
         logger.info("expel");
-        leftIntake.set(-motorSpeedBackward);
-        rightIntake.set(-motorSpeedBackward);
+        leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
     }
 
     public double getVelocity() {
-        return leftIntake.get();
+        return leftIntake.getSelectedSensorVelocity();
     }
 
     public int getBallCount() {
@@ -136,8 +112,8 @@ public class Transport extends SubsystemBase {
         pastValue1 = getDigitalInput1();
         pastValue2 = getDigitalInput2();
         if(ballCount >= 5){
-            leftIntake.set(0);
-            rightIntake.set(0);
+            leftIntake.set(ControlMode.PercentOutput,0);
+            rightIntake.set(ControlMode.PercentOutput,0);
         }
         return ballCount;
     }

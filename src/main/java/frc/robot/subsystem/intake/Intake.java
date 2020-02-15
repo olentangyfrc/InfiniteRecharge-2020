@@ -19,30 +19,35 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Intake extends SubsystemBase {
   private static Logger logger = Logger.getLogger(Intake.class.getName());
-  private DoubleSolenoid gate;
+  private DoubleSolenoid doubleSolenoid;
   private TalonSRX motor;
   private boolean gateUp;
+  private double velocity;
 
   public void init(PortMan portMan) throws Exception {
-    gate = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm0_label, "Intake.gate0"), portMan.acquirePort(PortMan.pcm1_label, "Intake.gate1"));
+    doubleSolenoid = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm0_label, "Intake.gate0"), portMan.acquirePort(PortMan.pcm1_label, "Intake.gate1"));
     motor = new TalonSRX(portMan.acquirePort(PortMan.can_39_label, "Intake.wheel"));
     gateUp = false;
   }
 
-  public void moveGate(boolean up){
-    if (up == true){
-      gate.set(DoubleSolenoid.Value.kReverse);
-      gateUp = true;
-    }
-    else{
-      gate.set(DoubleSolenoid.Value.kForward);
+  public void moveGateUp(){
+      doubleSolenoid.set(DoubleSolenoid.Value.kForward);
       gateUp = false;
-    }
+  }
+  public void moveGateDown(){
+    doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+    gateUp = true;
   }
   public boolean getGateStatus(){
     return gateUp;
   }
-  public void wheelSpin(double percent){
-    motor.set(ControlMode.PercentOutput, percent);
+  public void wheelSpinFront(){
+    motor.set(ControlMode.Velocity, velocity);
+  }
+  public void wheelSpinBack(){
+    motor.set(ControlMode.Velocity, velocity);
+  }
+  public void setVelocity(double a){
+    velocity = a;
   }
 }
