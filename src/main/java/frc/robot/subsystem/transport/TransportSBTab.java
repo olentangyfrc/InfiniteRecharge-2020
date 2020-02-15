@@ -15,6 +15,7 @@ public class TransportSBTab implements SBInterface
     private NetworkTableEntry dio2;
     private NetworkTableEntry direction;
     private NetworkTableEntry isLogging;
+    private NetworkTableEntry gateStatus;
     
 
     public TransportSBTab(Transport c) 
@@ -26,6 +27,7 @@ public class TransportSBTab implements SBInterface
       ballCount = tab.add("ballCount", 0).getEntry();
       dio1 = tab.add("Digital Input 1", false).getEntry();
       dio2 = tab.add("Digital Input 2", false).getEntry();
+      gateStatus = tab.add("Gate up", false).getEntry();
    }
 
    public void update() 
@@ -34,6 +36,7 @@ public class TransportSBTab implements SBInterface
      ballCount.setDouble(transport.getBallCount());
      dio1.setBoolean(transport.getDigitalInput1());
      dio2.setBoolean(transport.getDigitalInput2());
+     gateStatus.setBoolean(transport.getGateStatus());
    }
 
 }

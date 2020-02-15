@@ -19,12 +19,16 @@ import frc.robot.subsystem.PortMan;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 public class Transport extends SubsystemBase {
 
     private static final Double Repeatable = null;
 
     private static Logger logger = Logger.getLogger(Transport.class.getName());
 
+    private DoubleSolenoid doubleSolenoidLeft;
+    private DoubleSolenoid doubleSolenoidRight;
     private TalonSRX leftIntake;
     private TalonSRX rightIntake;
     private AnalogInput intakeSensor;
@@ -40,6 +44,9 @@ public class Transport extends SubsystemBase {
     private boolean pastValue2 = false;
     private DigitalInput enterSwitch;
     private DigitalInput exitSwitch;
+
+    private boolean gateUp;
+
     //private Counter ballCount;
     public Transport() {
     }
@@ -47,6 +54,10 @@ public class Transport extends SubsystemBase {
     public void init(PortMan portMan) throws Exception {
         logger.entering(Transport.class.getName(), "init()");
 
+        doubleSolenoidLeft = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm2_label, "Transport.gate2"), portMan.acquirePort(PortMan.pcm3_label, "Transport.gate3"));
+        doubleSolenoidRight = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm4_label, "Transport.gate4"), portMan.acquirePort(PortMan.pcm5_label, "Transport.gate5"));
+        gateUp = false;
+        
         enterSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Transport.IntakeEnterSensor"));
         exitSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Transport.IntakeExitSensor"));
         leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_57_label, "Transport.LeftIntake"));
@@ -74,6 +85,20 @@ public class Transport extends SubsystemBase {
         //ballCount.setSemiPeriodMode(true);
 
         logger.exiting(Transport.class.getName(), "init()");
+    }
+
+    public void moveGateUp(){
+        doubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
+        doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
+        gateUp = true;
+    }
+    public void moveGateDown(){
+      doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
+      doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
+      gateUp = false;
+    }
+    public boolean getGateStatus(){
+      return gateUp;
     }
 
     public void take() {

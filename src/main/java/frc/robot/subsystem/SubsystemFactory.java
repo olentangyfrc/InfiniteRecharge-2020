@@ -193,6 +193,10 @@ public class SubsystemFactory {
         OI.getInstance().bind(pc, OI.RightJoyButton11, OI.WhenPressed);
         StopIntake si = new StopIntake(transport);
         OI.getInstance().bind(si, OI.RightJoyButton9, OI.WhenPressed);
+        TransportUp tu = new TransportUp(transport);
+        OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);
+        TransportDown td = new TransportDown(transport);
+        OI.getInstance().bind(td, OI.AuxJoyButton9, OI.WhenPressed);
 
         /**
          * All of the OneWheelShooter stuff goes here

@@ -32,11 +32,11 @@ public class Intake extends SubsystemBase {
 
   public void moveGateUp(){
       doubleSolenoid.set(DoubleSolenoid.Value.kForward);
-      gateUp = false;
+      gateUp = true;
   }
   public void moveGateDown(){
     doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
-    gateUp = true;
+    gateUp = false;
   }
   public boolean getGateStatus(){
     return gateUp;
