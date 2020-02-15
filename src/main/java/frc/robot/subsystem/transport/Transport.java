@@ -76,15 +76,19 @@ public class Transport extends SubsystemBase {
         logger.exiting(Transport.class.getName(), "init()");
     }
 
-    public void moveGateUp(){
+    public void moveSideGateOpen(){
         doubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
-        doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
         gateUp = true;
     }
-    public void moveGateDown(){
+    public void moveSideGateClose(){
       doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
-      doubleSolenoidRight.set(DoubleSolenoid.Value.kReverse);
       gateUp = false;
+    }
+    public void moveTailGateUp(){
+        doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
+    }
+    public void moveTailGateDown(){
+        doubleSolenoidRight.set(DoubleSolenoid.Value.kReverse);
     }
     public boolean getGateStatus(){
       return gateUp;

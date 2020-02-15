@@ -10,7 +10,7 @@ package frc.robot.subsystem.transport.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystem.transport.Transport;
 
-public class TransportUp extends CommandBase {
+public class SideGateClose extends CommandBase {
 
   private Transport transport;
   private boolean stop;
@@ -18,7 +18,7 @@ public class TransportUp extends CommandBase {
   /**
    * Creates a new MoveGateUp.
    */
-  public TransportUp(Transport t) {
+  public SideGateClose(Transport t) {
     transport = t;
     addRequirements(t);
     stop = false;
@@ -32,7 +32,7 @@ public class TransportUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    transport.moveGateUp();
+    transport.moveSideGateClose();
   }
 
   // Called once the command ends or is interrupted.

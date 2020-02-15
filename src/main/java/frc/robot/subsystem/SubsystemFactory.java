@@ -164,11 +164,17 @@ public class SubsystemFactory {
         PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.AuxJoyButton7, OI.WhenPressed);
 
-        TransportUp tu = new TransportUp(transport);
+        SideGateOpen tu = new SideGateOpen(transport);
         OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);
 
-        TransportDown td = new TransportDown(transport);
+        SideGateClose td = new SideGateClose(transport);
         OI.getInstance().bind(td, OI.AuxJoyButton9, OI.WhenPressed);
+
+        TailGateUp tgu = new TailGateUp(transport);
+        OI.getInstance().bind(tgu, OI.AuxJoyButton4, OI.WhenPressed);
+
+        TailGateDown tgd = new TailGateDown(transport);
+        OI.getInstance().bind(tgd, OI.AuxJoyButton5, OI.WhenPressed);
 
         StopIntake si = new StopIntake(transport);
         OI.getInstance().bind(si, OI.AuxJoyButton10, OI.WhenPressed);
@@ -255,9 +261,9 @@ public class SubsystemFactory {
         OI.getInstance().bind(pc, OI.RightJoyButton11, OI.WhenPressed);
         StopIntake si = new StopIntake(transport);
         OI.getInstance().bind(si, OI.RightJoyButton9, OI.WhenPressed);
-        TransportUp tu = new TransportUp(transport);
+        SideGateOpen tu = new SideGateOpen(transport);
         OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);
-        TransportDown td = new TransportDown(transport);
+        SideGateClose td = new SideGateClose(transport);
         OI.getInstance().bind(td, OI.AuxJoyButton9, OI.WhenPressed);
 
         /**
