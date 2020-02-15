@@ -36,10 +36,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
     */
 
-    // bl = 95
-    // br - 128.5
-    // fl - 338
-    // fr - 335
     private SwerveModule frontLeftModule ;
     private SwerveModule frontRightModule ;
     private SwerveModule backLeftModule ;

@@ -32,7 +32,7 @@ public class OI {
 
     static Logger logger = Logger.getLogger(SubsystemFactory.class.getName());
     
-    private double  deadzone    = 0.03;
+    private double  deadzone    = 0.09;
     private double  scaleFactor = 1.0;
 
     private HashMap<Integer, String> allocatedJoyButtons = new HashMap<Integer, String>();

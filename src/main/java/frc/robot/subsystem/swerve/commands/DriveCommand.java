@@ -24,7 +24,7 @@ public class DriveCommand extends CommandBase {
         // Square the strafe stick
         strafe = Math.copySign(Math.pow(strafe, 2.0), strafe);
 
-        double rotation = - OI.getInstance().getRightJoystickYValue();
+        double rotation = - OI.getInstance().getRightJoystickXValue();
         // Square the rotation stick
         rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
 

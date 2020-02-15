@@ -149,6 +149,52 @@ public class SubsystemFactory {
         driveTrain  = new DrivetrainSubsystem();
         driveTrain.init(portMan);
 
+
+        /**
+         * All of the Transport stuff goes here
+         */
+        
+        transport = new Transport();
+        transport.init(portMan);
+        displayManager.addTransport(transport);
+
+        TakeIn tc = new TakeIn(transport);
+        OI.getInstance().bind(tc, OI.AuxJoyButton6, OI.WhenPressed);
+
+        PushOut pc = new PushOut(transport);
+        OI.getInstance().bind(pc, OI.AuxJoyButton7, OI.WhenPressed);
+
+        TransportUp tu = new TransportUp(transport);
+        OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);
+
+        TransportDown td = new TransportDown(transport);
+        OI.getInstance().bind(td, OI.AuxJoyButton9, OI.WhenPressed);
+
+        StopIntake si = new StopIntake(transport);
+        OI.getInstance().bind(si, OI.AuxJoyButton10, OI.WhenPressed);
+
+
+        /**
+         * All of the OneWheelShooter stuff goes here
+         */
+        
+        oneWheelShooter = new OneWheelShooter();
+        oneWheelShooter.init(portMan);
+        displayManager.addShooter(oneWheelShooter);
+
+        OneWheelStop st = new OneWheelStop(oneWheelShooter);
+        OI.getInstance().bind(st, OI.AuxJoyButton8, OI.WhenPressed);
+
+        OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
+        OI.getInstance().bind(sh, OI.AuxJoyButton9, OI.WhenPressed);
+
+        OneWheelReverse owr = new OneWheelReverse(oneWheelShooter);
+        OI.getInstance().bind(owr, OI.LeftJoyButton8, OI.WhenPressed);
+
+        OneWheelReverse shooterReverse = new OneWheelReverse(oneWheelShooter);
+        OI.getInstance().bind(shooterReverse, OI.LeftJoyButton8, OI.WhenPressed);
+
+
     }
     /**
      * 

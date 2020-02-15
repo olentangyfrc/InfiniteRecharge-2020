@@ -32,7 +32,7 @@ public class OneWheelShooter extends SubsystemBase{
     
     public void init(final PortMan portMan) throws Exception {
         logger.info("init");
-        motor = new TalonSRX(portMan.acquirePort(PortMan.can_16_label, "OneWheelShooter"));
+        motor = new TalonSRX(portMan.acquirePort(PortMan.can_28_label, "OneWheelShooter"));
 
         pValue = .3;
         iValue = 0;

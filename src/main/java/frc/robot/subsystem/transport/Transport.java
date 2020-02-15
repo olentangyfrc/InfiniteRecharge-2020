@@ -2,19 +2,13 @@ package frc.robot.subsystem.transport;
 
 import java.util.logging.Logger;
 
-import javax.xml.namespace.QName;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANPIDController;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.OzoneException;
 import frc.robot.subsystem.PortMan;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,19 +17,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Transport extends SubsystemBase {
 
-    private static final Double Repeatable = null;
-
     private static Logger logger = Logger.getLogger(Transport.class.getName());
 
     private DoubleSolenoid doubleSolenoidLeft;
     private DoubleSolenoid doubleSolenoidRight;
     private TalonSRX leftIntake;
     private TalonSRX rightIntake;
-    private AnalogInput intakeSensor;
-    private CANPIDController leftPid;
-    private CANPIDController rightPid;
-    private AnalogInput exitSensor;
-    private MedianFilter filter;
     private double motorSpeedForward = .2;
     private double motorSpeedBackward = .2;
 
@@ -51,17 +38,22 @@ public class Transport extends SubsystemBase {
     public Transport() {
     }
 
+    // shooter gate pcm 6, pcm 7
+    // statue of liberty pcm 0, pcm 1
     public void init(PortMan portMan) throws Exception {
         logger.entering(Transport.class.getName(), "init()");
 
-        doubleSolenoidLeft = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm2_label, "Transport.gate2"), portMan.acquirePort(PortMan.pcm3_label, "Transport.gate3"));
-        doubleSolenoidRight = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm4_label, "Transport.gate4"), portMan.acquirePort(PortMan.pcm5_label, "Transport.gate5"));
+        // intake
+        doubleSolenoidLeft = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm4_label, "Transport.gate2"), portMan.acquirePort(PortMan.pcm5_label, "Transport.gate3"));
+        // tailgate
+        doubleSolenoidRight = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm2_label, "Transport.gate4"), portMan.acquirePort(PortMan.pcm3_label, "Transport.gate5"));
         gateUp = false;
         
         enterSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Transport.IntakeEnterSensor"));
         exitSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Transport.IntakeExitSensor"));
-        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_57_label, "Transport.LeftIntake"));
-        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_58_label, "Transport.RightIntake"));
+
+        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_24_label, "Transport.LeftIntake"));
+        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_26_label, "Transport.RightIntake"));
         //ballCount = new Counter(Counter.Mode.kSemiperiod)
 
         leftIntake.config_kP(0, .5, 0);
@@ -78,9 +70,6 @@ public class Transport extends SubsystemBase {
         rightIntake.configMotionCruiseVelocity(4096, 0);
         rightIntake.configMotionAcceleration(4096, 0);
 
-        rightIntake.follow(leftIntake);
-        rightIntake.setInverted(true);
-
         //ballCount.setUpSource(enterSwitch);
         //ballCount.setSemiPeriodMode(true);
 
@@ -94,7 +83,7 @@ public class Transport extends SubsystemBase {
     }
     public void moveGateDown(){
       doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
-      doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
+      doubleSolenoidRight.set(DoubleSolenoid.Value.kReverse);
       gateUp = false;
     }
     public boolean getGateStatus(){
@@ -104,7 +93,13 @@ public class Transport extends SubsystemBase {
     public void take() {
         logger.info("take");
         leftIntake.set(ControlMode.PercentOutput, motorSpeedForward);
-        leftPid.setReference(motorSpeedForward, ControlType.kVelocity);
+        rightIntake.set(ControlMode.PercentOutput, -motorSpeedForward);
+    }
+
+    public void expel() {
+        logger.info("expel");
+        leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
+        rightIntake.set(ControlMode.PercentOutput, motorSpeedBackward);
     }
 
     public void stop() {
@@ -116,11 +111,6 @@ public class Transport extends SubsystemBase {
 
     public int count() {
         return 0;
-    }
-
-    public void expel() {
-        logger.info("expel");
-        leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
     }
 
     public double getVelocity() {
