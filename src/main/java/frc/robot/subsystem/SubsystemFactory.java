@@ -17,6 +17,11 @@ import frc.robot.subsystem.controlpanel.commands.RotateToColor;
 import frc.robot.subsystem.controlpanel.commands.SensorSpin;
 import frc.robot.subsystem.controlpanel.commands.SpinnerRetract;
 import frc.robot.subsystem.controlpanel.commands.SpinnerUp;
+import frc.robot.subsystem.intake.Intake;
+import frc.robot.subsystem.intake.commands.IntakeDown;
+import frc.robot.subsystem.intake.commands.IntakeSpinBack;
+import frc.robot.subsystem.intake.commands.IntakeSpinForward;
+import frc.robot.subsystem.intake.commands.IntakeUp;
 import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelReverse;
@@ -52,6 +57,8 @@ public class SubsystemFactory {
     private OneWheelShooter oneWheelShooter;
     private Telemetry telemetry;
     private PixyLineCam pixyLineCam;
+    private Intake intake;
+    
     private static ArrayList<SBInterface> subsystemInterfaceList;
 
     private SubsystemFactory() {
@@ -212,6 +219,22 @@ public class SubsystemFactory {
 
         PollPixyLine p = new PollPixyLine(pixyLineCam);
         OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
+
+        /**
+         * All of Intake Stuff goes here
+         */
+        intake = new Intake();
+        intake.init(portMan);
+        displayManager.addIntake(intake);
+        IntakeUp iu = new IntakeUp(intake);
+        OI.getInstance().bind(iu,OI.AuxJoyButton6, OI.WhenPressed);
+        IntakeDown id = new IntakeDown(intake);
+        OI.getInstance().bind(id,OI.AuxJoyButton7, OI.WhenPressed);
+        IntakeSpinForward isf = new IntakeSpinForward(intake);
+        OI.getInstance().bind(isf,OI.RightJoyButton1, OI.WhenPressed);
+        IntakeSpinBack isb = new IntakeSpinBack(intake);
+        OI.getInstance().bind(isb,OI.RightJoyButton2, OI.WhenPressed);
+        
     }
 
     private void initZombie(PortMan portMan) throws OzoneException {
