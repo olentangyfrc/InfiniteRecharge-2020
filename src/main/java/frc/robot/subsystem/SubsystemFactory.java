@@ -190,11 +190,6 @@ public class SubsystemFactory {
 
         OneWheelReverse owr = new OneWheelReverse(oneWheelShooter);
         OI.getInstance().bind(owr, OI.LeftJoyButton8, OI.WhenPressed);
-
-        OneWheelReverse shooterReverse = new OneWheelReverse(oneWheelShooter);
-        OI.getInstance().bind(shooterReverse, OI.LeftJoyButton8, OI.WhenPressed);
-
-
     }
     /**
      * 
