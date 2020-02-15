@@ -12,16 +12,16 @@ import frc.robot.subsystem.PortMan;
 public class Climber extends SubsystemBase {
     private static Logger logger = Logger.getLogger(Climber.class.getName());
     private TalonSRX motor;
-    private boolean pastValue1 = false;
-    private DigitalInput switch1;
-    private DigitalInput switch2;
+    private DigitalInput hardLowLimit;
+    private DigitalInput minLimit;
     private DigitalInput hardTopLimit;
     
     public void init(PortMan portMan) throws Exception {
-        logger.info("init");
-        motor = new TalonSRX(portMan.acquirePort(PortMan.can_16_label, "Climber.motor"));
-        switch1 = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Climber.HardLowLimit"));
-        switch2 = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Climber.MinimumLimit"));
+    logger.info("init");
+    motor = new TalonSRX(portMan.acquirePort(PortMan.can_16_label, "Climber.motor"));
+    hardLowLimit = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Climber.HardLowLimit"));
+    minLimit = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Climber.MinimumLimit"));
+    hardTopLimit = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Climber.HardHighLimit"));
 
 
       motor.enableCurrentLimit(true);
@@ -42,7 +42,7 @@ public class Climber extends SubsystemBase {
     
     public void extend(){
         logger.info("extend");
-        if(getDigitalInput1() == false)
+        if(getMinLimit() == false)
         {
             motor.set(ControlMode.PercentOutput, .5);
         }
@@ -52,22 +52,37 @@ public class Climber extends SubsystemBase {
         }  
     }
 
+    public void controlForward(){
+        if(getHardHighLimit() == false)
+            motor.set(ControlMode.PercentOutput, .2);
+        else   
+            motor.set(ControlMode.PercentOutput, 0.0);
+
+    }
+    public void controlBack(){
+        if(getHardLowLimit() == false)
+            motor.set(ControlMode.PercentOutput, -.2);
+        else
+            motor.set(ControlMode.PercentOutput, 0.0);
+    }
+
     public void retract(){
         logger.info("retract");
-        if(getDigitalInput2() == false && getDigitalInput1() == true)
-        {
+        if(getHardLowLimit() == false)
             motor.set(ControlMode.PercentOutput, -.5);
-        }
-        else{
+        else   
             motor.set(ControlMode.PercentOutput, 0.0);
-        }
     }
 
-    public boolean getDigitalInput1(){
-        return switch1.get();
+    public boolean getHardLowLimit(){
+        return hardLowLimit.get();
     }
 
-    public boolean getDigitalInput2(){
-        return switch2.get();
+    public boolean getMinLimit(){
+        return minLimit.get();
+    }
+
+    public boolean getHardHighLimit(){
+        return hardTopLimit.get();
     }
 }
