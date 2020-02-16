@@ -22,6 +22,7 @@ import frc.robot.subsystem.intake.Intake;
 import frc.robot.subsystem.intake.commands.IntakeDown;
 import frc.robot.subsystem.intake.commands.IntakeSpinBack;
 import frc.robot.subsystem.intake.commands.IntakeSpinForward;
+import frc.robot.subsystem.intake.commands.IntakeStop;
 import frc.robot.subsystem.intake.commands.IntakeUp;
 import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.telemetry.commands.SquareSelf;
@@ -39,7 +40,7 @@ import frc.robot.subsystem.climber.commands.ClimberRetract;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
-import frc.robot.subsystem.transport.commands.StopIntake;
+import frc.robot.subsystem.transport.commands.StopTransport;
 import frc.robot.subsystem.swerve.DrivetrainSubsystem;
 
 public class SubsystemFactory {
@@ -160,7 +161,6 @@ public class SubsystemFactory {
         displayManager.addTransport(transport);
 
         TakeIn tc = new TakeIn(transport);
-        OI.getInstance().bind(tc, OI.AuxJoyButton6, OI.WhenPressed);
 
         PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.AuxJoyButton7, OI.WhenPressed);
@@ -177,7 +177,7 @@ public class SubsystemFactory {
         TailGateDown tgd = new TailGateDown(transport);
         OI.getInstance().bind(tgd, OI.AuxJoyButton5, OI.WhenPressed);
 
-        StopIntake si = new StopIntake(transport);
+        StopTransport si = new StopTransport(transport);
         OI.getInstance().bind(si, OI.AuxJoyButton10, OI.WhenPressed);
 
 
@@ -217,6 +217,9 @@ public class SubsystemFactory {
 
         IntakeSpinBack isb = new IntakeSpinBack(intake);
         OI.getInstance().bind(isb,OI.RightJoyButton10, OI.WhenPressed);
+
+        IntakeStop is = new IntakeStop(intake);
+        OI.getInstance().bind(is,OI.RightJoyButton4, OI.WhenPressed);
 
          /**
          * All of the ControlPanel stuff goes here
@@ -305,7 +308,7 @@ public class SubsystemFactory {
         OI.getInstance().bind(tc, OI.RightJoyButton7, OI.WhenPressed);
         PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.RightJoyButton11, OI.WhenPressed);
-        StopIntake si = new StopIntake(transport);
+        StopTransport si = new StopTransport(transport);
         OI.getInstance().bind(si, OI.RightJoyButton9, OI.WhenPressed);
         SideGateOpen tu = new SideGateOpen(transport);
         OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);
