@@ -23,8 +23,8 @@ public class Transport extends SubsystemBase {
     private DoubleSolenoid doubleSolenoidRight;
     private TalonSRX leftIntake;
     private TalonSRX rightIntake;
-    private double motorSpeedForward = .2;
-    private double motorSpeedBackward = .2;
+    private double motorSpeedForward = .5;
+    private double motorSpeedBackward = .5;
 
     private int ballCount = 0;
     private boolean pastValue1 = false;
@@ -38,13 +38,11 @@ public class Transport extends SubsystemBase {
     public Transport() {
     }
 
-    // shooter gate pcm 6, pcm 7
-    // statue of liberty pcm 0, pcm 1
     public void init(PortMan portMan) throws Exception {
         logger.entering(Transport.class.getName(), "init()");
 
-        // intake
-        doubleSolenoidLeft = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm4_label, "Transport.gate2"), portMan.acquirePort(PortMan.pcm5_label, "Transport.gate3"));
+        // sideGate
+        doubleSolenoidLeft = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm6_label, "Transport.gate2"), portMan.acquirePort(PortMan.pcm7_label, "Transport.gate3"));
         // tailgate
         doubleSolenoidRight = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm2_label, "Transport.gate4"), portMan.acquirePort(PortMan.pcm3_label, "Transport.gate5"));
         gateUp = false;

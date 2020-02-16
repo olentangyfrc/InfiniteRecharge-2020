@@ -14,9 +14,10 @@ import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.RotateToColor;
-import frc.robot.subsystem.controlpanel.commands.SensorSpin;
+import frc.robot.subsystem.controlpanel.commands.SpinRotations;
 import frc.robot.subsystem.controlpanel.commands.SpinnerRetract;
 import frc.robot.subsystem.controlpanel.commands.SpinnerUp;
+import frc.robot.subsystem.controlpanel.commands.Stop;
 import frc.robot.subsystem.intake.Intake;
 import frc.robot.subsystem.intake.commands.IntakeDown;
 import frc.robot.subsystem.intake.commands.IntakeSpinBack;
@@ -196,6 +197,49 @@ public class SubsystemFactory {
 
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
         OI.getInstance().bind(st, OI.RightJoyButton2, OI.WhenPressed);
+
+         /**
+         * All of Intake Stuff goes here
+         */
+
+        intake = new Intake();
+        intake.init(portMan);
+        displayManager.addIntake(intake);
+
+        IntakeUp iu = new IntakeUp(intake);
+        OI.getInstance().bind(iu,OI.RightJoyButton6, OI.WhenPressed);
+
+        IntakeDown id = new IntakeDown(intake);
+        OI.getInstance().bind(id,OI.RightJoyButton7, OI.WhenPressed);
+
+        IntakeSpinForward isf = new IntakeSpinForward(intake);
+        OI.getInstance().bind(isf,OI.RightJoyButton11, OI.WhenPressed);
+
+        IntakeSpinBack isb = new IntakeSpinBack(intake);
+        OI.getInstance().bind(isb,OI.RightJoyButton10, OI.WhenPressed);
+
+         /**
+         * All of the ControlPanel stuff goes here
+         */
+
+        controlPanel = new ControlPanel();
+        controlPanel.init(portMan, telemetry);
+        displayManager.addCP(controlPanel);
+
+        RotateToColor dc = new RotateToColor(controlPanel, "Blue");
+        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
+
+        SpinRotations ss = new SpinRotations(controlPanel, 6);
+        OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
+
+        SpinnerUp su = new SpinnerUp(controlPanel);
+        OI.getInstance().bind(su, OI.LeftJoyButton8, OI.WhenPressed);
+
+        SpinnerRetract sr = new SpinnerRetract(controlPanel);
+        OI.getInstance().bind(sr, OI.LeftJoyButton9, OI.WhenPressed);
+
+        Stop stop = new Stop(controlPanel);
+        OI.getInstance().bind(stop, OI.LeftJoyButton1, OI.WhenPressed);
     }
     /**
      * 
@@ -241,12 +285,14 @@ public class SubsystemFactory {
         displayManager.addCP(controlPanel);
         RotateToColor dc = new RotateToColor(controlPanel, "Blue");
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
-        SensorSpin ss = new SensorSpin(controlPanel, 6);
+        SpinRotations ss = new SpinRotations(controlPanel, 6);
         OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
         SpinnerUp su = new SpinnerUp(controlPanel);
         OI.getInstance().bind(su, OI.LeftJoyButton8, OI.WhenPressed);
         SpinnerRetract sr = new SpinnerRetract(controlPanel);
         OI.getInstance().bind(sr, OI.LeftJoyButton9, OI.WhenPressed);
+        Stop stop = new Stop(controlPanel);
+        OI.getInstance().bind(stop, OI.LeftJoyButton1, OI.WhenPressed);
 
         /**
          * All of the Transport stuff goes here
@@ -294,20 +340,23 @@ public class SubsystemFactory {
         PollPixyLine p = new PollPixyLine(pixyLineCam);
         OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
 
-        /**
+         /**
          * All of Intake Stuff goes here
          */
+
         intake = new Intake();
         intake.init(portMan);
         displayManager.addIntake(intake);
+
         IntakeUp iu = new IntakeUp(intake);
-        OI.getInstance().bind(iu,OI.AuxJoyButton6, OI.WhenPressed);
+        OI.getInstance().bind(iu,OI.RightJoyButton6, OI.WhenPressed);
         IntakeDown id = new IntakeDown(intake);
-        OI.getInstance().bind(id,OI.AuxJoyButton7, OI.WhenPressed);
+        OI.getInstance().bind(id,OI.RightJoyButton7, OI.WhenPressed);
         IntakeSpinForward isf = new IntakeSpinForward(intake);
-        OI.getInstance().bind(isf,OI.RightJoyButton1, OI.WhenPressed);
+        OI.getInstance().bind(isf,OI.RightJoyButton11, OI.WhenPressed);
+
         IntakeSpinBack isb = new IntakeSpinBack(intake);
-        OI.getInstance().bind(isb,OI.RightJoyButton2, OI.WhenPressed);
+        OI.getInstance().bind(isb,OI.RightJoyButton10, OI.WhenPressed);
         
     }
 

@@ -22,19 +22,20 @@ public class Intake extends SubsystemBase {
   private DoubleSolenoid doubleSolenoid;
   private TalonSRX motor;
   private boolean gateUp;
-  private double velocity;
+  private double percent;
 
   public void init(PortMan portMan) throws Exception {
-    doubleSolenoid = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm0_label, "Intake.gate0"), portMan.acquirePort(PortMan.pcm1_label, "Intake.gate1"));
-    motor = new TalonSRX(portMan.acquirePort(PortMan.can_39_label, "Intake.wheel"));
+    doubleSolenoid = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm4_label, "Intake.gate0"), portMan.acquirePort(PortMan.pcm5_label, "Intake.gate1"));
+    motor = new TalonSRX(portMan.acquirePort(PortMan.can_25_label, "Intake.wheel"));
     gateUp = false;
+    percent = .5;
   }
 
-  public void moveGateUp(){
+  public void moveWheelIntakeUp(){
       doubleSolenoid.set(DoubleSolenoid.Value.kForward);
       gateUp = true;
   }
-  public void moveGateDown(){
+  public void moveWheelIntakeDown(){
     doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
     gateUp = false;
   }
@@ -42,12 +43,15 @@ public class Intake extends SubsystemBase {
     return gateUp;
   }
   public void wheelSpinFront(){
-    motor.set(ControlMode.Velocity, velocity);
+    motor.set(ControlMode.PercentOutput, percent);
   }
   public void wheelSpinBack(){
-    motor.set(ControlMode.Velocity, velocity);
+    motor.set(ControlMode.PercentOutput, -percent);
   }
-  public void setVelocity(double a){
-    velocity = a;
+  public void setPercent(double a){
+    percent = a;
+  }
+  public double getPercent(){
+    return motor.getMotorOutputPercent();
   }
 }

@@ -5,22 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.intake.commands;
+package frc.robot.subsystem.controlpanel.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystem.intake.Intake;
+import frc.robot.subsystem.controlpanel.ControlPanel;
 
-public class IntakeDown extends CommandBase {
+public class Stop extends CommandBase {
   /**
-   * Creates a new IntakeDown.
+   * Creates a new Stop.
    */
-  private Intake intake;
+  private ControlPanel controlPanel;
   private boolean stop;
-  
-  public IntakeDown(Intake i) {
-    intake = i;
-    addRequirements(i);
-    stop = false;
+  public Stop(ControlPanel c) {
+    controlPanel = c;
+    addRequirements(c);
+    stop = true;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -32,18 +31,17 @@ public class IntakeDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.moveWheelIntakeDown();
+    controlPanel.stop();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stop = true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stop;
+    return true;
   }
 }

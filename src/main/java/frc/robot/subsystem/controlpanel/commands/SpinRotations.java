@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 
-public class SensorSpin extends CommandBase {
+public class SpinRotations extends CommandBase {
   private final Logger logger = Logger.getLogger(RotateToColor.class.getName());
   
   private ControlPanel controlPanel;
@@ -23,7 +23,7 @@ public class SensorSpin extends CommandBase {
   private boolean stop;
   
 
-  public SensorSpin(ControlPanel c, int sc) {
+  public SpinRotations(ControlPanel c, int sc) {
     controlPanel = c;
     addRequirements(c);
     spinCount = sc;

@@ -28,7 +28,7 @@ public class OneWheelShooterSBTab implements SBInterface{
         shooter = c;
 
         tab = Shuffleboard.getTab("OneWheelShooter");
-        velocity = tab.add("Velocity", 0.0).getEntry();
+        velocity = tab.add("Velocity", 10000).getEntry();
         pValue = tab.add("PValue", .3).getEntry();
         iValue = tab.add("IValue", 0.0).getEntry();
         dValue = tab.add("DValue", 0.2).getEntry();
