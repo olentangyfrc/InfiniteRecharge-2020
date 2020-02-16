@@ -5,22 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.transport.commands;
-
-import java.util.logging.Logger;
+package frc.robot.subsystem.intake.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystem.transport.Transport;
+import frc.robot.subsystem.intake.Intake;
 
-public class StopIntake extends CommandBase {
+public class IntakeStop extends CommandBase {
+  /**
+   * Creates a new IntakeStop.
+   */
+  private Intake intake;
 
-  private Logger logger = Logger.getLogger(StopIntake.class.getName());
+  public IntakeStop(Intake i) {
+    intake = i;
+    addRequirements(i);
 
-  private Transport transport;
-
-  public StopIntake(Transport t) {
-    transport = t;
-    addRequirements(t);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +31,7 @@ public class StopIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    transport.stop();
+    intake.stop();
   }
 
   // Called once the command ends or is interrupted.

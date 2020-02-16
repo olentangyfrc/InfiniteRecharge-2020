@@ -8,9 +8,10 @@ import com.revrobotics.CANPIDController;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.MedianFilter;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystem.PortMan;
-
+import frc.robot.subsystem.transport.commands.TakeIn;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -29,10 +30,11 @@ public class Transport extends SubsystemBase {
     private int ballCount = 0;
     private boolean pastValue1 = false;
     private boolean pastValue2 = false;
-    private DigitalInput enterSwitch;
-    private DigitalInput exitSwitch;
+    private DigitalInput transportReceiverSwitch;
+    private DigitalInput transportSenderSwitch;
 
     private boolean gateUp;
+    private double transportTime;
 
     //private Counter ballCount;
     public Transport() {
@@ -47,8 +49,8 @@ public class Transport extends SubsystemBase {
         doubleSolenoidRight = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm2_label, "Transport.gate4"), portMan.acquirePort(PortMan.pcm3_label, "Transport.gate5"));
         gateUp = false;
         
-        enterSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Transport.IntakeEnterSensor"));
-        exitSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Transport.IntakeExitSensor"));
+        transportReceiverSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Transport.IntakeEnterSensor"));
+        transportSenderSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Transport.IntakeExitSensor"));
 
         leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_24_label, "Transport.LeftIntake"));
         rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_26_label, "Transport.RightIntake"));
@@ -68,8 +70,12 @@ public class Transport extends SubsystemBase {
         rightIntake.configMotionCruiseVelocity(4096, 0);
         rightIntake.configMotionAcceleration(4096, 0);
 
+        transportTime = 0.0;
+
         //ballCount.setUpSource(enterSwitch);
         //ballCount.setSemiPeriodMode(true);
+
+        setDefaultCommand(new TakeIn(this));
 
         logger.exiting(Transport.class.getName(), "init()");
     }
@@ -91,6 +97,10 @@ public class Transport extends SubsystemBase {
     public boolean getGateStatus(){
       return gateUp;
     }
+    public void shoot(){
+        leftIntake.set(ControlMode.PercentOutput, .7);
+        rightIntake.set(ControlMode.PercentOutput, -.7);
+    }
 
     public void take() {
         logger.info("take");
@@ -105,7 +115,6 @@ public class Transport extends SubsystemBase {
     }
 
     public void stop() {
-        logger.info("stop");
 
         leftIntake.set(ControlMode.PercentOutput,0);
         rightIntake.set(ControlMode.PercentOutput,0);
@@ -120,30 +129,41 @@ public class Transport extends SubsystemBase {
     }
 
     public int getBallCount() {
-        if(getDigitalInput1() == true && pastValue1 == false){
+        if(getTransportReceiverSwitch() == true && pastValue1 == false){
             ballCount++;
         }
-        if(getDigitalInput2() == true && pastValue2 == false){
+        if(getTransportSendserSwitch() == true && pastValue2 == false){
             ballCount++;
         }
-        pastValue1 = getDigitalInput1();
-        pastValue2 = getDigitalInput2();
+        pastValue1 = getTransportReceiverSwitch();
+        pastValue2 = getTransportSendserSwitch();
+        /*
         if(ballCount >= 5){
             leftIntake.set(ControlMode.PercentOutput,0);
             rightIntake.set(ControlMode.PercentOutput,0);
         }
+        */
         return ballCount;
     }
 
-    public boolean getDigitalInput1(){
-        return enterSwitch.get();
+    public boolean getTransportReceiverSwitch(){
+        return transportReceiverSwitch.get();
     }
 
-    public boolean getDigitalInput2(){
-        return exitSwitch.get();
+    public boolean getTransportSendserSwitch(){
+        return transportSenderSwitch.get();
     }
     
     public void update(){
         
+    }
+    public double getTime(){
+        return Timer.getFPGATimestamp();
+    }
+    public void setTargetTime(double a){
+        transportTime = a;
+    }
+    public double getTargetTime(){
+        return transportTime;
     }
 }

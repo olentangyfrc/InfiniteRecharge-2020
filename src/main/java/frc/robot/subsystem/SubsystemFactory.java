@@ -22,6 +22,7 @@ import frc.robot.subsystem.intake.Intake;
 import frc.robot.subsystem.intake.commands.IntakeDown;
 import frc.robot.subsystem.intake.commands.IntakeSpinBack;
 import frc.robot.subsystem.intake.commands.IntakeSpinForward;
+import frc.robot.subsystem.intake.commands.IntakeStop;
 import frc.robot.subsystem.intake.commands.IntakeUp;
 import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.telemetry.commands.SquareSelf;
@@ -36,10 +37,15 @@ import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.climber.commands.ClimberControl;
 import frc.robot.subsystem.climber.commands.ClimberControlBack;
 import frc.robot.subsystem.climber.commands.ClimberRetract;
+import frc.robot.subsystem.commandgroups.CollectionMode;
+import frc.robot.subsystem.commandgroups.MoveMode;
+import frc.robot.subsystem.commandgroups.ScoreLow;
+import frc.robot.subsystem.commandgroups.ScoringHigh;
+import frc.robot.subsystem.transport.DumpTruck;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
-import frc.robot.subsystem.transport.commands.StopIntake;
+import frc.robot.subsystem.transport.commands.StopTransport;
 import frc.robot.subsystem.swerve.DrivetrainSubsystem;
 
 public class SubsystemFactory {
@@ -160,7 +166,6 @@ public class SubsystemFactory {
         displayManager.addTransport(transport);
 
         TakeIn tc = new TakeIn(transport);
-        OI.getInstance().bind(tc, OI.AuxJoyButton6, OI.WhenPressed);
 
         PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.AuxJoyButton7, OI.WhenPressed);
@@ -177,8 +182,11 @@ public class SubsystemFactory {
         TailGateDown tgd = new TailGateDown(transport);
         OI.getInstance().bind(tgd, OI.AuxJoyButton5, OI.WhenPressed);
 
-        StopIntake si = new StopIntake(transport);
+        StopTransport si = new StopTransport(transport);
         OI.getInstance().bind(si, OI.AuxJoyButton10, OI.WhenPressed);
+
+        DumpTruck dt = new DumpTruck(transport);
+        OI.getInstance().bind(dt, OI.AuxJoyButton11, OI.WhenPressed);
 
 
         /**
@@ -218,6 +226,9 @@ public class SubsystemFactory {
         IntakeSpinBack isb = new IntakeSpinBack(intake);
         OI.getInstance().bind(isb,OI.RightJoyButton10, OI.WhenPressed);
 
+        IntakeStop is = new IntakeStop(intake);
+        OI.getInstance().bind(is,OI.RightJoyButton4, OI.WhenPressed);
+
          /**
          * All of the ControlPanel stuff goes here
          */
@@ -225,7 +236,7 @@ public class SubsystemFactory {
         controlPanel = new ControlPanel();
         controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
-
+        
         RotateToColor dc = new RotateToColor(controlPanel, "Blue");
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
 
@@ -240,6 +251,48 @@ public class SubsystemFactory {
 
         Stop stop = new Stop(controlPanel);
         OI.getInstance().bind(stop, OI.LeftJoyButton1, OI.WhenPressed);
+
+        /**
+         * All of the Climber stuff goes here
+         */
+        
+        climber = new Climber();
+        climber.init(portMan);
+        displayManager.addClimber(climber);
+
+        /*
+        Climb c = new Climb(climber);
+        OI.getInstance().bind(c, OI.AuxJoyButton11, OI.WhenPressed);
+
+        ClimberRetract cr = new ClimberRetract(climber);
+        OI.getInstance().bind(cr, OI.AuxJoyButton3, OI.WhenPressed);
+
+        ClimberControl cc = new ClimberControl(climber);
+        OI.getInstance().bind(cc, OI.AuxJoyButton1, OI.WhileHeld);
+
+        ClimberControlBack ccb = new ClimberControlBack(climber);
+        OI.getInstance().bind(ccb,OI.AuxJoyButton2, OI.WhileHeld);
+        */
+
+        //Command Groups
+
+        /*
+        CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel);
+        OI.getInstance().bind(collectionMode, OI.buton9, OI.WhenPressed);
+
+        MoveMode moveMode = new MoveMode(transport, intake);
+        OI.getInstance().bind(moveMode, OI.button8, OI.WhenPressed);
+
+        ScoreLow scoreLow = new ScoreLow(transport, intake, controlPanel);
+        OI.getInstance().bind(scoreLow, OI.button11, OI.WhenPressed);
+
+        ScoringHigh scoreHigh = new ScoringHigh(transport, intake, controlPanel, oneWheelShooter);
+        OI.getInstance().bind(scoreHigh, OI.button10, OI.WhenPressed);
+        */
+
+        
+
+        
     }
     /**
      * 
@@ -305,7 +358,7 @@ public class SubsystemFactory {
         OI.getInstance().bind(tc, OI.RightJoyButton7, OI.WhenPressed);
         PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.RightJoyButton11, OI.WhenPressed);
-        StopIntake si = new StopIntake(transport);
+        StopTransport si = new StopTransport(transport);
         OI.getInstance().bind(si, OI.RightJoyButton9, OI.WhenPressed);
         SideGateOpen tu = new SideGateOpen(transport);
         OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);

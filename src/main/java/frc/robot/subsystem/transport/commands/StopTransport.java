@@ -5,49 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.controlpanel.commands;
+package frc.robot.subsystem.transport.commands;
 
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystem.transport.Transport;
 
-import frc.robot.subsystem.controlpanel.ControlPanel;
+public class StopTransport extends CommandBase {
 
+  private Logger logger = Logger.getLogger(StopTransport.class.getName());
 
-public class SpinnerRetract extends CommandBase {
-  private final Logger logger = Logger.getLogger(Spin.class.getName());
-  
-  private ControlPanel controlPanel;
-  /**
-   * Creates a new Spin.
-   */
-  public SpinnerRetract(ControlPanel c) {
-    controlPanel = c;
-    addRequirements(c);
+  private Transport transport;
+
+  public StopTransport(Transport t) {
+    transport = t;
+    addRequirements(t);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlPanel.retractPistons();
+    transport.stop();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(final boolean interrupted) {
-      logger.info("Ended");
+  public void end(boolean interrupted) {
   }
 
-  @Override
-  public synchronized void cancel() {
-      logger.info("Canceled");
-  }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

@@ -43,15 +43,18 @@ public class Intake extends SubsystemBase {
     return gateUp;
   }
   public void wheelSpinFront(){
-    motor.set(ControlMode.PercentOutput, percent);
+    motor.set(ControlMode.PercentOutput,-percent);
   }
   public void wheelSpinBack(){
-    motor.set(ControlMode.PercentOutput, -percent);
+    motor.set(ControlMode.PercentOutput, percent);
   }
   public void setPercent(double a){
     percent = a;
   }
   public double getPercent(){
     return motor.getMotorOutputPercent();
+  }
+  public void stop(){
+    motor.set(ControlMode.Velocity, 0.0);
   }
 }

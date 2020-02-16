@@ -18,7 +18,6 @@ public class SpinnerUp extends CommandBase {
   private final Logger logger = Logger.getLogger(Spin.class.getName());
   
   private ControlPanel controlPanel;
-  private boolean stop;
   /**
    * Creates a new Spin.
    */
@@ -30,16 +29,13 @@ public class SpinnerUp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    stop = false;
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if (controlPanel.getStickStatus()) {
-          stop = true;
-      }
+    logger.info("execute");
     controlPanel.pushColorSpinnerUp();
   }
 
@@ -52,11 +48,10 @@ public class SpinnerUp extends CommandBase {
   @Override
   public synchronized void cancel() {
       logger.info("Canceled");
-      stop = true;
   }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stop;
+    return true;
   }
 }
