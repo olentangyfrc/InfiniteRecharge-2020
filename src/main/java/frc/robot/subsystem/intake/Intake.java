@@ -25,33 +25,49 @@ public class Intake extends SubsystemBase {
   private double percent;
 
   public void init(PortMan portMan) throws Exception {
-    doubleSolenoid = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm4_label, "Intake.gate0"), portMan.acquirePort(PortMan.pcm5_label, "Intake.gate1"));
+    doubleSolenoid = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm4_label, "Intake.gate0"),
+        portMan.acquirePort(PortMan.pcm5_label, "Intake.gate1"));
     motor = new TalonSRX(portMan.acquirePort(PortMan.can_25_label, "Intake.wheel"));
     gateUp = false;
     percent = .5;
   }
 
-  public void moveWheelIntakeUp(){
-      doubleSolenoid.set(DoubleSolenoid.Value.kForward);
-      gateUp = true;
+  public void moveWheelIntakeUp() {
+    doubleSolenoid.set(DoubleSolenoid.Value.kForward);
+    gateUp = true;
   }
-  public void moveWheelIntakeDown(){
+
+  public void moveWheelIntakeDown() {
     doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
     gateUp = false;
   }
-  public boolean getGateStatus(){
+
+  public void moveWheelIntake() {
+    if (doubleSolenoid.get() == DoubleSolenoid.Value.kForward)
+      doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+    else
+      doubleSolenoid.set(DoubleSolenoid.Value.kForward);
+  }
+
+  
+
+  public boolean getGateStatus() {
     return gateUp;
   }
-  public void wheelSpinFront(){
+
+  public void wheelSpinFront() {
     motor.set(ControlMode.PercentOutput, percent);
   }
-  public void wheelSpinBack(){
+
+  public void wheelSpinBack() {
     motor.set(ControlMode.PercentOutput, -percent);
   }
-  public void setPercent(double a){
+
+  public void setPercent(double a) {
     percent = a;
   }
-  public double getPercent(){
+
+  public double getPercent() {
     return motor.getMotorOutputPercent();
   }
 }

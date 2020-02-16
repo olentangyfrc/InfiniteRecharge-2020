@@ -233,5 +233,15 @@ public class ControlPanel extends SubsystemBase {
 
         isControlSpinnerUp = false;
       }
-      
+      public void moveColorSpinner(){
+        if(pusher.get() == DoubleSolenoid.Value.kForward)
+            pusher.set(DoubleSolenoid.Value.kReverse);
+        else   
+            pusher.set(DoubleSolenoid.Value.kForward);
     }
+
+
+
+      }
+      
+    

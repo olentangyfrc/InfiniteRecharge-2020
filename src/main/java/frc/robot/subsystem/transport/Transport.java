@@ -1,5 +1,6 @@
 package frc.robot.subsystem.transport;
 
+import java.net.http.HttpRequest.BodyPublishers;
 import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -33,7 +34,7 @@ public class Transport extends SubsystemBase {
     private DigitalInput exitSwitch;
 
     private boolean gateUp;
-
+    private Boolean tailGateUp;
     //private Counter ballCount;
     public Transport() {
     }
@@ -82,6 +83,8 @@ public class Transport extends SubsystemBase {
       doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
       gateUp = false;
     }
+   
+    
     public void moveTailGateUp(){
         doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
     }
@@ -90,6 +93,20 @@ public class Transport extends SubsystemBase {
     }
     public boolean getGateStatus(){
       return gateUp;
+    }
+
+    public void moveSideGate(){
+        if(doubleSolenoidLeft.get() == DoubleSolenoid.Value.kForward)
+            doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
+        else   
+            doubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
+    }
+
+    public void moveTailGate(){
+        if(doubleSolenoidRight.get() == DoubleSolenoid.Value.kForward)
+           doubleSolenoidRight.set(DoubleSolenoid.Value.kReverse);
+    else   
+        doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
     }
 
     public void take() {

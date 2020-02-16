@@ -15,11 +15,13 @@ import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.RotateToColor;
 import frc.robot.subsystem.controlpanel.commands.SpinRotations;
+import frc.robot.subsystem.controlpanel.commands.SpinnerMove;
 import frc.robot.subsystem.controlpanel.commands.SpinnerRetract;
 import frc.robot.subsystem.controlpanel.commands.SpinnerUp;
 import frc.robot.subsystem.controlpanel.commands.Stop;
 import frc.robot.subsystem.intake.Intake;
 import frc.robot.subsystem.intake.commands.IntakeDown;
+import frc.robot.subsystem.intake.commands.IntakeMove;
 import frc.robot.subsystem.intake.commands.IntakeSpinBack;
 import frc.robot.subsystem.intake.commands.IntakeSpinForward;
 import frc.robot.subsystem.intake.commands.IntakeUp;
@@ -38,8 +40,6 @@ import frc.robot.subsystem.climber.commands.ClimberControlBack;
 import frc.robot.subsystem.climber.commands.ClimberRetract;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.*;
-import frc.robot.subsystem.transport.commands.TakeIn;
-import frc.robot.subsystem.transport.commands.StopIntake;
 import frc.robot.subsystem.swerve.DrivetrainSubsystem;
 
 public class SubsystemFactory {
@@ -165,17 +165,20 @@ public class SubsystemFactory {
         PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.AuxJoyButton7, OI.WhenPressed);
 
-        SideGateOpen tu = new SideGateOpen(transport);
+        SideGateMove tu = new SideGateMove(transport);
         OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);
-
+     /*
         SideGateClose td = new SideGateClose(transport);
         OI.getInstance().bind(td, OI.AuxJoyButton9, OI.WhenPressed);
+        */
 
-        TailGateUp tgu = new TailGateUp(transport);
-        OI.getInstance().bind(tgu, OI.AuxJoyButton4, OI.WhenPressed);
+        TailGateMove tgm = new TailGateMove(transport);
+        OI.getInstance().bind(tgm, OI.AuxJoyButton4, OI.WhenPressed);
 
+       /*
         TailGateDown tgd = new TailGateDown(transport);
         OI.getInstance().bind(tgd, OI.AuxJoyButton5, OI.WhenPressed);
+        */
 
         StopIntake si = new StopIntake(transport);
         OI.getInstance().bind(si, OI.AuxJoyButton10, OI.WhenPressed);
@@ -206,11 +209,12 @@ public class SubsystemFactory {
         intake.init(portMan);
         displayManager.addIntake(intake);
 
-        IntakeUp iu = new IntakeUp(intake);
-        OI.getInstance().bind(iu,OI.RightJoyButton6, OI.WhenPressed);
-
+        IntakeMove im = new IntakeMove(intake);
+        OI.getInstance().bind(im,OI.RightJoyButton6, OI.WhenPressed);
+      /*
         IntakeDown id = new IntakeDown(intake);
         OI.getInstance().bind(id,OI.RightJoyButton7, OI.WhenPressed);
+        */
 
         IntakeSpinForward isf = new IntakeSpinForward(intake);
         OI.getInstance().bind(isf,OI.RightJoyButton11, OI.WhenPressed);
@@ -232,11 +236,12 @@ public class SubsystemFactory {
         SpinRotations ss = new SpinRotations(controlPanel, 6);
         OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
 
-        SpinnerUp su = new SpinnerUp(controlPanel);
-        OI.getInstance().bind(su, OI.LeftJoyButton8, OI.WhenPressed);
-
+        SpinnerMove sm = new SpinnerMove(controlPanel);
+        OI.getInstance().bind(sm, OI.LeftJoyButton8, OI.WhenPressed);
+      /*
         SpinnerRetract sr = new SpinnerRetract(controlPanel);
         OI.getInstance().bind(sr, OI.LeftJoyButton9, OI.WhenPressed);
+        */
 
         Stop stop = new Stop(controlPanel);
         OI.getInstance().bind(stop, OI.LeftJoyButton1, OI.WhenPressed);
