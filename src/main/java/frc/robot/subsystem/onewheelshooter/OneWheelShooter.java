@@ -51,8 +51,8 @@ public class OneWheelShooter extends SubsystemBase{
       motor.config_kD(0, dValue, 0);
       motor.config_kF(0, 0, 0);
 
-      //motor.configMotionCruiseVelocity(4500);
-      //motor.configMotionAcceleration(4096);
+
+      motor.configClosedloopRamp(.9);
 
     }
     

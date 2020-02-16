@@ -97,6 +97,10 @@ public class Transport extends SubsystemBase {
     public boolean getGateStatus(){
       return gateUp;
     }
+    public void shoot(){
+        leftIntake.set(ControlMode.PercentOutput, .7);
+        rightIntake.set(ControlMode.PercentOutput, -.7);
+    }
 
     public void take() {
         logger.info("take");
@@ -111,7 +115,6 @@ public class Transport extends SubsystemBase {
     }
 
     public void stop() {
-        logger.info("stop");
 
         leftIntake.set(ControlMode.PercentOutput,0);
         rightIntake.set(ControlMode.PercentOutput,0);
@@ -134,10 +137,12 @@ public class Transport extends SubsystemBase {
         }
         pastValue1 = getTransportReceiverSwitch();
         pastValue2 = getTransportSendserSwitch();
+        /*
         if(ballCount >= 5){
             leftIntake.set(ControlMode.PercentOutput,0);
             rightIntake.set(ControlMode.PercentOutput,0);
         }
+        */
         return ballCount;
     }
 

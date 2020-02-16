@@ -31,7 +31,7 @@ public class TransportSBTab implements SBInterface
       dio2 = tab.add("Digital Input 2", false).getEntry();
       gateStatus = tab.add("Gate up", false).getEntry();
       currentTime = tab.add("Current Time elapsed", 0.0).getEntry();
-      targetTime = tab.add("Transport target time", 0.0).getEntry();
+      targetTime = tab.add("Transport target time", 2).getEntry();
    }
 
    public void update() 
@@ -43,7 +43,7 @@ public class TransportSBTab implements SBInterface
      gateStatus.setBoolean(transport.getGateStatus());
      currentTime.setDouble(transport.getTime());
      if(targetTime.getDouble(0.0) != transport.getTargetTime())
-        transport.setTargetTime(targetTime.getDouble(0.0));
+        transport.setTargetTime(targetTime.getDouble(2));
    }
 
 }

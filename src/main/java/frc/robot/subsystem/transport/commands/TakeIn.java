@@ -35,17 +35,18 @@ public class TakeIn extends CommandBase {
 
   @Override
   public void execute() {
-    logger.info("execute");
 
     if(isMoving)
-      if(transport.getTime() < targetTime)
+      if(transport.getTime() < targetTime){
         return;
+      }
       else {
         transport.stop();
         isMoving = false;
       }
 
     if(transport.getTransportReceiverSwitch() == false){
+        logger.info("activated");
         transport.take();
         isMoving = true;
         time = Timer.getFPGATimestamp();
@@ -56,7 +57,7 @@ public class TakeIn extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    isMoving = true;
+    isMoving = false;
   }
 
   // Returns true when the command should end.
