@@ -33,6 +33,7 @@ import frc.robot.subsystem.onewheelshooter.commands.OneWheelStop;
 import frc.robot.subsystem.pixylinecam.PixyLineCam;
 import frc.robot.subsystem.pixylinecam.commands.PollPixyLine;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystem.climber.commands.Climb;
 import frc.robot.subsystem.climber.commands.ClimberControl;
 import frc.robot.subsystem.climber.commands.ClimberControlBack;
@@ -165,6 +166,7 @@ public class SubsystemFactory {
         transport.init(portMan);
         displayManager.addTransport(transport);
 
+        /*
         TakeIn tc = new TakeIn(transport);
 
         PushOut pc = new PushOut(transport);
@@ -187,6 +189,7 @@ public class SubsystemFactory {
 
         DumpTruck dt = new DumpTruck(transport);
         OI.getInstance().bind(dt, OI.AuxJoyButton11, OI.WhenPressed);
+        */
 
 
         /**
@@ -197,6 +200,7 @@ public class SubsystemFactory {
         oneWheelShooter.init(portMan);
         displayManager.addShooter(oneWheelShooter);
 
+        /*
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
         OI.getInstance().bind(sh, OI.RightJoyButton1, OI.WhenPressed);
 
@@ -205,6 +209,7 @@ public class SubsystemFactory {
 
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
         OI.getInstance().bind(st, OI.RightJoyButton2, OI.WhenPressed);
+        */
 
          /**
          * All of Intake Stuff goes here
@@ -214,6 +219,7 @@ public class SubsystemFactory {
         intake.init(portMan);
         displayManager.addIntake(intake);
 
+        /*
         IntakeUp iu = new IntakeUp(intake);
         OI.getInstance().bind(iu,OI.RightJoyButton6, OI.WhenPressed);
 
@@ -228,6 +234,7 @@ public class SubsystemFactory {
 
         IntakeStop is = new IntakeStop(intake);
         OI.getInstance().bind(is,OI.RightJoyButton4, OI.WhenPressed);
+        */
 
          /**
          * All of the ControlPanel stuff goes here
@@ -236,7 +243,9 @@ public class SubsystemFactory {
         controlPanel = new ControlPanel();
         controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
-        
+
+
+        /*
         RotateToColor dc = new RotateToColor(controlPanel, "Blue");
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
 
@@ -251,6 +260,7 @@ public class SubsystemFactory {
 
         Stop stop = new Stop(controlPanel);
         OI.getInstance().bind(stop, OI.LeftJoyButton1, OI.WhenPressed);
+        */
 
         /**
          * All of the Climber stuff goes here
@@ -275,10 +285,10 @@ public class SubsystemFactory {
         */
 
         //Command Groups
-
-        /*
+        logger.info("Collection mode binding");
         CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel);
-        OI.getInstance().bind(collectionMode, OI.buton9, OI.WhenPressed);
+        //logger.info("Collection mode binding");
+        OI.getInstance().bind(collectionMode, OI.AuxJoyButton1, OI.WhenPressed);
 
         MoveMode moveMode = new MoveMode(transport, intake);
         OI.getInstance().bind(moveMode, OI.button8, OI.WhenPressed);
@@ -288,7 +298,6 @@ public class SubsystemFactory {
 
         ScoringHigh scoreHigh = new ScoringHigh(transport, intake, controlPanel, oneWheelShooter);
         OI.getInstance().bind(scoreHigh, OI.button10, OI.WhenPressed);
-        */
 
         
 
