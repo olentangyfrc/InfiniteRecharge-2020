@@ -13,15 +13,20 @@ public class Climber extends SubsystemBase {
     private static Logger logger = Logger.getLogger(Climber.class.getName());
     private TalonSRX motor;
     private DigitalInput hardLowLimit;
-    private DigitalInput minLimit;
+    private DigitalInput optimalLimit;
     private DigitalInput hardTopLimit;
+
+    private double moveRoboUpSpeed;
+    private double moveRoboDownSpeed;
+    private double moveCustomUpSpeed;
+    private double moveCustomDownSpeed;
     
     public void init(PortMan portMan) throws Exception {
     logger.info("init");
-    motor = new TalonSRX(portMan.acquirePort(PortMan.can_16_label, "Climber.motor"));
-    hardLowLimit = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Climber.HardLowLimit"));
-    minLimit = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Climber.MinimumLimit"));
-    hardTopLimit = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Climber.HardHighLimit"));
+    motor = new TalonSRX(portMan.acquirePort(PortMan.can_30_label, "Climber.motor"));
+    hardLowLimit = new DigitalInput(portMan.acquirePort(PortMan.digital2_label, "Climber.HardLowLimit"));
+    optimalLimit = new DigitalInput(portMan.acquirePort(PortMan.digital3_label, "Climber.MinimumLimit"));
+    hardTopLimit = new DigitalInput(portMan.acquirePort(PortMan.digital4_label, "Climber.HardHighLimit"));
 
 
       motor.enableCurrentLimit(true);
@@ -38,13 +43,18 @@ public class Climber extends SubsystemBase {
 
       motor.configMotionCruiseVelocity(4500);
       motor.configMotionAcceleration(4096);
+
+      moveRoboUpSpeed = .4;
+      moveRoboDownSpeed = -.3;
+      moveCustomUpSpeed = .4;
+      moveCustomDownSpeed = -.3;
     }
     
     public void extend(){
         logger.info("extend");
-        if(getMinLimit() == false)
+        if(getOptimalLimit() == true)
         {
-            motor.set(ControlMode.PercentOutput, .5);
+            motor.set(ControlMode.PercentOutput, moveRoboUpSpeed);
         }
         else{
             logger.info("extend off");
@@ -53,23 +63,28 @@ public class Climber extends SubsystemBase {
     }
 
     public void controlForward(){
-        if(getHardHighLimit() == false)
-            motor.set(ControlMode.PercentOutput, .2);
-        else   
+        logger.info("CONTROLFORWARD");
+        if(getHardHighLimit() == true)
+            motor.set(ControlMode.PercentOutput, moveCustomUpSpeed);
+        else{
+            logger.info("controlBack");
             motor.set(ControlMode.PercentOutput, 0.0);
+        }
 
     }
     public void controlBack(){
-        if(getHardLowLimit() == false)
-            motor.set(ControlMode.PercentOutput, -.2);
-        else
+        if(getHardLowLimit() == true)
+            motor.set(ControlMode.PercentOutput, moveCustomDownSpeed);
+        else{
+            logger.info("controlBack");
             motor.set(ControlMode.PercentOutput, 0.0);
+        }
     }
 
     public void retract(){
         logger.info("retract");
-        if(getHardLowLimit() == false)
-            motor.set(ControlMode.PercentOutput, -.5);
+        if(getHardLowLimit() == true)
+            motor.set(ControlMode.PercentOutput, moveRoboDownSpeed);
         else   
             motor.set(ControlMode.PercentOutput, 0.0);
     }
@@ -78,11 +93,24 @@ public class Climber extends SubsystemBase {
         return hardLowLimit.get();
     }
 
-    public boolean getMinLimit(){
-        return minLimit.get();
+    public boolean getOptimalLimit(){
+        return optimalLimit.get();
     }
 
     public boolean getHardHighLimit(){
         return hardTopLimit.get();
+    }
+    public void setRoboMoveUpSpeed(double a){
+        moveRoboUpSpeed = a;
+    }
+    public void setRoboMoveDownSpeed(double a){
+        moveRoboDownSpeed = a;
+    }
+
+    public void setCustomMoveUpSpeed(double a){
+        moveCustomUpSpeed = a;
+    }
+    public void setCustomMoveDownSpeed(double a){
+        moveCustomDownSpeed = a;
     }
 }

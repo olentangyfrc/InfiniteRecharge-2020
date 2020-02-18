@@ -165,8 +165,6 @@ public class SubsystemFactory {
         transport = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
-
-        /*
         TakeIn tc = new TakeIn(transport);
 
         PushOut pc = new PushOut(transport);
@@ -189,7 +187,6 @@ public class SubsystemFactory {
 
         DumpTruck dt = new DumpTruck(transport);
         OI.getInstance().bind(dt, OI.AuxJoyButton11, OI.WhenPressed);
-        */
 
 
         /**
@@ -200,7 +197,6 @@ public class SubsystemFactory {
         oneWheelShooter.init(portMan);
         displayManager.addShooter(oneWheelShooter);
 
-        /*
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
         OI.getInstance().bind(sh, OI.RightJoyButton1, OI.WhenPressed);
 
@@ -209,7 +205,6 @@ public class SubsystemFactory {
 
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
         OI.getInstance().bind(st, OI.RightJoyButton2, OI.WhenPressed);
-        */
 
          /**
          * All of Intake Stuff goes here
@@ -219,7 +214,6 @@ public class SubsystemFactory {
         intake.init(portMan);
         displayManager.addIntake(intake);
 
-        /*
         IntakeUp iu = new IntakeUp(intake);
         OI.getInstance().bind(iu,OI.RightJoyButton6, OI.WhenPressed);
 
@@ -234,7 +228,6 @@ public class SubsystemFactory {
 
         IntakeStop is = new IntakeStop(intake);
         OI.getInstance().bind(is,OI.RightJoyButton4, OI.WhenPressed);
-        */
 
          /**
          * All of the ControlPanel stuff goes here
@@ -245,7 +238,6 @@ public class SubsystemFactory {
         displayManager.addCP(controlPanel);
 
 
-        /*
         RotateToColor dc = new RotateToColor(controlPanel, "Blue");
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
 
@@ -260,31 +252,29 @@ public class SubsystemFactory {
 
         Stop stop = new Stop(controlPanel);
         OI.getInstance().bind(stop, OI.LeftJoyButton1, OI.WhenPressed);
-        */
 
         /**
          * All of the Climber stuff goes here
          */
-        
+        logger.info("climb init");
         climber = new Climber();
         climber.init(portMan);
         displayManager.addClimber(climber);
 
-        /*
         Climb c = new Climb(climber);
-        OI.getInstance().bind(c, OI.AuxJoyButton11, OI.WhenPressed);
+        OI.getInstance().bind(c, OI.LeftJoyButton6, OI.WhenPressed);
 
         ClimberRetract cr = new ClimberRetract(climber);
-        OI.getInstance().bind(cr, OI.AuxJoyButton3, OI.WhenPressed);
+        OI.getInstance().bind(cr, OI.LeftJoyButton7, OI.WhenPressed);
 
         ClimberControl cc = new ClimberControl(climber);
-        OI.getInstance().bind(cc, OI.AuxJoyButton1, OI.WhileHeld);
+        OI.getInstance().bind(cc, OI.LeftJoyButton11,OI.WhileHeld);
 
         ClimberControlBack ccb = new ClimberControlBack(climber);
-        OI.getInstance().bind(ccb,OI.AuxJoyButton2, OI.WhileHeld);
-        */
+        OI.getInstance().bind(ccb,OI.LeftJoyButton10,OI.WhileHeld);
 
         //Command Groups
+        /*
         logger.info("Collection mode binding");
         CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel);
         //logger.info("Collection mode binding");
@@ -298,6 +288,7 @@ public class SubsystemFactory {
 
         ScoringHigh scoreHigh = new ScoringHigh(transport, intake, controlPanel, oneWheelShooter);
         OI.getInstance().bind(scoreHigh, OI.button10, OI.WhenPressed);
+        */
 
         
 
