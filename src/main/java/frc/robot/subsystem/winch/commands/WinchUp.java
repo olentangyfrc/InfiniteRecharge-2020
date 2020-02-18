@@ -5,40 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.intake.commands;
+package frc.robot.subsystem.winch.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import java.util.logging.Logger;
-import frc.robot.subsystem.intake.Intake;
+import frc.robot.subsystem.winch.Winch;
 
-public class IntakeUp extends CommandBase {
-  private Intake intake;
+public class WinchUp extends CommandBase {
+  /**
+   * Creates a new Shoot.
+   */
+
+  private Winch winch;
   private boolean stop;
 
-  /**
-   * Creates a new IntakeUp.
-   */
-  public IntakeUp(Intake i) {
-    intake = i;
-    addRequirements(i);
-    stop = false;
+  public WinchUp(Winch w) {
+    winch = w;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(winch);
   }
 
-  // Called when the comsmand is initially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    stop = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.moveWheelIntakeUp();
+    winch.up();
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     stop = true;
+    winch.stop();
   }
 
   // Returns true when the command should end.

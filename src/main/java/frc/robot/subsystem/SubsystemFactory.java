@@ -27,6 +27,8 @@ import frc.robot.subsystem.intake.commands.IntakeUp;
 import frc.robot.subsystem.telemetry.Telemetry;
 import frc.robot.subsystem.telemetry.commands.SquareSelf;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
+import frc.robot.subsystem.winch.Winch;
+import frc.robot.subsystem.winch.commands.WinchUp;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelReverse;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelStop;
@@ -39,11 +41,12 @@ import frc.robot.subsystem.climber.commands.ClimberControl;
 import frc.robot.subsystem.climber.commands.ClimberControlBack;
 import frc.robot.subsystem.climber.commands.ClimberRetract;
 import frc.robot.subsystem.commandgroups.CollectionMode;
-import frc.robot.subsystem.commandgroups.ControlPanelMode;
+//import frc.robot.subsystem.commandgroups.ControlPanelMode;
 import frc.robot.subsystem.commandgroups.MoveMode;
 import frc.robot.subsystem.commandgroups.ScoreLow;
 import frc.robot.subsystem.commandgroups.ScoringHigh;
 import frc.robot.subsystem.commandgroups.StartingConfiguration;
+//import frc.robot.subsystem.commandgroups.StartingConfiguration;
 import frc.robot.subsystem.transport.DumpTruck;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.*;
@@ -74,6 +77,7 @@ public class SubsystemFactory {
     private PixyLineCam pixyLineCam;
     private DrivetrainSubsystem driveTrain;
     private Intake intake;
+    private Winch winch;
     
     private static ArrayList<SBInterface> subsystemInterfaceList;
 
@@ -168,7 +172,7 @@ public class SubsystemFactory {
         transport.init(portMan);
         displayManager.addTransport(transport);
 
-        /*
+        
         TakeIn tc = new TakeIn(transport);
 
         PushOut pc = new PushOut(transport);
@@ -191,8 +195,7 @@ public class SubsystemFactory {
 
         DumpTruck dt = new DumpTruck(transport);
         OI.getInstance().bind(dt, OI.AuxJoyButton11, OI.WhenPressed);
-
-        */
+        
 
 
         /**
@@ -203,7 +206,7 @@ public class SubsystemFactory {
         oneWheelShooter.init(portMan);
         displayManager.addShooter(oneWheelShooter);
 
-        /*
+        
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
         OI.getInstance().bind(sh, OI.RightJoyButton1, OI.WhenPressed);
 
@@ -212,7 +215,7 @@ public class SubsystemFactory {
 
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
         OI.getInstance().bind(st, OI.RightJoyButton2, OI.WhenPressed);
-        */
+        
 
          /**
          * All of Intake Stuff goes here
@@ -222,7 +225,7 @@ public class SubsystemFactory {
         intake.init(portMan);
         displayManager.addIntake(intake);
 
-        /*
+        
         IntakeUp iu = new IntakeUp(intake);
         OI.getInstance().bind(iu,OI.RightJoyButton6, OI.WhenPressed);
 
@@ -237,7 +240,7 @@ public class SubsystemFactory {
 
         IntakeStop is = new IntakeStop(intake);
         OI.getInstance().bind(is,OI.RightJoyButton4, OI.WhenPressed);
-        */
+        
 
          /**
          * All of the ControlPanel stuff goes here
@@ -247,7 +250,7 @@ public class SubsystemFactory {
         controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
 
-        /*
+        
         RotateToColor dc = new RotateToColor(controlPanel, "Blue");
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
 
@@ -255,14 +258,14 @@ public class SubsystemFactory {
         OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
 
         SpinnerUp su = new SpinnerUp(controlPanel);
-        OI.getInstance().bind(su, OI.LeftJoyButton8, OI.WhenPressed);
+        OI.getInstance().bind(su, OI.LeftJoyButton4, OI.WhenPressed);
 
         SpinnerRetract sr = new SpinnerRetract(controlPanel);
-        OI.getInstance().bind(sr, OI.LeftJoyButton9, OI.WhenPressed);
+        OI.getInstance().bind(sr, OI.LeftJoyButton5, OI.WhenPressed);
 
         Stop stop = new Stop(controlPanel);
         OI.getInstance().bind(stop, OI.LeftJoyButton1, OI.WhenPressed);
-        */
+        
 
 
         /**
@@ -272,7 +275,7 @@ public class SubsystemFactory {
         climber.init(portMan);
         displayManager.addClimber(climber);
 
-        /*
+        
         Climb c = new Climb(climber);
         OI.getInstance().bind(c, OI.LeftJoyButton6, OI.WhenPressed);
 
@@ -284,13 +287,26 @@ public class SubsystemFactory {
 
         ClimberControlBack ccb = new ClimberControlBack(climber);
         OI.getInstance().bind(ccb,OI.LeftJoyButton10,OI.WhileHeld);
-        */
+
+
+         /**
+         * All of the Winch stuff goes here
+         */
+        winch = new Winch();
+        winch.init(portMan);
+        
+        WinchUp w = new WinchUp(winch);
+        OI.getInstance().bind(w, OI.LeftJoyButton8, OI.WhileHeld);
+        
 
         //Command Groups
         CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel);
-        //logger.info("Collection mode binding");
         OI.getInstance().bind(collectionMode, OI.AuxJoyButton1, OI.WhenPressed);
-
+        
+        StartingConfiguration startConfig = new StartingConfiguration(transport, intake, controlPanel, oneWheelShooter);
+        OI.getInstance().bind(startConfig, OI.AuxJoyButton6, OI.WhenPressed);
+        
+        /*
         MoveMode moveMode = new MoveMode(transport, intake);
         OI.getInstance().bind(moveMode, OI.AuxJoyButton2, OI.WhenPressed);
 
@@ -303,11 +319,9 @@ public class SubsystemFactory {
         ControlPanelMode controlPanelMode = new ControlPanelMode(transport, intake, controlPanel, oneWheelShooter);
         OI.getInstance().bind(controlPanelMode, OI.AuxJoyButton5, OI.WhenPressed);
 
-        StartingConfiguration startConfig = new StartingConfiguration(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(startConfig, OI.AuxJoyButton6, OI.WhenPressed);
 
+        */
 
-        
 
         
     }

@@ -13,7 +13,6 @@ import frc.robot.subsystem.transport.Transport;
 public class SideGateOpen extends CommandBase {
 
   private Transport transport;
-  private boolean stop;
 
   /**
    * Creates a new MoveGateUp.
@@ -21,7 +20,6 @@ public class SideGateOpen extends CommandBase {
   public SideGateOpen(Transport t) {
     transport = t;
     addRequirements(t);
-    stop = false;
   }
 
   // Called when the command is initially scheduled.
@@ -38,12 +36,11 @@ public class SideGateOpen extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stop = true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stop;
+    return true;
   }
 }

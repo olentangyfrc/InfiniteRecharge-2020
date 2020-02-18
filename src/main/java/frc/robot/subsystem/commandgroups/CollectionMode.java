@@ -33,6 +33,6 @@ public class CollectionMode extends SequentialCommandGroup {
 
   //needs to add winch
   public CollectionMode(Transport t, Intake i, ControlPanel cp) {
-    super(new SideGateClose(t), new TailGateUp(t), new TakeIn(t), new IntakeDown(i), new IntakeSpinForward(i), new SpinnerRetract(cp));
+    super(new SideGateClose(t), new TailGateUp(t), new IntakeDown(i), new IntakeSpinForward(i), new SpinnerRetract(cp));
   }
 }

@@ -15,11 +15,9 @@ public class TailGateUp extends CommandBase {
    * Creates a new TailGateUp.
    */
   private Transport transport;
-  private boolean stop;
   public TailGateUp(Transport t) {
     transport = t;
     addRequirements(t);
-    stop = false;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -37,12 +35,11 @@ public class TailGateUp extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stop = true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stop;
+    return true;
   }
 }
