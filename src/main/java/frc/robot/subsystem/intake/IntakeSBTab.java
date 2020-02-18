@@ -31,7 +31,7 @@ public class IntakeSBTab implements SBInterface{
         tab = Shuffleboard.getTab("Intake");
 
         gateStatus = tab.add("Gate Up", false).getEntry();
-        percent = tab.add("Percent Output", 10000).getEntry();
+        percent = tab.add("Percent Output", .5).getEntry();
     }
 
 
@@ -41,8 +41,7 @@ public class IntakeSBTab implements SBInterface{
      */
     public void update() {
         gateStatus.setBoolean(intake.getGateStatus());
-        if(intake.getPercent() != percent.getDouble(10000))
-            intake.setPercent(percent.getDouble(10000));
+        intake.setPercent(percent.getDouble(.5));
 
     }
 }
