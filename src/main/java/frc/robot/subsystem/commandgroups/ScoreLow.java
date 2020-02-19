@@ -17,8 +17,7 @@ import frc.robot.subsystem.intake.commands.IntakeDown;
 import frc.robot.subsystem.intake.commands.IntakeStop;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.SideGateClose;
-import frc.robot.subsystem.transport.commands.TailGateDown;
-import frc.robot.subsystem.transport.commands.TakeIn;
+import frc.robot.subsystem.transport.commands.StopTransport;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -30,7 +29,7 @@ public class ScoreLow extends SequentialCommandGroup {
   private static Logger logger = Logger.getLogger(CollectionMode.class.getName());
   
   public ScoreLow(Transport t, Intake i, ControlPanel cp) {
-    super(new SideGateClose(t), new TailGateDown(t), new IntakeDown(i), new IntakeStop(i), new SpinnerUp(cp));
+    super(new SideGateClose(t), new IntakeDown(i), new IntakeStop(i), new SpinnerUp(cp), new StopTransport(t));
     logger.info("Score Low called");
   }
 }

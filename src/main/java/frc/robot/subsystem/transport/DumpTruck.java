@@ -29,6 +29,7 @@ public class DumpTruck extends CommandBase {
   @Override
   public void execute() {
     transport.moveTailGateDown();
+    //might want to add a delay between these methods
     transport.shoot();
   }
 

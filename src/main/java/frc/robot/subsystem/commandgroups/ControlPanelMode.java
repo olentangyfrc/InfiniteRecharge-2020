@@ -20,6 +20,7 @@ import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.SideGateClose;
 import frc.robot.subsystem.transport.commands.StopTransport;
 import frc.robot.subsystem.transport.commands.TailGateDown;
+import frc.robot.subsystem.transport.commands.TailGateUp;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -29,6 +30,6 @@ public class ControlPanelMode extends SequentialCommandGroup {
    * Creates a new ControlPanelMode.
    */
   public ControlPanelMode(Transport t, Intake i, ControlPanel cp, OneWheelShooter s) {
-    super(new StopTransport(t), new IntakeStop(i), new IntakeDown(i), new OneWheelStop(s), new TailGateDown(t), new SideGateClose(t), new SpinnerUp(cp), new Stop(cp));
+    super(new IntakeStop(i), new IntakeDown(i), new OneWheelStop(s), new TailGateUp(t), new SideGateClose(t), new SpinnerUp(cp), new Stop(cp), new StopTransport(t));
   }
 }

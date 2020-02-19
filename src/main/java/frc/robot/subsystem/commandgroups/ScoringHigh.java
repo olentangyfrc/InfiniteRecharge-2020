@@ -19,8 +19,8 @@ import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.SideGateOpen;
+import frc.robot.subsystem.transport.commands.StopTransport;
 import frc.robot.subsystem.transport.commands.TailGateUp;
-import frc.robot.subsystem.transport.commands.TakeIn;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -31,7 +31,7 @@ public class ScoringHigh extends SequentialCommandGroup {
    */
   private static Logger logger = Logger.getLogger(ScoringHigh.class.getName());
   public ScoringHigh(Transport t, Intake i, ControlPanel cp, OneWheelShooter s){
-    super(new SideGateOpen(t), new TailGateUp(t), new TakeIn(t), new IntakeDown(i), new IntakeStop(i), new OneWheelShoot(s), new SpinnerUp(cp));
+    super(new OneWheelShoot(s), new TailGateUp(t), new IntakeDown(i), new IntakeStop(i), new SpinnerUp(cp), new SideGateOpen(t), new StopTransport(t));
     logger.info("Scoring High activated");
   }
 }
