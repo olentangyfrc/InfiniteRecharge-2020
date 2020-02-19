@@ -41,6 +41,7 @@ import frc.robot.subsystem.climber.commands.ClimberControl;
 import frc.robot.subsystem.climber.commands.ClimberControlBack;
 import frc.robot.subsystem.climber.commands.ClimberRetract;
 import frc.robot.subsystem.commandgroups.CollectionMode;
+import frc.robot.subsystem.commandgroups.ControlPanelMode;
 //import frc.robot.subsystem.commandgroups.ControlPanelMode;
 import frc.robot.subsystem.commandgroups.MoveMode;
 import frc.robot.subsystem.commandgroups.ScoreLow;
@@ -113,7 +114,6 @@ public class SubsystemFactory {
         logger.info("initializing");
 
         botName = getBotName();
-        botName = "comp";
 
         logger.info("Running on " + botName);
 
@@ -303,24 +303,20 @@ public class SubsystemFactory {
         CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel);
         OI.getInstance().bind(collectionMode, OI.AuxJoyButton11, OI.WhenPressed);
         
-        /*
         StartingConfiguration startConfig = new StartingConfiguration(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(startConfig, OI.AuxJoyButton6, OI.WhenPressed);
+        OI.getInstance().bind(startConfig, OI.button10, OI.WhenPressed);
         
         MoveMode moveMode = new MoveMode(transport, intake);
-        OI.getInstance().bind(moveMode, OI.AuxJoyButton2, OI.WhenPressed);
+        OI.getInstance().bind(moveMode, OI.button11, OI.WhenPressed);
 
         ScoreLow scoreLow = new ScoreLow(transport, intake, controlPanel);
-        OI.getInstance().bind(scoreLow, OI.AuxJoyButton3, OI.WhenPressed);
+        OI.getInstance().bind(scoreLow, OI.button12, OI.WhenPressed);
 
         ScoringHigh scoreHigh = new ScoringHigh(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(scoreHigh, OI.AuxJoyButton4, OI.WhenPressed);
+        OI.getInstance().bind(scoreHigh, OI.button13, OI.WhenPressed);
 
         ControlPanelMode controlPanelMode = new ControlPanelMode(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(controlPanelMode, OI.AuxJoyButton5, OI.WhenPressed);
-
-
-        */
+        OI.getInstance().bind(controlPanelMode, OI.button14, OI.WhenPressed);
     }
     /**
      * 

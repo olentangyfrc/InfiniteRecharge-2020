@@ -30,7 +30,7 @@ public class ScoreLow extends SequentialCommandGroup {
   private static Logger logger = Logger.getLogger(CollectionMode.class.getName());
   
   public ScoreLow(Transport t, Intake i, ControlPanel cp) {
-    super(new SideGateClose(t), new TailGateDown(t), new TakeIn(t), new IntakeDown(i), new IntakeStop(i), new SpinnerUp(cp));
+    super(new SideGateClose(t), new TailGateDown(t), new IntakeDown(i), new IntakeStop(i), new SpinnerUp(cp));
     logger.info("Score Low called");
   }
 }
