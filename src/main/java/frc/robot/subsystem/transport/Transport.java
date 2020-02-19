@@ -81,11 +81,11 @@ public class Transport extends SubsystemBase {
     }
 
     public void moveSideGateOpen(){
-        doubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
+        doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
         gateUp = true;
     }
     public void moveSideGateClose(){
-      doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
+      doubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
       gateUp = false;
     }
     public void moveTailGateUp(){

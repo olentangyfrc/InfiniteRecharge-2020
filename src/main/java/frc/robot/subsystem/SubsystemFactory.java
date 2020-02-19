@@ -206,7 +206,7 @@ public class SubsystemFactory {
         OI.getInstance().bind(si, OI.AuxJoyButton10, OI.WhenPressed);
 
         DumpTruck dt = new DumpTruck(transport);
-        OI.getInstance().bind(dt, OI.AuxJoyButton11, OI.WhenPressed);
+        //OI.getInstance().bind(dt, OI.AuxJoyButton11, OI.WhenPressed);
         
 
 
@@ -301,7 +301,7 @@ public class SubsystemFactory {
 
         //Command Groups
         CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel);
-        OI.getInstance().bind(collectionMode, OI.AuxJoyButton1, OI.WhenPressed);
+        OI.getInstance().bind(collectionMode, OI.AuxJoyButton11, OI.WhenPressed);
         
         /*
         StartingConfiguration startConfig = new StartingConfiguration(transport, intake, controlPanel, oneWheelShooter);
