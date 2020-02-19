@@ -38,9 +38,9 @@ public class Winch extends SubsystemBase{
         pValue = .3;
         iValue = 0;
         dValue = .2;
-        velocity = 100000;
+        velocity = -100000;
 
-      motor.setNeutralMode(NeutralMode.Coast);
+      motor.setNeutralMode(NeutralMode.Brake);
       motor.configFactoryDefault();
       motor.configAllowableClosedloopError(0, 5);
       motor.setSelectedSensorPosition(0, 0, 0);
@@ -55,21 +55,16 @@ public class Winch extends SubsystemBase{
     }
     
     public void up(){
-        logger.info("shoot");
-        logger.info("shoot [" + velocity + "]");
-
         motor.set(ControlMode.Velocity, velocity);
     }
     public void down(){
-        logger.info("reverse [" + -velocity + "]");
         motor.set(ControlMode.Velocity, -velocity);
     }
     public void setVelocity(double a){
         velocity = a;
     }
     public void stop(){
-        logger.info("stop");
-        motor.set(ControlMode.Velocity, 0);
+        motor.set(ControlMode.PercentOutput, 0);
     }
     public void changePID(double p, double i, double d){
         if(pValue != p)

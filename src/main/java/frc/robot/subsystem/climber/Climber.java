@@ -22,61 +22,53 @@ public class Climber extends SubsystemBase {
     private double moveCustomDownSpeed;
     
     public void init(PortMan portMan) throws Exception {
-    logger.info("init");
-    motor = new TalonSRX(portMan.acquirePort(PortMan.can_30_label, "Climber.motor"));
-    hardLowLimit = new DigitalInput(portMan.acquirePort(PortMan.digital2_label, "Climber.HardLowLimit"));
-    optimalLimit = new DigitalInput(portMan.acquirePort(PortMan.digital3_label, "Climber.MinimumLimit"));
-    hardTopLimit = new DigitalInput(portMan.acquirePort(PortMan.digital4_label, "Climber.HardHighLimit"));
-
+        logger.info("init");
+        motor = new TalonSRX(portMan.acquirePort(PortMan.can_30_label, "Climber.motor"));
+        hardLowLimit = new DigitalInput(portMan.acquirePort(PortMan.digital2_label, "Climber.HardLowLimit"));
+        optimalLimit = new DigitalInput(portMan.acquirePort(PortMan.digital3_label, "Climber.MinimumLimit"));
+        hardTopLimit = new DigitalInput(portMan.acquirePort(PortMan.digital4_label, "Climber.HardHighLimit"));
 
       motor.enableCurrentLimit(true);
       motor.configPeakCurrentLimit(30);
-      motor.configContinuousCurrentLimit(20);
+      motor.configContinuousCurrentLimit(30);
       motor.configPeakCurrentDuration(400);
-      motor.configAllowableClosedloopError(0, 5);
-      motor.setSelectedSensorPosition(0, 0, 0);
 
-      motor.config_kP(0, .3, 0);
-      motor.config_kI(0, 0, 0);
-      motor.config_kD(0, .1, 0);
-      motor.config_kF(0, 0, 0);
-
-      motor.configMotionCruiseVelocity(4500);
-      motor.configMotionAcceleration(4096);
-
-      moveRoboUpSpeed = .4;
+      moveRoboUpSpeed = .8;
       moveRoboDownSpeed = -.3;
-      moveCustomUpSpeed = .4;
+      moveCustomUpSpeed = .8;
       moveCustomDownSpeed = -.3;
     }
     
     public void extend(){
         logger.info("extend");
+        logger.info("optimalLimit [" + getOptimalLimit() + "]");
         if(getOptimalLimit() == true)
         {
             motor.set(ControlMode.PercentOutput, moveRoboUpSpeed);
         }
         else{
-            logger.info("extend off");
             motor.set(ControlMode.PercentOutput, 0.0);
         }  
     }
 
-    public void controlForward(){
-        logger.info("CONTROLFORWARD");
+    public void stop() {
+        motor.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    public void manualUp(){
+        logger.info("hardHighLimit [" + getHardHighLimit() + "]");
         if(getHardHighLimit() == true)
             motor.set(ControlMode.PercentOutput, moveCustomUpSpeed);
         else{
-            logger.info("controlBack");
             motor.set(ControlMode.PercentOutput, 0.0);
         }
-
     }
-    public void controlBack(){
+
+    public void manualDown(){
+        logger.info("hardLowLimit [" + getHardLowLimit() + "]");
         if(getHardLowLimit() == true)
             motor.set(ControlMode.PercentOutput, moveCustomDownSpeed);
         else{
-            logger.info("controlBack");
             motor.set(ControlMode.PercentOutput, 0.0);
         }
     }

@@ -113,6 +113,7 @@ public class SubsystemFactory {
         logger.info("initializing");
 
         botName = getBotName();
+        botName = "comp";
 
         logger.info("Running on " + botName);
 
@@ -135,6 +136,9 @@ public class SubsystemFactory {
                 break;
             case "RIO2":
                 initRio2(portMan);
+                break;
+            case "comp":
+                initComp(portMan);
                 break;
             default:
                 initComp(portMan); // default to football if we don't know better
@@ -160,18 +164,26 @@ public class SubsystemFactory {
     private void initComp(PortMan portMan ) throws Exception {
 
         logger.info("initiatizing");
+        /**
+         * All of the Winch stuff goes here
+         */
+        winch = new Winch();
+        winch.init(portMan);
+        
+        WinchUp w = new WinchUp(winch);
+        OI.getInstance().bind(w, OI.LeftJoyButton8, OI.WhileHeld);
+        
         driveTrain  = new DrivetrainSubsystem();
         driveTrain.init(portMan);
 
-
-        /**
-         * All of the Transport stuff goes here
+        /** * All of the Transport stuff goes here
+         *
          */
+
         
         transport = new Transport();
         transport.init(portMan);
         displayManager.addTransport(transport);
-
         
         TakeIn tc = new TakeIn(transport);
 
@@ -266,8 +278,6 @@ public class SubsystemFactory {
         Stop stop = new Stop(controlPanel);
         OI.getInstance().bind(stop, OI.LeftJoyButton1, OI.WhenPressed);
         
-
-
         /**
          * All of the Climber stuff goes here
          */
@@ -289,24 +299,14 @@ public class SubsystemFactory {
         OI.getInstance().bind(ccb,OI.LeftJoyButton10,OI.WhileHeld);
 
 
-         /**
-         * All of the Winch stuff goes here
-         */
-        winch = new Winch();
-        winch.init(portMan);
-        
-        WinchUp w = new WinchUp(winch);
-        OI.getInstance().bind(w, OI.LeftJoyButton8, OI.WhileHeld);
-        
-
         //Command Groups
         CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel);
         OI.getInstance().bind(collectionMode, OI.AuxJoyButton1, OI.WhenPressed);
         
+        /*
         StartingConfiguration startConfig = new StartingConfiguration(transport, intake, controlPanel, oneWheelShooter);
         OI.getInstance().bind(startConfig, OI.AuxJoyButton6, OI.WhenPressed);
         
-        /*
         MoveMode moveMode = new MoveMode(transport, intake);
         OI.getInstance().bind(moveMode, OI.AuxJoyButton2, OI.WhenPressed);
 
@@ -321,9 +321,6 @@ public class SubsystemFactory {
 
 
         */
-
-
-        
     }
     /**
      * 

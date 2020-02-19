@@ -20,7 +20,6 @@ public class WinchUp extends CommandBase {
 
   public WinchUp(Winch w) {
     winch = w;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(winch);
   }
 
@@ -34,19 +33,20 @@ public class WinchUp extends CommandBase {
   @Override
   public void execute() {
     winch.up();
-    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stop = true;
-    winch.stop();
+    if (interrupted) {
+      stop = true;
+      winch.stop();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return stop;
   }
 }
