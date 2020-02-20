@@ -300,7 +300,7 @@ public class SubsystemFactory {
 
 
         //Command Groups
-        CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel);
+        CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel, oneWheelShooter);
         OI.getInstance().bind(collectionMode, OI.button1, OI.WhenPressed);
         
         StartingConfiguration startConfig = new StartingConfiguration(transport, intake, controlPanel, oneWheelShooter);

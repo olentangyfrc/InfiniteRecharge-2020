@@ -17,6 +17,7 @@ import frc.robot.subsystem.intake.Intake;
 import frc.robot.subsystem.intake.commands.IntakeDown;
 import frc.robot.subsystem.intake.commands.IntakeSpinForward;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
+import frc.robot.subsystem.onewheelshooter.commands.OneWheelStop;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.SideGateClose;
 import frc.robot.subsystem.transport.commands.StopTransport;
@@ -33,7 +34,7 @@ public class CollectionMode extends SequentialCommandGroup {
   private static Logger logger = Logger.getLogger(CollectionMode.class.getName());
 
   //needs to add winch
-  public CollectionMode(Transport t, Intake i, ControlPanel cp) {
-    super(new SideGateClose(t), new TailGateUp(t), new IntakeDown(i), new IntakeSpinForward(i), new SpinnerRetract(cp), new StopTransport(t));
+  public CollectionMode(Transport t, Intake i, ControlPanel cp, OneWheelShooter s) {
+    super(new SideGateClose(t), new TailGateUp(t), new IntakeDown(i), new IntakeSpinForward(i), new SpinnerRetract(cp), new StopTransport(t), new OneWheelStop(s));
   }
 }
