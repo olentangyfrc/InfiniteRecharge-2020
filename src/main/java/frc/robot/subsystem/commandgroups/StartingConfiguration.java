@@ -28,6 +28,6 @@ public class StartingConfiguration extends SequentialCommandGroup {
    * Creates a new StartingConfiguration.
    */
   public StartingConfiguration(Transport t, Intake i, ControlPanel cp, OneWheelShooter s) {
-    super(new TailGateUp(t), new SideGateClose(t), new StopTransport(t), new OneWheelStop(s), new IntakeUp(i), new IntakeStop(i), new SpinnerUp(cp));
+    super(new TailGateUp(t), new SideGateClose(t), new OneWheelStop(s), new IntakeUp(i), new IntakeStop(i), new SpinnerUp(cp), new StopTransport(t));
   }
 }

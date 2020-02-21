@@ -23,16 +23,18 @@ public class OneWheelShooterSBTab implements SBInterface{
     private NetworkTableEntry iValue;
     private NetworkTableEntry dValue;
     private NetworkTableEntry currentVelocity;
+    private NetworkTableEntry current;
 
     public OneWheelShooterSBTab(OneWheelShooter c) {
         shooter = c;
 
         tab = Shuffleboard.getTab("OneWheelShooter");
-        velocity = tab.add("Velocity", 10000).getEntry();
-        pValue = tab.add("PValue", .3).getEntry();
-        iValue = tab.add("IValue", 0.0).getEntry();
-        dValue = tab.add("DValue", 0.2).getEntry();
+        velocity = tab.add("Velocity", shooter.getVelocity()).getEntry();
+        pValue = tab.add("PValue", shooter.getPValue()).getEntry();
+        iValue = tab.add("IValue", shooter.getIValue()).getEntry();
+        dValue = tab.add("DValue", shooter.getDValue()).getEntry();
         currentVelocity = tab.add("Current Velocity", 0.0).getEntry();
+        current = tab.add("Current", 0.0).getEntry();
     }
 
 
@@ -42,7 +44,8 @@ public class OneWheelShooterSBTab implements SBInterface{
      */
     public void update() {
         shooter.changePID(pValue.getDouble(.3), iValue.getDouble(0), dValue.getDouble(.2));
-        shooter.setVelocity(velocity.getDouble(10000));
-        currentVelocity.setDouble(shooter.getVelocity());
+        shooter.setVelocity(velocity.getDouble(shooter.getVelocity()));
+        currentVelocity.setDouble(shooter.getCurrentVelocity());
+        current.setDouble(shooter.getCurrent());
     }
 }

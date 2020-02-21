@@ -7,6 +7,8 @@
 
 package frc.robot.subsystem.transport.commands;
 
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystem.transport.Transport;
 
@@ -17,6 +19,7 @@ public class SideGateClose extends CommandBase {
   /**
    * Creates a new MoveGateUp.
    */
+  private Logger logger = Logger.getLogger(SideGateClose.class.getName());
   public SideGateClose(Transport t) {
     transport = t;
     addRequirements(t);
@@ -30,6 +33,7 @@ public class SideGateClose extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    logger.info("SideGateClose Execute");
     transport.moveSideGateClose();
   }
 

@@ -39,7 +39,7 @@ public class OneWheelShooter extends SubsystemBase{
         pValue = .3;
         iValue = 0;
         dValue = .2;
-        velocity = 100000;
+        velocity = 10790;
 
       motor.setNeutralMode(NeutralMode.Coast);
       motor.configFactoryDefault();
@@ -61,6 +61,8 @@ public class OneWheelShooter extends SubsystemBase{
         logger.info("shoot [" + velocity + "]");
 
         motor.set(ControlMode.Velocity, velocity);
+        //motor.set(ControlMode.PercentOutput, velocity);
+        logger.info("[" + velocity + "]");
     }
     public void reverse(){
         logger.info("reverse [" + -velocity + "]");
@@ -81,7 +83,22 @@ public class OneWheelShooter extends SubsystemBase{
         if(dValue != d)
             dValue = d;
     }
-    public double getVelocity(){
+    public double getCurrentVelocity(){
         return motor.getSelectedSensorVelocity();
+    }
+    public double getVelocity() {
+        return velocity;
+    }
+    public double getPValue(){
+        return pValue;
+    }
+    public double getIValue(){
+        return iValue;
+    }
+    public double getDValue(){
+        return dValue;
+    }
+    public double getCurrent(){
+        return motor.getSupplyCurrent();
     }
 }

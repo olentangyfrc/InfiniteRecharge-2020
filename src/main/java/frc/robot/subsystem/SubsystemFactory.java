@@ -206,7 +206,7 @@ public class SubsystemFactory {
         OI.getInstance().bind(si, OI.AuxJoyButton10, OI.WhenPressed);
 
         DumpTruck dt = new DumpTruck(transport);
-        //OI.getInstance().bind(dt, OI.AuxJoyButton11, OI.WhenPressed);
+        OI.getInstance().bind(dt, OI.button7, OI.WhenPressed);
         
 
 
@@ -300,23 +300,23 @@ public class SubsystemFactory {
 
 
         //Command Groups
-        CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel);
-        OI.getInstance().bind(collectionMode, OI.AuxJoyButton11, OI.WhenPressed);
+        CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel, oneWheelShooter);
+        OI.getInstance().bind(collectionMode, OI.button1, OI.WhenPressed);
         
         StartingConfiguration startConfig = new StartingConfiguration(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(startConfig, OI.button10, OI.WhenPressed);
+        OI.getInstance().bind(startConfig, OI.button2, OI.WhenPressed);
         
-        MoveMode moveMode = new MoveMode(transport, intake);
-        OI.getInstance().bind(moveMode, OI.button11, OI.WhenPressed);
+        MoveMode moveMode = new MoveMode(transport, intake, controlPanel);
+        OI.getInstance().bind(moveMode, OI.button3, OI.WhenPressed);
 
         ScoreLow scoreLow = new ScoreLow(transport, intake, controlPanel);
-        OI.getInstance().bind(scoreLow, OI.button12, OI.WhenPressed);
+        OI.getInstance().bind(scoreLow, OI.button4, OI.WhenPressed);
 
         ScoringHigh scoreHigh = new ScoringHigh(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(scoreHigh, OI.button13, OI.WhenPressed);
+        OI.getInstance().bind(scoreHigh, OI.button5, OI.WhenPressed);
 
         ControlPanelMode controlPanelMode = new ControlPanelMode(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(controlPanelMode, OI.button14, OI.WhenPressed);
+        OI.getInstance().bind(controlPanelMode, OI.button6, OI.WhenPressed);
     }
     /**
      * 

@@ -10,6 +10,8 @@ package frc.robot.subsystem.commandgroups;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystem.controlpanel.ControlPanel;
+import frc.robot.subsystem.controlpanel.commands.SpinnerRetract;
 import frc.robot.subsystem.intake.Intake;
 import frc.robot.subsystem.intake.commands.IntakeDown;
 import frc.robot.subsystem.intake.commands.IntakeStop;
@@ -28,8 +30,8 @@ public class MoveMode extends SequentialCommandGroup {
    */
   private static Logger logger = Logger.getLogger(CollectionMode.class.getName());
   
-  public MoveMode(Transport t, Intake i) {
-    super(new SideGateClose(t), new TailGateUp(t), new StopTransport(t), new IntakeDown(i), new IntakeStop(i));
+  public MoveMode(Transport t, Intake i, ControlPanel cp) {
+    super(new SideGateClose(t), new TailGateUp(t), new IntakeDown(i), new IntakeStop(i), new SpinnerRetract(cp), new StopTransport(t));
     logger.info("moveMode command group called");
   }
 }
