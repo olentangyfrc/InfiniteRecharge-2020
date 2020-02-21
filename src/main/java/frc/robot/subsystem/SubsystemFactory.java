@@ -44,11 +44,11 @@ import frc.robot.subsystem.commandgroups.CollectionMode;
 import frc.robot.subsystem.commandgroups.ControlPanelMode;
 //import frc.robot.subsystem.commandgroups.ControlPanelMode;
 import frc.robot.subsystem.commandgroups.MoveMode;
-import frc.robot.subsystem.commandgroups.ScoreLow;
-import frc.robot.subsystem.commandgroups.ScoringHigh;
+import frc.robot.subsystem.commandgroups.ScoreLowMode;
+import frc.robot.subsystem.commandgroups.ScoreHighMode;
 import frc.robot.subsystem.commandgroups.StartingConfiguration;
 //import frc.robot.subsystem.commandgroups.StartingConfiguration;
-import frc.robot.subsystem.transport.DumpTruck;
+import frc.robot.subsystem.transport.commands.ScoreLow;
 import frc.robot.subsystem.transport.Transport;
 import frc.robot.subsystem.transport.commands.*;
 import frc.robot.subsystem.transport.commands.TakeIn;
@@ -171,7 +171,7 @@ public class SubsystemFactory {
         winch.init(portMan);
         
         WinchUp w = new WinchUp(winch);
-        OI.getInstance().bind(w, OI.LeftJoyButton8, OI.WhileHeld);
+        OI.getInstance().bind(w, OI.RightButtonBox4, OI.WhileHeld);
         
         driveTrain  = new DrivetrainSubsystem();
         driveTrain.init(portMan);
@@ -203,10 +203,13 @@ public class SubsystemFactory {
         OI.getInstance().bind(tgd, OI.AuxJoyButton5, OI.WhenPressed);
 
         StopTransport si = new StopTransport(transport);
-        OI.getInstance().bind(si, OI.AuxJoyButton10, OI.WhenPressed);
+        OI.getInstance().bind(si, OI.LeftButtonBox9, OI.WhenPressed);
 
-        DumpTruck dt = new DumpTruck(transport);
-        OI.getInstance().bind(dt, OI.button7, OI.WhenPressed);
+        ScoreLow sl = new ScoreLow(transport);
+        OI.getInstance().bind(sl, OI.LeftButtonBox7, OI.WhenPressed);
+
+        ScoreHigh sHigh = new ScoreHigh(transport);
+        OI.getInstance().bind(sHigh,OI.LeftButtonBox8, OI.WhenPressed);
         
 
 
@@ -226,7 +229,7 @@ public class SubsystemFactory {
         OI.getInstance().bind(owr, OI.RightJoyButton3, OI.WhenPressed);
 
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
-        OI.getInstance().bind(st, OI.RightJoyButton2, OI.WhenPressed);
+        OI.getInstance().bind(st, OI.LeftButtonBox10, OI.WhenPressed);
         
 
          /**
@@ -264,10 +267,10 @@ public class SubsystemFactory {
 
         
         RotateToColor dc = new RotateToColor(controlPanel, "Blue");
-        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
+        OI.getInstance().bind(dc, OI.RightButtonBox2, OI.WhenPressed);
 
         SpinRotations ss = new SpinRotations(controlPanel, 6);
-        OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
+        OI.getInstance().bind(ss, OI.RightButtonBox5, OI.WhenPressed);
 
         SpinnerUp su = new SpinnerUp(controlPanel);
         OI.getInstance().bind(su, OI.LeftJoyButton4, OI.WhenPressed);
@@ -293,30 +296,30 @@ public class SubsystemFactory {
         OI.getInstance().bind(cr, OI.LeftJoyButton7, OI.WhenPressed);
 
         ClimberControl cc = new ClimberControl(climber);
-        OI.getInstance().bind(cc, OI.LeftJoyButton11,OI.WhileHeld);
+        OI.getInstance().bind(cc, OI.RightButtonBox3,OI.WhileHeld);
 
         ClimberControlBack ccb = new ClimberControlBack(climber);
-        OI.getInstance().bind(ccb,OI.LeftJoyButton10,OI.WhileHeld);
+        OI.getInstance().bind(ccb,OI.RightButtonBox1,OI.WhileHeld);
 
 
         //Command Groups
         CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(collectionMode, OI.button1, OI.WhenPressed);
+        OI.getInstance().bind(collectionMode, OI.LeftButtonBox1, OI.WhenPressed);
         
         StartingConfiguration startConfig = new StartingConfiguration(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(startConfig, OI.button2, OI.WhenPressed);
+        OI.getInstance().bind(startConfig, OI.LeftButtonBox5, OI.WhenPressed);
         
         MoveMode moveMode = new MoveMode(transport, intake, controlPanel);
-        OI.getInstance().bind(moveMode, OI.button3, OI.WhenPressed);
+        OI.getInstance().bind(moveMode, OI.LeftButtonBox4, OI.WhenPressed);
 
-        ScoreLow scoreLow = new ScoreLow(transport, intake, controlPanel);
-        OI.getInstance().bind(scoreLow, OI.button4, OI.WhenPressed);
+        ScoreLowMode scoreLow = new ScoreLowMode(transport, intake, controlPanel);
+        OI.getInstance().bind(scoreLow, OI.LeftButtonBox2, OI.WhenPressed);
 
-        ScoringHigh scoreHigh = new ScoringHigh(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(scoreHigh, OI.button5, OI.WhenPressed);
+        ScoreHighMode scoreHigh = new ScoreHighMode(transport, intake, controlPanel, oneWheelShooter);
+        OI.getInstance().bind(scoreHigh, OI.LeftButtonBox6, OI.WhenPressed);
 
         ControlPanelMode controlPanelMode = new ControlPanelMode(transport, intake, controlPanel, oneWheelShooter);
-        OI.getInstance().bind(controlPanelMode, OI.button6, OI.WhenPressed);
+        OI.getInstance().bind(controlPanelMode, OI.LeftButtonBox3, OI.WhenPressed);
     }
     /**
      * 

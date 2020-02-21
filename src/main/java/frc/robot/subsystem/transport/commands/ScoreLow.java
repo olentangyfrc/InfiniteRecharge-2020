@@ -5,16 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.transport;
+package frc.robot.subsystem.transport.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystem.transport.Transport;
 
-public class DumpTruck extends CommandBase {
+public class ScoreLow extends CommandBase {
   /**
    * Creates a new DumpTruck.
    */
   private Transport transport;
-  public DumpTruck(Transport t) {
+  public ScoreLow(Transport t) {
     transport = t;
     addRequirements(t);
     // Use addRequirements() here to declare subsystem dependencies.

@@ -49,9 +49,9 @@ public class ControlPanelSBTab implements SBInterface{
         velocity = tab.add("Velocity", 20000).getEntry();
         current = tab.add("Current", 0.0).getEntry();
         position = tab.add("Encoder Position", 0.0).getEntry();
-        pValue = tab.add("P Value", 0.2).getEntry();
-        iValue = tab.add("I Value", 0.0).getEntry();
-        dValue = tab.add("D Value", 0.2).getEntry();
+        pValue = tab.add("P Value", controlPanel.getPValue()).getEntry();
+        iValue = tab.add("I Value", controlPanel.getIValue()).getEntry();
+        dValue = tab.add("D Value", controlPanel.getDValue()).getEntry();
         encoderPosition = tab.add("Setting Encoder Position", false).withSize(1, 1).withPosition(0, 1).getEntry();
         stickStatus = tab.add("Stick Status", false).getEntry();
         brakeMode = tab.add("Brake Mode OnOff", false).getEntry();

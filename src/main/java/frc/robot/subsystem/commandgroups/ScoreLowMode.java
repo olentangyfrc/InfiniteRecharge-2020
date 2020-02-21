@@ -22,13 +22,13 @@ import frc.robot.subsystem.transport.commands.StopTransport;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ScoreLow extends SequentialCommandGroup {
+public class ScoreLowMode extends SequentialCommandGroup {
   /**
    * Creates a new ScoreLow.
    */
   private static Logger logger = Logger.getLogger(CollectionMode.class.getName());
   
-  public ScoreLow(Transport t, Intake i, ControlPanel cp) {
+  public ScoreLowMode(Transport t, Intake i, ControlPanel cp) {
     super(new SideGateClose(t), new IntakeDown(i), new IntakeStop(i), new SpinnerUp(cp), new StopTransport(t));
     logger.info("Score Low called");
   }

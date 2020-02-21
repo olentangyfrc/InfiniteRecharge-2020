@@ -25,13 +25,13 @@ import frc.robot.subsystem.transport.commands.TailGateUp;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ScoringHigh extends SequentialCommandGroup {
+public class ScoreHighMode extends SequentialCommandGroup {
   /**
    * Creates a new ScoringHigh.
    */
-  private static Logger logger = Logger.getLogger(ScoringHigh.class.getName());
-  public ScoringHigh(Transport t, Intake i, ControlPanel cp, OneWheelShooter s){
-    super(new OneWheelShoot(s), new TailGateUp(t), new IntakeDown(i), new IntakeStop(i), new SpinnerUp(cp), new SideGateOpen(t), new StopTransport(t));
+  private static Logger logger = Logger.getLogger(ScoreHighMode.class.getName());
+  public ScoreHighMode(Transport t, Intake i, ControlPanel cp, OneWheelShooter s){
+    super(new OneWheelShoot(s), new TailGateUp(t), new IntakeDown(i), new IntakeStop(i), new SpinnerUp(cp), new StopTransport(t));
     logger.info("Scoring High activated");
   }
 }

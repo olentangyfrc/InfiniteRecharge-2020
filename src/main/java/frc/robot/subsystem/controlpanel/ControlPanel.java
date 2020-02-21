@@ -233,5 +233,15 @@ public class ControlPanel extends SubsystemBase {
 
         isControlSpinnerUp = false;
       }
+
+      public double getPValue(){
+        return pValue;
+      }
+      public double getIValue(){
+        return iValue;
+      }
+      public double getDValue(){
+        return dValue;
+      }
       
     }

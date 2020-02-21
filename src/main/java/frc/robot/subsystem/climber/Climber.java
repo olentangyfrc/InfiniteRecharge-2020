@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystem.PortMan;
 
@@ -27,7 +28,8 @@ public class Climber extends SubsystemBase {
         hardLowLimit = new DigitalInput(portMan.acquirePort(PortMan.digital2_label, "Climber.HardLowLimit"));
         optimalLimit = new DigitalInput(portMan.acquirePort(PortMan.digital3_label, "Climber.MinimumLimit"));
         hardTopLimit = new DigitalInput(portMan.acquirePort(PortMan.digital4_label, "Climber.HardHighLimit"));
-
+    
+    
       motor.enableCurrentLimit(true);
       motor.configPeakCurrentLimit(30);
       motor.configContinuousCurrentLimit(30);
@@ -48,7 +50,7 @@ public class Climber extends SubsystemBase {
         }
         else{
             motor.set(ControlMode.PercentOutput, 0.0);
-        }  
+        } 
     }
 
     public void stop() {
