@@ -27,6 +27,7 @@ import frc.robot.subsystem.PortMan;
 import frc.robot.subsystem.telemetry.Telemetry;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class ControlPanel extends SubsystemBase {
     private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
@@ -56,6 +57,8 @@ public class ControlPanel extends SubsystemBase {
 
     private boolean isControlSpinnerUp;
     private DoubleSolenoid pusher;
+
+    private String gameData;
 
     public void init(PortMan portMan, Telemetry t) throws Exception {
       logger.entering(ControlPanel.class.getName(), "init()");
@@ -101,6 +104,8 @@ public class ControlPanel extends SubsystemBase {
       pusher = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm0_label, "Stick.inDoubleSolenoidx"), portMan.acquirePort(PortMan.pcm1_label, "Stick.outDoubleSolenoidx"));
 
       isControlSpinnerUp = false;
+
+      gameData = "";
 
     logger.exiting(ControlPanel.class.getName(), "exiting init");
 
@@ -232,6 +237,14 @@ public class ControlPanel extends SubsystemBase {
         pusher.set(DoubleSolenoid.Value.kReverse);
 
         isControlSpinnerUp = false;
+      }
+
+      public void updateControlPanelTargetColor() {
+        gameData = DriverStation.getInstance().getGameSpecificMessage();
+      }
+
+      public String getControlPanelTargetColor() {
+        return gameData;
       }
       
     }

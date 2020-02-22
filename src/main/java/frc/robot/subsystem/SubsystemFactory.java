@@ -263,7 +263,7 @@ public class SubsystemFactory {
         displayManager.addCP(controlPanel);
 
         
-        RotateToColor dc = new RotateToColor(controlPanel, "Blue");
+        RotateToColor dc = new RotateToColor(controlPanel);
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
 
         SpinRotations ss = new SpinRotations(controlPanel, 6);
@@ -360,7 +360,7 @@ public class SubsystemFactory {
         controlPanel = new ControlPanel();
         controlPanel.init(portMan, telemetry);
         displayManager.addCP(controlPanel);
-        RotateToColor dc = new RotateToColor(controlPanel, "Blue");
+        RotateToColor dc = new RotateToColor(controlPanel);
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
         SpinRotations ss = new SpinRotations(controlPanel, 6);
         OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
