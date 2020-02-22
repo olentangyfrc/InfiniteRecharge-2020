@@ -5,40 +5,43 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.transport.commands;
+package frc.robot.subsystem.winch.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystem.transport.Transport;
+import frc.robot.subsystem.winch.Winch;
 
-public class TransportUp extends CommandBase {
+public class WinchUp extends CommandBase {
+  /**
+   * Creates a new Shoot.
+   */
 
-  private Transport transport;
+  private Winch winch;
   private boolean stop;
 
-  /**
-   * Creates a new MoveGateUp.
-   */
-  public TransportUp(Transport t) {
-    transport = t;
-    addRequirements(t);
-    stop = false;
+  public WinchUp(Winch w) {
+    winch = w;
+    addRequirements(winch);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    stop = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    transport.moveGateUp();
+    winch.up();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stop = true;
+    if (interrupted) {
+      stop = true;
+      winch.stop();
+    }
   }
 
   // Returns true when the command should end.

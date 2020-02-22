@@ -2,28 +2,21 @@ package frc.robot.subsystem.transport;
 
 import java.util.logging.Logger;
 
-import javax.xml.namespace.QName;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANPIDController;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.MedianFilter;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.OzoneException;
 import frc.robot.subsystem.PortMan;
-
+import frc.robot.subsystem.transport.commands.TakeIn;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Transport extends SubsystemBase {
-
-    private static final Double Repeatable = null;
 
     private static Logger logger = Logger.getLogger(Transport.class.getName());
 
@@ -31,21 +24,17 @@ public class Transport extends SubsystemBase {
     private DoubleSolenoid doubleSolenoidRight;
     private TalonSRX leftIntake;
     private TalonSRX rightIntake;
-    private AnalogInput intakeSensor;
-    private CANPIDController leftPid;
-    private CANPIDController rightPid;
-    private AnalogInput exitSensor;
-    private MedianFilter filter;
-    private double motorSpeedForward = .2;
-    private double motorSpeedBackward = .2;
+    private double motorSpeedForward = .5;
+    private double motorSpeedBackward = .5;
 
     private int ballCount = 0;
     private boolean pastValue1 = false;
     private boolean pastValue2 = false;
-    private DigitalInput enterSwitch;
-    private DigitalInput exitSwitch;
+    private DigitalInput transportReceiverSwitch;
+    private DigitalInput transportSenderSwitch;
 
     private boolean gateUp;
+    private double transportTime;
 
     //private Counter ballCount;
     public Transport() {
@@ -54,14 +43,17 @@ public class Transport extends SubsystemBase {
     public void init(PortMan portMan) throws Exception {
         logger.entering(Transport.class.getName(), "init()");
 
-        doubleSolenoidLeft = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm2_label, "Transport.gate2"), portMan.acquirePort(PortMan.pcm3_label, "Transport.gate3"));
-        doubleSolenoidRight = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm4_label, "Transport.gate4"), portMan.acquirePort(PortMan.pcm5_label, "Transport.gate5"));
+        // sideGate
+        doubleSolenoidLeft = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm6_label, "Transport.gate2"), portMan.acquirePort(PortMan.pcm7_label, "Transport.gate3"));
+        // tailgate
+        doubleSolenoidRight = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm2_label, "Transport.gate4"), portMan.acquirePort(PortMan.pcm3_label, "Transport.gate5"));
         gateUp = false;
         
-        enterSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Transport.IntakeEnterSensor"));
-        exitSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Transport.IntakeExitSensor"));
-        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_57_label, "Transport.LeftIntake"));
-        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_58_label, "Transport.RightIntake"));
+        transportReceiverSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital0_label, "Transport.IntakeEnterSensor"));
+        transportSenderSwitch = new DigitalInput(portMan.acquirePort(PortMan.digital1_label, "Transport.IntakeExitSensor"));
+
+        leftIntake = new TalonSRX(portMan.acquirePort(PortMan.can_24_label, "Transport.LeftIntake"));
+        rightIntake = new TalonSRX(portMan.acquirePort(PortMan.can_26_label, "Transport.RightIntake"));
         //ballCount = new Counter(Counter.Mode.kSemiperiod)
 
         leftIntake.config_kP(0, .5, 0);
@@ -78,37 +70,51 @@ public class Transport extends SubsystemBase {
         rightIntake.configMotionCruiseVelocity(4096, 0);
         rightIntake.configMotionAcceleration(4096, 0);
 
-        rightIntake.follow(leftIntake);
-        rightIntake.setInverted(true);
+        transportTime = 0.0;
 
         //ballCount.setUpSource(enterSwitch);
         //ballCount.setSemiPeriodMode(true);
 
+        setDefaultCommand(new TakeIn(this));
+
         logger.exiting(Transport.class.getName(), "init()");
     }
 
-    public void moveGateUp(){
-        doubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
-        doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
+    public void moveSideGateOpen(){
+        doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
         gateUp = true;
     }
-    public void moveGateDown(){
-      doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
-      doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
+    public void moveSideGateClose(){
+      doubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
       gateUp = false;
+    }
+    public void moveTailGateUp(){
+        doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
+    }
+    public void moveTailGateDown(){
+        doubleSolenoidRight.set(DoubleSolenoid.Value.kReverse);
     }
     public boolean getGateStatus(){
       return gateUp;
+    }
+    public void shoot(){
+        leftIntake.set(ControlMode.PercentOutput, .7);
+        rightIntake.set(ControlMode.PercentOutput, -.7);
     }
 
     public void take() {
         logger.info("take");
         leftIntake.set(ControlMode.PercentOutput, motorSpeedForward);
-        leftPid.setReference(motorSpeedForward, ControlType.kVelocity);
+        rightIntake.set(ControlMode.PercentOutput, -motorSpeedForward);
+    }
+
+    public void expel() {
+        logger.info("expel");
+        leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
+        rightIntake.set(ControlMode.PercentOutput, motorSpeedBackward);
     }
 
     public void stop() {
-        logger.info("stop");
 
         leftIntake.set(ControlMode.PercentOutput,0);
         rightIntake.set(ControlMode.PercentOutput,0);
@@ -118,40 +124,46 @@ public class Transport extends SubsystemBase {
         return 0;
     }
 
-    public void expel() {
-        logger.info("expel");
-        leftIntake.set(ControlMode.PercentOutput, -motorSpeedBackward);
-    }
-
     public double getVelocity() {
         return leftIntake.getSelectedSensorVelocity();
     }
 
     public int getBallCount() {
-        if(getDigitalInput1() == true && pastValue1 == false){
+        if(getTransportReceiverSwitch() == true && pastValue1 == false){
             ballCount++;
         }
-        if(getDigitalInput2() == true && pastValue2 == false){
+        if(getTransportSendserSwitch() == true && pastValue2 == false){
             ballCount++;
         }
-        pastValue1 = getDigitalInput1();
-        pastValue2 = getDigitalInput2();
+        pastValue1 = getTransportReceiverSwitch();
+        pastValue2 = getTransportSendserSwitch();
+        /*
         if(ballCount >= 5){
             leftIntake.set(ControlMode.PercentOutput,0);
             rightIntake.set(ControlMode.PercentOutput,0);
         }
+        */
         return ballCount;
     }
 
-    public boolean getDigitalInput1(){
-        return enterSwitch.get();
+    public boolean getTransportReceiverSwitch(){
+        return transportReceiverSwitch.get();
     }
 
-    public boolean getDigitalInput2(){
-        return exitSwitch.get();
+    public boolean getTransportSendserSwitch(){
+        return transportSenderSwitch.get();
     }
     
     public void update(){
         
+    }
+    public double getTime(){
+        return Timer.getFPGATimestamp();
+    }
+    public void setTargetTime(double a){
+        transportTime = a;
+    }
+    public double getTargetTime(){
+        return transportTime;
     }
 }

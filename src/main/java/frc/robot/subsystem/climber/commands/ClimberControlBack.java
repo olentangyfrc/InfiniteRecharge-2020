@@ -26,23 +26,30 @@ public class ClimberControlBack extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    stop = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climber.controlBack();
+    if(stop) return;
+    climber.manualDown();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stop = true;
+    if (interrupted){
+      stop = true;
+      climber.stop();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
+    if (stop) climber.stop();
     return stop;
   }
 }

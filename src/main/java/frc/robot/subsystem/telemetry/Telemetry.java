@@ -48,10 +48,7 @@ public class Telemetry extends SubsystemBase{
         filterRear = new MedianFilter(10);
         testMotor = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "Telemetry.testMotor"));
 
-        //CameraServer server = CameraServer.getInstance();
         CameraServer.getInstance().startAutomaticCapture();
-        CameraServer.getInstance().startAutomaticCapture();
-        //server.startAutomaticCapture("cam0", );
 
         logger.exiting(Telemetry.class.getName(), "init()");
     }

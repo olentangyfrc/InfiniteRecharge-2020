@@ -16,11 +16,10 @@ public class OneWheelStop extends CommandBase {
    */
 
   private OneWheelShooter oneWheelShooter;
-  private boolean stop;
 
   public OneWheelStop(OneWheelShooter s) {
     oneWheelShooter = s;
-    stop = false;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s);
   }
@@ -40,12 +39,11 @@ public class OneWheelStop extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stop = true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stop;
+    return true;
   }
 }

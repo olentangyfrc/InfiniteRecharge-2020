@@ -5,26 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.intake.commands;
+package frc.robot.subsystem.transport.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import java.util.logging.Logger;
-import frc.robot.subsystem.intake.Intake;
+import frc.robot.subsystem.transport.Transport;
 
-public class IntakeUp extends CommandBase {
-  private Intake intake;
-  private boolean stop;
-
+public class TailGateUp extends CommandBase {
   /**
-   * Creates a new IntakeUp.
+   * Creates a new TailGateUp.
    */
-  public IntakeUp(Intake i) {
-    intake = i;
-    addRequirements(i);
-    stop = false;
+  private Transport transport;
+  public TailGateUp(Transport t) {
+    transport = t;
+    addRequirements(t);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  // Called when the comsmand is initially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
@@ -32,13 +29,12 @@ public class IntakeUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.moveWheelIntakeUp();
+    transport.moveTailGateUp();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    stop = true;
   }
 
   // Returns true when the command should end.

@@ -87,6 +87,6 @@ public class RotateToColor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stop;
+    return true;
   }
 }

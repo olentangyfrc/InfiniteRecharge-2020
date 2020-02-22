@@ -32,7 +32,7 @@ public class IntakeDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.moveGateDown();
+    intake.moveWheelIntakeDown();
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +44,6 @@ public class IntakeDown extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stop;
+    return true;
   }
 }

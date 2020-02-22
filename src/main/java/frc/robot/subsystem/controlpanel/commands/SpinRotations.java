@@ -10,43 +10,64 @@ package frc.robot.subsystem.controlpanel.commands;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystem.controlpanel.ControlPanel;
 
-
-public class SpinnerRetract extends CommandBase {
-  private final Logger logger = Logger.getLogger(Spin.class.getName());
+public class SpinRotations extends CommandBase {
+  private final Logger logger = Logger.getLogger(RotateToColor.class.getName());
   
   private ControlPanel controlPanel;
-  /**
-   * Creates a new Spin.
-   */
-  public SpinnerRetract(ControlPanel c) {
+  private int spinCount;
+  private int count;
+  private String startColor;
+  private String pastColor;
+  private boolean stop;
+  
+
+  public SpinRotations(ControlPanel c, int sc) {
     controlPanel = c;
     addRequirements(c);
+    spinCount = sc;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    count = 0;
+    startColor = controlPanel.getDetectedColor();
+    pastColor = startColor;
+    stop = false;
+    controlPanel.setBrakeMode(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlPanel.retractPistons();
+    if (count >= spinCount){
+      stop = true;
+      return;
+    }
+    controlPanel.spin(controlPanel.getPercentOutput());
+    String color = controlPanel.getDetectedColor();
+    if(!(pastColor.equals(color)) && color.equals(startColor))
+    {
+      logger.info("color is equal to startColor");
+      count++;
+    }
+    pastColor = color;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(final boolean interrupted) {
       logger.info("Ended");
+      controlPanel.spin(0.0);
   }
 
   @Override
   public synchronized void cancel() {
       logger.info("Canceled");
+      controlPanel.spin(0);
+      stop = true;
   }
   // Returns true when the command should end.
   @Override

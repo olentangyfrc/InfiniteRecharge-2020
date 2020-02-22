@@ -7,6 +7,8 @@
 
 package frc.robot.subsystem.climber.commands;
 
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystem.climber.Climber;
 
@@ -17,7 +19,7 @@ public class Climb extends CommandBase {
 
   private Climber climber;
   private boolean stop;
-
+  private static Logger logger = Logger.getLogger(Climb.class.getName());
   public Climb(Climber climb) {
     climber = climb;
     stop = false;
@@ -33,6 +35,7 @@ public class Climb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    logger.info("Climb execute");
     climber.extend();
   }
 
@@ -45,6 +48,6 @@ public class Climb extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stop;
+    return true;
   }
 }

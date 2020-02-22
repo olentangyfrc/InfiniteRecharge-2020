@@ -5,14 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.onewheelshooter;
+package frc.robot.subsystem.winch;
 
 import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,9 +20,9 @@ import frc.robot.subsystem.PortMan;
 /**
  * Add your docs here.
  */
-public class OneWheelShooter extends SubsystemBase{
+public class Winch extends SubsystemBase{
 
-    private static Logger logger = Logger.getLogger(OneWheelShooter.class.getName());
+    private static Logger logger = Logger.getLogger(Winch.class.getName());
     private TalonFX motor;
 
     private double pValue;
@@ -34,14 +33,14 @@ public class OneWheelShooter extends SubsystemBase{
     
     public void init(final PortMan portMan) throws Exception {
         logger.info("init");
-        motor = new TalonFX(portMan.acquirePort(PortMan.can_28_label, "OneWheelShooter"));
+        motor = new TalonFX(portMan.acquirePort(PortMan.can_10_label, "Winch"));
 
         pValue = .3;
         iValue = 0;
         dValue = .2;
-        velocity = 10790;
+        velocity = -100000;
 
-      motor.setNeutralMode(NeutralMode.Coast);
+      motor.setNeutralMode(NeutralMode.Brake);
       motor.configFactoryDefault();
       motor.configAllowableClosedloopError(0, 5);
       motor.setSelectedSensorPosition(0, 0, 0);
@@ -53,27 +52,19 @@ public class OneWheelShooter extends SubsystemBase{
 
 
       motor.configClosedloopRamp(.9);
-
     }
     
-    public void shoot(){
-        logger.info("shoot");
-        logger.info("shoot [" + velocity + "]");
-
+    public void up(){
         motor.set(ControlMode.Velocity, velocity);
-        //motor.set(ControlMode.PercentOutput, velocity);
-        logger.info("[" + velocity + "]");
     }
-    public void reverse(){
-        logger.info("reverse [" + -velocity + "]");
+    public void down(){
         motor.set(ControlMode.Velocity, -velocity);
     }
     public void setVelocity(double a){
         velocity = a;
     }
     public void stop(){
-        logger.info("stop");
-        motor.set(ControlMode.Velocity, 0);
+        motor.set(ControlMode.PercentOutput, 0);
     }
     public void changePID(double p, double i, double d){
         if(pValue != p)
@@ -83,22 +74,7 @@ public class OneWheelShooter extends SubsystemBase{
         if(dValue != d)
             dValue = d;
     }
-    public double getCurrentVelocity(){
+    public double getVelocity(){
         return motor.getSelectedSensorVelocity();
-    }
-    public double getVelocity() {
-        return velocity;
-    }
-    public double getPValue(){
-        return pValue;
-    }
-    public double getIValue(){
-        return iValue;
-    }
-    public double getDValue(){
-        return dValue;
-    }
-    public double getCurrent(){
-        return motor.getSupplyCurrent();
     }
 }

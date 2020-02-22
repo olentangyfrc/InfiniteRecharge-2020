@@ -20,7 +20,12 @@ public class ClimberSBTab implements SBInterface {
     private ShuffleboardTab tab;
     private NetworkTableEntry hardLowLimit;
     private NetworkTableEntry hardTopLimit;
-    private NetworkTableEntry minLimit; 
+    private NetworkTableEntry optimalLimit; 
+    private NetworkTableEntry roboUpSpeed;
+    private NetworkTableEntry roboDownSpeed;
+    private NetworkTableEntry customUpSpeed;
+    private NetworkTableEntry customDownSpeed;
+    
 
     public ClimberSBTab(Climber c) {
         climber = c;
@@ -28,7 +33,11 @@ public class ClimberSBTab implements SBInterface {
         tab = Shuffleboard.getTab("Climber");
         hardLowLimit = tab.add("HardLowLimit", false).getEntry();
         hardTopLimit = tab.add("HardTop Liwit", false).getEntry();
-        minLimit = tab.add("MinLimit", false).getEntry();
+        optimalLimit = tab.add("OptimalLimit", false).getEntry();
+        roboUpSpeed = tab.add("Robot Up Speed", .8).getEntry();
+        roboDownSpeed = tab.add("Robot Down Speed", -.3).getEntry();
+        customUpSpeed = tab.add("Custom Up Speed", .8).getEntry();
+        customDownSpeed = tab.add("Custo Down Speed", -.3).getEntry();
     }
 
 
@@ -39,6 +48,10 @@ public class ClimberSBTab implements SBInterface {
     public void update() {
         hardLowLimit.setBoolean(climber.getHardLowLimit());
         hardTopLimit.setBoolean(climber.getHardHighLimit());
-        minLimit.setBoolean(climber.getMinLimit());
+        optimalLimit.setBoolean(climber.getOptimalLimit());
+        climber.setRoboMoveUpSpeed(roboUpSpeed.getDouble(.4));
+        climber.setRoboMoveDownSpeed(roboDownSpeed.getDouble(-.3));
+        climber.setCustomMoveUpSpeed(customUpSpeed.getDouble(.4));
+        climber.setCustomMoveDownSpeed(customDownSpeed.getDouble(-.3));
     }
 }

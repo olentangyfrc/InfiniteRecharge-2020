@@ -73,13 +73,15 @@ public class ControlPanel extends SubsystemBase {
       
       colorString = "None";
 
-      motor = new TalonSRX(portMan.acquirePort(PortMan.can_17_label, "ControlPanel.spinner"));
+      motor = new TalonSRX(portMan.acquirePort(PortMan.can_27_label, "ControlPanel.spinner"));
 
       telemetry = t;
 
       pValue = .2;
       iValue = 0;
       dValue = .2;
+
+      percentOutput = .3;
 
       motor.enableCurrentLimit(true);
       motor.configPeakCurrentLimit(30);
@@ -99,7 +101,7 @@ public class ControlPanel extends SubsystemBase {
 
       velocity = 20000;
 
-      pusher = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm4_label, "Stick.inDoubleSolenoidx"), portMan.acquirePort(PortMan.pcm5_label, "Stick.outDoubleSolenoidx"));
+      pusher = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm0_label, "Stick.inDoubleSolenoidx"), portMan.acquirePort(PortMan.pcm1_label, "Stick.outDoubleSolenoidx"));
 
       isControlSpinnerUp = false;
 
@@ -107,6 +109,10 @@ public class ControlPanel extends SubsystemBase {
 
     logger.exiting(ControlPanel.class.getName(), "exiting init");
 
+    }
+
+    public void stop(){
+      motor.set(ControlMode.PercentOutput, 0.0);
     }
   
     public void spin(int spinNum) {
@@ -184,6 +190,7 @@ public class ControlPanel extends SubsystemBase {
         return percentOutput;
       }
       public void spin(double speed){
+        logger.info("spin [" + speed + "]");
         motor.set(ControlMode.PercentOutput, speed);
       }
       public void setBrakeMode(boolean on){
