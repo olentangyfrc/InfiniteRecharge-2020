@@ -24,10 +24,10 @@ public class RotateToColor extends CommandBase {
   /**
    * Creates a new DisplayColor.
    */
-  public RotateToColor(ControlPanel c, String target) {
+  public RotateToColor(ControlPanel c) {
     controlPanel = c;
     addRequirements(c);
-    targetColor = target;
+    targetColor = controlPanel.getControlPanelTargetColor();
   }
 
   // Called when the command is initially scheduled.
@@ -35,28 +35,40 @@ public class RotateToColor extends CommandBase {
   public void initialize() {
     stop = false;
     controlPanel.setBrakeMode(true);
-    switch(targetColor){
-      case ("Blue"):
-        oppositeColor = "Red";
-        break;
-      case ("Red"):
-        oppositeColor = "Blue";
-        break;
-      case ("Green"):
-        oppositeColor = "Yellow";
-        break;
-      case ("Yellow"):
-        oppositeColor = "Green";
-        break;
-    }
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (controlPanel.getDetectedColor().equals(oppositeColor))
-      stop = true;
-    controlPanel.spin(controlPanel.getPercentOutput());
+    targetColor = controlPanel.getControlPanelTargetColor();
+
+    if (targetColor.length() > 0) {
+      switch(targetColor){
+        case ("Blue"):
+          oppositeColor = "Red";
+          break;
+        case ("Red"):
+          oppositeColor = "Blue";
+          break;
+        case ("Green"):
+          oppositeColor = "Yellow";
+          break;
+        case ("Yellow"):
+          oppositeColor = "Green";
+          break;
+      }
+
+      if (controlPanel.getDetectedColor().equals(oppositeColor)) {
+        stop = true;
+      } else {
+          controlPanel.spin(controlPanel.getPercentOutput());
+      }
+
+    } else {
+        stop = true;
+    }
+    
   }
 
   // Called once the command ends or is interrupted.

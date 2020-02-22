@@ -32,6 +32,7 @@ public class ControlPanelSBTab implements SBInterface{
     private NetworkTableEntry encoderPosition;
     private NetworkTableEntry stickStatus;
     private NetworkTableEntry brakeMode;
+    private NetworkTableEntry controlPanelColor;
 
     private static Logger logger = Logger.getLogger(ControlPanelSBTab.class.getName());
 
@@ -80,6 +81,10 @@ public class ControlPanelSBTab implements SBInterface{
         }
         controlPanel.setVelocity(velocity.getDouble(20000));
         controlPanel.setPercentOutput(percentOutput.getDouble(0.6));
+
+        controlPanel.updateControlPanelTargetColor();
+        controlPanelColor.setString(controlPanel.getControlPanelTargetColor());
+
         // finish this method based on controlpanel getvalues
         // make sure to call the init method in this method in order for all the values to be updated
     }
