@@ -326,6 +326,18 @@ public class SubsystemFactory {
 
     private void initFootball(PortMan portMan) throws Exception {
         logger.info("Initializing Football");
+
+ /**
+         * All of the Pixy Line stuff goes here
+         */
+        
+        pixyLineCam = new PixyLineCam();
+        pixyLineCam.init(portMan);
+        displayManager.addPixyLineCam(pixyLineCam);
+
+        PollPixyLine p = new PollPixyLine(pixyLineCam);
+        OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
+
         /**
          * All of the Telemery Stuff goes here
          */
@@ -406,7 +418,16 @@ public class SubsystemFactory {
         OI.getInstance().bind(shooterReverse, OI.LeftJoyButton8, OI.WhenPressed);
 
 
-        /**
+       
+    }
+
+    private void initZombie(PortMan portMan) throws OzoneException {
+        logger.info("Initializing Zombie");
+    }
+
+    private void initRio2(PortMan portMan) throws OzoneException {
+        logger.info("Initializing RIO2");
+         /**
          * All of the Pixy Line stuff goes here
          */
         
@@ -435,14 +456,6 @@ public class SubsystemFactory {
         IntakeSpinBack isb = new IntakeSpinBack(intake);
         OI.getInstance().bind(isb,OI.RightJoyButton10, OI.WhenPressed);
         
-    }
-
-    private void initZombie(PortMan portMan) throws OzoneException {
-        logger.info("Initializing Zombie");
-    }
-
-    private void initRio2(PortMan portMan) throws OzoneException {
-        logger.info("Initializing RIO2");
     }
 
     public ControlPanel getControlPanel() {
