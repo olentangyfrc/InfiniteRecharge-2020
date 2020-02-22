@@ -263,7 +263,7 @@ public class SubsystemFactory {
         displayManager.addCP(controlPanel);
 
         
-        RotateToColor dc = new RotateToColor(controlPanel, "Blue");
+        RotateToColor dc = new RotateToColor(controlPanel);
         OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
 
         SpinRotations ss = new SpinRotations(controlPanel, 6);
