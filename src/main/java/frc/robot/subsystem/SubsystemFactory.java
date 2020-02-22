@@ -34,6 +34,7 @@ import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelStop;
 import frc.robot.subsystem.pixylinecam.PixyLineCam;
 import frc.robot.subsystem.pixylinecam.commands.PollPixyLine;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystem.climber.commands.Climb;
@@ -65,6 +66,8 @@ public class SubsystemFactory {
     private HashMap<String, String> allMACs; // will contain mapping of MACs to Bot Names
 
     private static DisplayManager displayManager;
+
+    private PowerDistributionPanel pdp;
 
     /**
      * keep all available subsystem declarations here.
@@ -100,7 +103,7 @@ public class SubsystemFactory {
         allMACs.put("00:80:2F:17:D7:4C", "RIO2"); //usb0
     }
 
-    public static SubsystemFactory getInstance(boolean b) {
+    public static SubsystemFactory getInstance() {
 
         if (me == null) {
             me = new SubsystemFactory();
@@ -119,6 +122,7 @@ public class SubsystemFactory {
 
         displayManager = dm;
         subsystemInterfaceList = new ArrayList<SBInterface>();
+        //pdp = new PowerDistributionPanel();
 
         try {
 
@@ -185,7 +189,7 @@ public class SubsystemFactory {
         transport.init(portMan);
         displayManager.addTransport(transport);
         
-        TakeIn tc = new TakeIn(transport);
+        //TakeIn tc = new TakeIn(transport);
 
         PushOut pc = new PushOut(transport);
         OI.getInstance().bind(pc, OI.AuxJoyButton7, OI.WhenPressed);
@@ -448,6 +452,9 @@ public class SubsystemFactory {
         logger.info("Initializing RIO2");
     }
 
+    public PowerDistributionPanel getPDP(){
+        return pdp;
+    }
     public ControlPanel getControlPanel() {
         return controlPanel;
     }

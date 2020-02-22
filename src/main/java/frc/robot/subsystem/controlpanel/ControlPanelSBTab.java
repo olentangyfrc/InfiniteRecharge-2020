@@ -32,6 +32,7 @@ public class ControlPanelSBTab implements SBInterface{
     private NetworkTableEntry encoderPosition;
     private NetworkTableEntry stickStatus;
     private NetworkTableEntry brakeMode;
+    private NetworkTableEntry confidence;
 
     private static Logger logger = Logger.getLogger(ControlPanelSBTab.class.getName());
 
@@ -46,15 +47,16 @@ public class ControlPanelSBTab implements SBInterface{
         blue = tab.add("Blue", 0).getEntry();
         detectedColor = tab.add("Detected Color", "None").getEntry();
         percentOutput = tab.add("Percent Output", 0.0).getEntry();
-        velocity = tab.add("Velocity", 20000).getEntry();
-        current = tab.add("Current", 0.0).getEntry();
-        position = tab.add("Encoder Position", 0.0).getEntry();
-        pValue = tab.add("P Value", controlPanel.getPValue()).getEntry();
-        iValue = tab.add("I Value", controlPanel.getIValue()).getEntry();
-        dValue = tab.add("D Value", controlPanel.getDValue()).getEntry();
-        encoderPosition = tab.add("Setting Encoder Position", false).withSize(1, 1).withPosition(0, 1).getEntry();
+        //velocity = tab.add("Velocity", 20000).getEntry();
+        //current = tab.add("Current", 0.0).getEntry();
+        //position = tab.add("Encoder Position", 0.0).getEntry();
+       // pValue = tab.add("P Value", controlPanel.getPValue()).getEntry();
+       //iValue = tab.add("I Value", controlPanel.getIValue()).getEntry();
+        //dValue = tab.add("D Value", controlPanel.getDValue()).getEntry();
+       // encoderPosition = tab.add("Setting Encoder Position", false).withSize(1, 1).withPosition(0, 1).getEntry();
         stickStatus = tab.add("Stick Status", false).getEntry();
         brakeMode = tab.add("Brake Mode OnOff", false).getEntry();
+        confidence = tab.add("Confidence", 0.0).getEntry();
     }
 
 
@@ -68,18 +70,21 @@ public class ControlPanelSBTab implements SBInterface{
         blue.setDouble(controlPanel.getBlueValue());
         detectedColor.setString(controlPanel.getDetectedColor());
         percentOutput.setDouble(controlPanel.getPercentOutput());
-        velocity.setDouble(controlPanel.getVelocity());
-        current.setDouble(controlPanel.getCurrent());
-        position.setDouble(controlPanel.getPosition());
-        brakeMode.setBoolean(controlPanel.getBrakeOnOff());
-        controlPanel.changePID(pValue.getDouble(0.2), iValue.getDouble(0.0), dValue.getDouble(0.2));
+        //velocity.setDouble(controlPanel.getVelocity());
+        //current.setDouble(controlPanel.getCurrent());
+        //position.setDouble(controlPanel.getPosition());
+        //brakeMode.setBoolean(controlPanel.getBrakeOnOff());
+       // controlPanel.changePID(pValue.getDouble(0.2), iValue.getDouble(0.0), dValue.getDouble(0.2));
         stickStatus.setBoolean(controlPanel.getStickStatus());
+        /*
         if(encoderPosition.getBoolean(false) == true){
             controlPanel.setZero();
             encoderPosition.setBoolean(false);
         }
-        controlPanel.setVelocity(velocity.getDouble(20000));
+        */
+        //controlPanel.setVelocity(velocity.getDouble(20000));
         controlPanel.setPercentOutput(percentOutput.getDouble(0.6));
+        confidence.setDouble(controlPanel.getConfidenceValue());
         // finish this method based on controlpanel getvalues
         // make sure to call the init method in this method in order for all the values to be updated
     }

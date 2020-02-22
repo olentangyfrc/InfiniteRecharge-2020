@@ -20,6 +20,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OzoneException;
@@ -32,7 +33,7 @@ public class ControlPanel extends SubsystemBase {
     private static Logger logger = Logger.getLogger(ControlPanel.class.getName());
 
     private ColorSensorV3 m_colorSensor ; 
-    private TalonSRX motor;
+    private PWMTalonSRX motor;
     private final ColorMatch m_colorMatcher = new ColorMatch();
     private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
     private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
@@ -70,7 +71,7 @@ public class ControlPanel extends SubsystemBase {
       
       colorString = "None";
 
-      motor = new TalonSRX(portMan.acquirePort(PortMan.can_27_label, "ControlPanel.spinner"));
+      motor = new PWMTalonSRX(portMan.acquirePort(PortMan.pwm9_label, "ControlPanel.spinner"));
 
       telemetry = t;
 
@@ -80,6 +81,7 @@ public class ControlPanel extends SubsystemBase {
 
       percentOutput = .3;
 
+      /*
       motor.enableCurrentLimit(true);
       motor.configPeakCurrentLimit(30);
       motor.configContinuousCurrentLimit(20);
@@ -95,6 +97,7 @@ public class ControlPanel extends SubsystemBase {
 
       motor.configMotionCruiseVelocity(4500);
       motor.configMotionAcceleration(4096);
+      */
 
       velocity = 20000;
 
@@ -105,15 +108,8 @@ public class ControlPanel extends SubsystemBase {
     logger.exiting(ControlPanel.class.getName(), "exiting init");
 
     }
-
     public void stop(){
-      motor.set(ControlMode.PercentOutput, 0.0);
-    }
-  
-    public void spin(int spinNum) {
-      logger.info("spinning");
-    
-     motor.set(ControlMode.MotionMagic, 320000);
+      motor.set(0.0);
     }
 
     public double getRedValue() {
@@ -148,6 +144,7 @@ public class ControlPanel extends SubsystemBase {
       public Color getColor(){
         return m_colorSensor.getColor();
       }
+      /*
       public double getCurrent(){
         return motor.getSupplyCurrent();
       }
@@ -157,6 +154,7 @@ public class ControlPanel extends SubsystemBase {
       public double getPosition(){
         return motor.getSelectedSensorPosition();
       }
+      */
       public boolean getStickStatus() {
         return isControlSpinnerUp;
       }
@@ -172,9 +170,11 @@ public class ControlPanel extends SubsystemBase {
          dValue = d;
        }
       }
+      /*
       public void setZero(){
         motor.setSelectedSensorPosition(0);
       }
+      */
       public void setVelocity(double a){
         velocity = a;
       }
@@ -186,9 +186,10 @@ public class ControlPanel extends SubsystemBase {
       }
       public void spin(double speed){
         logger.info("spin [" + speed + "]");
-        motor.set(ControlMode.PercentOutput, speed);
+        motor.set(speed);
       }
       public void setBrakeMode(boolean on){
+        /*
         if (on == true){
           motor.setNeutralMode(NeutralMode.Brake);
           brakeOnOff = true;
@@ -197,10 +198,13 @@ public class ControlPanel extends SubsystemBase {
           motor.setNeutralMode(NeutralMode.Coast);
           brakeOnOff = false;
         }
+        */
       }
+      /*
       public void spinMotionMagic(int magicNumber) {
         motor.set(ControlMode.MotionMagic, magicNumber);
       }
+      */
       public boolean getBrakeOnOff(){
         return brakeOnOff;
       }
@@ -208,7 +212,7 @@ public class ControlPanel extends SubsystemBase {
         Color startColor = m_colorSensor.getColor();
         Color pastColor = startColor;
         int count = 0;
-        motor.set(ControlMode.PercentOutput, 0.2);
+        motor.set(0.2);
         do
         {
           Color color = m_colorSensor.getColor();
@@ -219,7 +223,7 @@ public class ControlPanel extends SubsystemBase {
           pastColor = color;
         }
         while(count < number);
-        motor.set(ControlMode.PercentOutput, 0);
+        motor.set(0);
       }
 
       public void pushColorSpinnerUp() {

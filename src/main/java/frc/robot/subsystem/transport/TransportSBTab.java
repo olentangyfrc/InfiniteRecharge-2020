@@ -9,7 +9,8 @@ public class TransportSBTab implements SBInterface
 {
     private Transport transport;
     private ShuffleboardTab tab;
-    private NetworkTableEntry speed;
+    private NetworkTableEntry motorSpeedForward;
+    private NetworkTableEntry motorSpeedBackward;
     private NetworkTableEntry ballCount;
     private NetworkTableEntry dio1;
     private NetworkTableEntry dio2;
@@ -18,6 +19,8 @@ public class TransportSBTab implements SBInterface
     private NetworkTableEntry gateStatus;
     private NetworkTableEntry currentTime;
     private NetworkTableEntry targetTime;
+    private NetworkTableEntry bottomTransportCurrent;
+    private NetworkTableEntry topTransportCurrent;
     
 
     public TransportSBTab(Transport c) 
@@ -25,18 +28,21 @@ public class TransportSBTab implements SBInterface
       transport = c;
 
       tab = Shuffleboard.getTab("Transport");
-      speed = tab.add("speed", 0).getEntry();
+      motorSpeedForward = tab.add("Motor Speed Forward", transport.getMotorSpeedForward()).getEntry();
+      motorSpeedBackward = tab.add("Motor Speed Backward", transport.getMotorSpeedBackward()).getEntry();
       ballCount = tab.add("ballCount", 0).getEntry();
       dio1 = tab.add("Digital Input 1", false).getEntry();
       dio2 = tab.add("Digital Input 2", false).getEntry();
       gateStatus = tab.add("Gate up", false).getEntry();
       currentTime = tab.add("Current Time elapsed", 0.0).getEntry();
       targetTime = tab.add("Transport target time", 2).getEntry();
+      //leftIntakeCurrent = tab.add("LeftIntake Current", transport.getLeftIntakeCurrent()).getEntry();
+     // rightIntakeCurrent = tab.add("RightIntake Current", transport.getRightIntakeCurrent()).getEntry();
    }
 
    public void update() 
    {
-     speed.setDouble(transport.getVelocity());
+     //speed.setDouble(transport.getVelocity());
      ballCount.setDouble(transport.getBallCount());
      dio1.setBoolean(transport.getTransportReceiverSwitch());
      dio2.setBoolean(transport.getTransportSendserSwitch());
@@ -44,6 +50,10 @@ public class TransportSBTab implements SBInterface
      currentTime.setDouble(transport.getTime());
      if(targetTime.getDouble(0.0) != transport.getTargetTime())
         transport.setTargetTime(targetTime.getDouble(2));
+      transport.setMotorSpeedForward(motorSpeedForward.getDouble(transport.getMotorSpeedForward()));
+      transport.setMotorSpeedBackward(motorSpeedBackward.getDouble(transport.getMotorSpeedBackward()));
+      //leftIntakeCurrent.setDouble(transport.getLeftIntakeCurrent());
+     // rightIntakeCurrent.setDouble(transport.getRightIntakeCurrent());
    }
 
 }
