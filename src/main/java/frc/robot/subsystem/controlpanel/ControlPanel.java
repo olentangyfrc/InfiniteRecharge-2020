@@ -108,9 +108,6 @@ public class ControlPanel extends SubsystemBase {
     logger.exiting(ControlPanel.class.getName(), "exiting init");
 
     }
-    public void stop(){
-      motor.set(0.0);
-    }
 
     public double getRedValue() {
       return m_colorSensor.getColor().red;
@@ -175,18 +172,17 @@ public class ControlPanel extends SubsystemBase {
         motor.setSelectedSensorPosition(0);
       }
       */
-      public void setVelocity(double a){
-        velocity = a;
-      }
       public void setPercentOutput(double sp){
         percentOutput = sp;
       }
       public double getPercentOutput(){
         return percentOutput;
       }
-      public void spin(double speed){
-        logger.info("spin [" + speed + "]");
-        motor.set(speed);
+      public void spin(){
+        motor.set(percentOutput);
+      }
+      public void stop(){
+        motor.set(0.0);
       }
       public void setBrakeMode(boolean on){
         /*

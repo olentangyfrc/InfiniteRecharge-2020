@@ -40,6 +40,7 @@ public class Transport extends SubsystemBase {
 
     private boolean gateUp;
     private double transportTime;
+    private double intakeStopDuration;
 
     private PowerDistributionPanel pdp;
     private boolean isBeamSensorBroken;
@@ -82,6 +83,7 @@ public class Transport extends SubsystemBase {
         */
 
         transportTime = 1.25;
+        intakeStopDuration = .25;
 
         //ballCount.setUpSource(enterSwitch);
         //ballCount.setSemiPeriodMode(true);
@@ -182,14 +184,17 @@ public class Transport extends SubsystemBase {
     public void update(){
         
     }
-    public double getTime(){
-        return Timer.getFPGATimestamp();
-    }
     public void setTargetTime(double a){
         transportTime = a;
     }
     public double getTargetTime(){
         return transportTime;
+    }
+    public void setIntakeStopDuration(double a){
+        intakeStopDuration = a;
+    }
+    public double getIntakeStopDuration(){
+        return intakeStopDuration;
     }
     public void setMotorSpeedForward(double a){
         motorTopSpeedForward = a;

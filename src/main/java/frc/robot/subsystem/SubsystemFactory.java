@@ -181,42 +181,6 @@ public class SubsystemFactory {
         driveTrain  = new DrivetrainSubsystem();
         driveTrain.init(portMan);
 
-        /** * All of the Transport stuff goes here
-         *
-         */
-
-        
-        transport = new Transport();
-        transport.init(portMan);
-        displayManager.addTransport(transport);
-        
-        //TakeIn tc = new TakeIn(transport);
-
-        PushOut pc = new PushOut(transport);
-        OI.getInstance().bind(pc, OI.AuxJoyButton7, OI.WhenPressed);
-
-        SideGateOpen tu = new SideGateOpen(transport);
-        OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);
-
-        SideGateClose td = new SideGateClose(transport);
-        OI.getInstance().bind(td, OI.AuxJoyButton9, OI.WhenPressed);
-
-        TailGateUp tgu = new TailGateUp(transport);
-        OI.getInstance().bind(tgu, OI.AuxJoyButton4, OI.WhenPressed);
-
-        TailGateDown tgd = new TailGateDown(transport);
-        OI.getInstance().bind(tgd, OI.AuxJoyButton5, OI.WhenPressed);
-
-        StopTransport si = new StopTransport(transport);
-        OI.getInstance().bind(si, OI.LeftButtonBox9, OI.WhenPressed);
-
-        ScoreLow sl = new ScoreLow(transport);
-        OI.getInstance().bind(sl, OI.LeftButtonBox7, OI.WhenPressed);
-
-        ScoreHigh sHigh = new ScoreHigh(transport);
-        OI.getInstance().bind(sHigh,OI.LeftButtonBox8, OI.WhenPressed);
-        
-
 
         /**
          * All of the OneWheelShooter stuff goes here
@@ -260,6 +224,42 @@ public class SubsystemFactory {
 
         IntakeStop is = new IntakeStop(intake);
         OI.getInstance().bind(is,OI.RightJoyButton4, OI.WhenPressed);
+
+
+         /** * All of the Transport stuff goes here
+         *
+         */
+
+        
+        transport = new Transport();
+        transport.init(portMan);
+        displayManager.addTransport(transport);
+        
+        //TakeIn tc = new TakeIn(transport);
+
+        PushOut pc = new PushOut(transport);
+        OI.getInstance().bind(pc, OI.AuxJoyButton7, OI.WhenPressed);
+
+        SideGateOpen tu = new SideGateOpen(transport);
+        OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);
+
+        SideGateClose td = new SideGateClose(transport);
+        OI.getInstance().bind(td, OI.AuxJoyButton9, OI.WhenPressed);
+
+        TailGateUp tgu = new TailGateUp(transport);
+        OI.getInstance().bind(tgu, OI.AuxJoyButton4, OI.WhenPressed);
+
+        TailGateDown tgd = new TailGateDown(transport);
+        OI.getInstance().bind(tgd, OI.AuxJoyButton5, OI.WhenPressed);
+
+        StopTransport si = new StopTransport(transport);
+        OI.getInstance().bind(si, OI.LeftButtonBox9, OI.WhenPressed);
+
+        ScoreLow sl = new ScoreLow(transport);
+        OI.getInstance().bind(sl, OI.LeftButtonBox7, OI.WhenPressed);
+
+        ScoreHigh sHigh = new ScoreHigh(transport);
+        OI.getInstance().bind(sHigh,OI.LeftButtonBox8, OI.WhenPressed);
         
 
          /**
@@ -271,7 +271,7 @@ public class SubsystemFactory {
         displayManager.addCP(controlPanel);
 
         
-        RotateToColor dc = new RotateToColor(controlPanel, "Blue");
+        RotateToColor dc = new RotateToColor(controlPanel);
         OI.getInstance().bind(dc, OI.RightButtonBox2, OI.WhenPressed);
 
         SpinRotations ss = new SpinRotations(controlPanel, 6);
@@ -352,111 +352,6 @@ public class SubsystemFactory {
         /**
          * All of the Telemery Stuff goes here
          */
-
-        telemetry = new Telemetry();
-        telemetry.init(portMan);
-        displayManager.addTelemetry(telemetry);
-        Command sqs = new SquareSelf(telemetry, 10);
-        OI.getInstance().bind(sqs, OI.LeftJoyButton10, OI.WhenPressed);
-        /**
-         * All of the Climber stuff goes here
-         */
-        
-        climber = new Climber();
-        climber.init(portMan);
-        displayManager.addClimber(climber);
-        Climb c = new Climb(climber);
-        OI.getInstance().bind(c, OI.RightJoyButton11, OI.WhenPressed);
-        ClimberRetract cr = new ClimberRetract(climber);
-        OI.getInstance().bind(cr, OI.RightJoyButton10, OI.WhenPressed);
-        ClimberControl cc = new ClimberControl(climber);
-        OI.getInstance().bind(cc, OI.RightJoyButton8, OI.WhileHeld);
-        ClimberControlBack ccb = new ClimberControlBack(climber);
-        OI.getInstance().bind(ccb,OI.RightJoyButton6, OI.WhileHeld);
-        
-        
-
-        /**
-         * All of the ControlPanel stuff goes here
-         */
-
-        controlPanel = new ControlPanel();
-        controlPanel.init(portMan, telemetry);
-        displayManager.addCP(controlPanel);
-        RotateToColor dc = new RotateToColor(controlPanel, "Blue");
-        OI.getInstance().bind(dc, OI.LeftJoyButton2, OI.WhenPressed);
-        SpinRotations ss = new SpinRotations(controlPanel, 6);
-        OI.getInstance().bind(ss, OI.LeftJoyButton3, OI.WhenPressed);
-        SpinnerUp su = new SpinnerUp(controlPanel);
-        OI.getInstance().bind(su, OI.LeftJoyButton8, OI.WhenPressed);
-        SpinnerRetract sr = new SpinnerRetract(controlPanel);
-        OI.getInstance().bind(sr, OI.LeftJoyButton9, OI.WhenPressed);
-        Stop stop = new Stop(controlPanel);
-        OI.getInstance().bind(stop, OI.LeftJoyButton1, OI.WhenPressed);
-
-        /**
-         * All of the Transport stuff goes here
-         */
-        
-        transport = new Transport();
-        transport.init(portMan);
-        displayManager.addTransport(transport);
-        TakeIn tc = new TakeIn(transport);
-        OI.getInstance().bind(tc, OI.RightJoyButton7, OI.WhenPressed);
-        PushOut pc = new PushOut(transport);
-        OI.getInstance().bind(pc, OI.RightJoyButton11, OI.WhenPressed);
-        StopTransport si = new StopTransport(transport);
-        OI.getInstance().bind(si, OI.RightJoyButton9, OI.WhenPressed);
-        SideGateOpen tu = new SideGateOpen(transport);
-        OI.getInstance().bind(tu, OI.AuxJoyButton8, OI.WhenPressed);
-        SideGateClose td = new SideGateClose(transport);
-        OI.getInstance().bind(td, OI.AuxJoyButton9, OI.WhenPressed);
-
-        /**
-         * All of the OneWheelShooter stuff goes here
-         */
-        
-        oneWheelShooter = new OneWheelShooter();
-        oneWheelShooter.init(portMan);
-        displayManager.addShooter(oneWheelShooter);
-        OneWheelStop st = new OneWheelStop(oneWheelShooter);
-        OI.getInstance().bind(st, OI.LeftJoyButton6, OI.WhenPressed);
-        OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
-        OI.getInstance().bind(sh, OI.LeftJoyButton7, OI.WhenPressed);
-        OneWheelReverse owr = new OneWheelReverse(oneWheelShooter);
-        OI.getInstance().bind(owr, OI.LeftJoyButton8, OI.WhenPressed);
-        OneWheelReverse shooterReverse = new OneWheelReverse(oneWheelShooter);
-        OI.getInstance().bind(shooterReverse, OI.LeftJoyButton8, OI.WhenPressed);
-
-
-        /**
-         * All of the Pixy Line stuff goes here
-         */
-        
-        pixyLineCam = new PixyLineCam();
-        pixyLineCam.init(portMan);
-        displayManager.addPixyLineCam(pixyLineCam);
-
-        PollPixyLine p = new PollPixyLine(pixyLineCam);
-        OI.getInstance().bind(p, OI.LeftJoyButton1, OI.WhenPressed);
-
-         /**
-         * All of Intake Stuff goes here
-         */
-
-        intake = new Intake();
-        intake.init(portMan);
-        displayManager.addIntake(intake);
-
-        IntakeUp iu = new IntakeUp(intake);
-        OI.getInstance().bind(iu,OI.RightJoyButton6, OI.WhenPressed);
-        IntakeDown id = new IntakeDown(intake);
-        OI.getInstance().bind(id,OI.RightJoyButton7, OI.WhenPressed);
-        IntakeSpinForward isf = new IntakeSpinForward(intake);
-        OI.getInstance().bind(isf,OI.RightJoyButton11, OI.WhenPressed);
-
-        IntakeSpinBack isb = new IntakeSpinBack(intake);
-        OI.getInstance().bind(isb,OI.RightJoyButton10, OI.WhenPressed);
         
     }
 
@@ -481,6 +376,9 @@ public class SubsystemFactory {
 
     public Transport getTransport() {
         return transport;
+    }
+    public Intake getIntake(){
+        return intake;
     }
 
     private String getBotName() throws Exception {

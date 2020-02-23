@@ -2,6 +2,7 @@ package frc.robot.subsystem.transport;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.subsystem.SBInterface;
@@ -23,7 +24,8 @@ public class TransportSBTab implements SBInterface
     private NetworkTableEntry targetTime;
     private NetworkTableEntry current;
     private NetworkTableEntry shooterSpeed;
-    
+    private NetworkTableEntry intakeStopDuration;
+
 
     public TransportSBTab(Transport c) 
     {
@@ -41,6 +43,7 @@ public class TransportSBTab implements SBInterface
       targetTime = tab.add("Transport target time", transport.getTargetTime()).getEntry();
       shooterSpeed = tab.add("Shoot Speed", transport.getShooterSpeed()).getEntry();
       current = tab.add("LeftIntake Current", transport.getCurrent()).getEntry();
+      intakeStopDuration = tab.add("Intake Stop Duration", transport.getIntakeStopDuration()).getEntry();
    }
 
    public void update() 
@@ -50,7 +53,7 @@ public class TransportSBTab implements SBInterface
      dio1.setBoolean(transport.getTransportReceiverSwitch());
      dio2.setBoolean(transport.getTransportSenderSwitch());
      gateStatus.setBoolean(transport.getGateStatus());
-     currentTime.setDouble(transport.getTime());
+     currentTime.setDouble(Timer.getFPGATimestamp());
      if(targetTime.getDouble(0.0) != transport.getTargetTime())
         transport.setTargetTime(targetTime.getDouble(transport.getTargetTime()));
       transport.setTopMotorSpeedForward(motorTopSpeedForward.getDouble(transport.getTopMotorSpeedForward()));
@@ -58,6 +61,7 @@ public class TransportSBTab implements SBInterface
       transport.setMotorSpeedBackward(motorSpeedBackward.getDouble(transport.getMotorSpeedBackward()));
       transport.setShooterSpeed(shooterSpeed.getDouble(transport.getShooterSpeed()));
       current.setDouble(transport.getCurrent());
+      transport.setIntakeStopDuration(intakeStopDuration.getDouble(transport.getIntakeStopDuration()));
    }
 
 }
