@@ -21,7 +21,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class Telemetry extends SubsystemBase{
     
     private LidarPWM frontLidar, rearLidar;
-    private TalonSRX testMotor;
     private double frontLidarDistance, rearLidarDistance;
     private double frontLidarOffset = 0;
     private double rearLidarOffset = 0;
@@ -42,12 +41,12 @@ public class Telemetry extends SubsystemBase{
     public void init(PortMan portMan) throws Exception{
         logger.entering(Telemetry.class.getName(), "init()");
 
-        frontLidar = new LidarPWM(portMan.acquirePort(PortMan.digital0_label, "Telemetry.frontLidar"));
-        rearLidar = new LidarPWM(portMan.acquirePort(PortMan.digital1_label, "Telemetry.rearLidar"));
+        //frontLidar = new LidarPWM(portMan.acquirePort(PortMan.digital0_label, "Telemetry.frontLidar"));
+        //rearLidar = new LidarPWM(portMan.acquirePort(PortMan.digital1_label, "Telemetry.rearLidar"));
         filterFront = new MedianFilter(10);
         filterRear = new MedianFilter(10);
-        testMotor = new TalonSRX(portMan.acquirePort(PortMan.can_18_label, "Telemetry.testMotor"));
 
+        CameraServer.getInstance().startAutomaticCapture();
         CameraServer.getInstance().startAutomaticCapture();
 
         logger.exiting(Telemetry.class.getName(), "init()");
@@ -162,9 +161,5 @@ public class Telemetry extends SubsystemBase{
 
     public double getBetweenLidar(){
         return betweenLidarDistance;
-    }
-
-    public void testMotor(double po){
-        testMotor.set(ControlMode.PercentOutput, po);
     }
 }

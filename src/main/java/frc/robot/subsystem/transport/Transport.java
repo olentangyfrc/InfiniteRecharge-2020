@@ -27,8 +27,10 @@ public class Transport extends SubsystemBase {
     private DoubleSolenoid doubleSolenoidRight;
     private PWMTalonSRX bottomTransport;
     private PWMTalonSRX topTransport;
-    private double motorSpeedForward = .5;
-    private double motorSpeedBackward = .5;
+    private double motorTopSpeedForward;
+    private double motorBottomSpeedForward;
+    private double motorSpeedBackward;
+    private double shooterSpeed;
 
     private int ballCount = 0;
     private boolean pastValue1 = false;
@@ -40,6 +42,8 @@ public class Transport extends SubsystemBase {
     private double transportTime;
 
     private PowerDistributionPanel pdp;
+    private boolean isBeamSensorBroken;
+    private boolean isBallInMotion;
 
     //private Counter ballCount;
     public Transport() {
@@ -77,10 +81,17 @@ public class Transport extends SubsystemBase {
         rightIntake.configMotionAcceleration(4096, 0);
         */
 
-        transportTime = 0.0;
+        transportTime = 1.25;
 
         //ballCount.setUpSource(enterSwitch);
         //ballCount.setSemiPeriodMode(true);
+
+        isBeamSensorBroken = false;
+        isBallInMotion = false;
+        shooterSpeed = .9;
+        motorTopSpeedForward = .7;
+        motorBottomSpeedForward= .5;
+        motorSpeedBackward = .5;
 
         setDefaultCommand(new TakeIn(this));
 
@@ -105,24 +116,28 @@ public class Transport extends SubsystemBase {
       return gateUp;
     }
     public void shoot(){
-        bottomTransport.set(.7);
-        topTransport.set(-.7);
+        ballCount = 0;
+        bottomTransport.set(shooterSpeed);
+        topTransport.set(-shooterSpeed);
     }
 
     public void take() {
         logger.info("take");
-        //bottomTransport.set(motorSpeedForward);
-        topTransport.set(-motorSpeedForward);
+        isBallInMotion = true;
+        bottomTransport.set(motorBottomSpeedForward);
+        topTransport.set(-motorTopSpeedForward);
     }
 
     public void expel() {
         logger.info("expel");
+        isBeamSensorBroken = true;
         bottomTransport.set(-motorSpeedBackward);
         topTransport.set(motorSpeedBackward);
     }
 
     public void stop() {
-
+        isBeamSensorBroken = false;
+        isBallInMotion = false;
         bottomTransport.set(0);
         topTransport.set(0);
     }
@@ -140,11 +155,11 @@ public class Transport extends SubsystemBase {
         if(getTransportReceiverSwitch() == true && pastValue1 == false){
             ballCount++;
         }
-        if(getTransportSendserSwitch() == true && pastValue2 == false){
+        if(getTransportSenderSwitch() == true && pastValue2 == false){
             ballCount++;
         }
         pastValue1 = getTransportReceiverSwitch();
-        pastValue2 = getTransportSendserSwitch();
+        pastValue2 = getTransportSenderSwitch();
         /*
         if(ballCount >= 5){
             leftIntake.set(ControlMode.PercentOutput,0);
@@ -155,10 +170,12 @@ public class Transport extends SubsystemBase {
     }
 
     public boolean getTransportReceiverSwitch(){
-        return transportReceiverSwitch.get();
+        if(!isBeamSensorBroken)
+            return transportReceiverSwitch.get();
+        return true;
     }
 
-    public boolean getTransportSendserSwitch(){
+    public boolean getTransportSenderSwitch(){
         return transportSenderSwitch.get();
     }
     
@@ -175,23 +192,33 @@ public class Transport extends SubsystemBase {
         return transportTime;
     }
     public void setMotorSpeedForward(double a){
-        motorSpeedForward = a;
+        motorTopSpeedForward = a;
     }
     public void setMotorSpeedBackward(double a){
         motorSpeedBackward = a;
     }
-    public double getMotorSpeedForward(){
-        return motorSpeedForward;
+    public double getTopMotorSpeedForward(){
+        return motorTopSpeedForward;
+    }
+    public double getBottomMotorSpeedForward(){
+        return motorBottomSpeedForward;
+    }
+    public void setTopMotorSpeedForward(double a){
+        motorTopSpeedForward = a;
+    }
+    public void setBottomMotorSpeedForward(double a){
+        motorBottomSpeedForward = a;
     }
     public double getMotorSpeedBackward(){
         return motorSpeedBackward;
     }
-    /*
-    public double getLeftIntakeCurrent(){
-        return SubsystemFactory.getInstance().getPDP().getCurrent(4);
+    public double getCurrent(){
+        return SubsystemFactory.getInstance().getPDP().getCurrent(13) + SubsystemFactory.getInstance().getPDP().getCurrent(12);
     }
-    public double getRightIntakeCurrent(){
-        return SubsystemFactory.getInstance().getPDP().getCurrent(1);
+    public double getShooterSpeed(){
+        return shooterSpeed;
     }
-    */
+    public void setShooterSpeed(double a){
+        shooterSpeed = a;
+    }
 }

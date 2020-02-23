@@ -46,6 +46,7 @@ import frc.robot.subsystem.commandgroups.ControlPanelMode;
 //import frc.robot.subsystem.commandgroups.ControlPanelMode;
 import frc.robot.subsystem.commandgroups.MoveMode;
 import frc.robot.subsystem.commandgroups.ScoreLowMode;
+import frc.robot.subsystem.commandgroups.SpitBallsMode;
 import frc.robot.subsystem.commandgroups.ScoreHighMode;
 import frc.robot.subsystem.commandgroups.StartingConfiguration;
 //import frc.robot.subsystem.commandgroups.StartingConfiguration;
@@ -122,7 +123,7 @@ public class SubsystemFactory {
 
         displayManager = dm;
         subsystemInterfaceList = new ArrayList<SBInterface>();
-        //pdp = new PowerDistributionPanel();
+        pdp = new PowerDistributionPanel(1);
 
         try {
 
@@ -283,7 +284,7 @@ public class SubsystemFactory {
         OI.getInstance().bind(sr, OI.LeftJoyButton5, OI.WhenPressed);
 
         Stop stop = new Stop(controlPanel);
-        OI.getInstance().bind(stop, OI.LeftJoyButton1, OI.WhenPressed);
+        OI.getInstance().bind(stop, OI.RightButtonBox7, OI.WhenPressed);
         
         /**
          * All of the Climber stuff goes here
@@ -305,6 +306,18 @@ public class SubsystemFactory {
         ClimberControlBack ccb = new ClimberControlBack(climber);
         OI.getInstance().bind(ccb,OI.RightButtonBox1,OI.WhileHeld);
 
+         /**
+         * All of the Telemery Stuff goes here
+         */
+
+        telemetry = new Telemetry();
+        telemetry.init(portMan);
+        //displayManager.addTelemetry(telemetry);
+
+
+        //SquareSelf sqs = new SquareSelf(telemetry, 10);
+        //OI.getInstance().bind(sqs, OI.LeftJoyButton10, OI.WhenPressed);
+
 
         //Command Groups
         CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel, oneWheelShooter);
@@ -324,6 +337,9 @@ public class SubsystemFactory {
 
         ControlPanelMode controlPanelMode = new ControlPanelMode(transport, intake, controlPanel, oneWheelShooter);
         OI.getInstance().bind(controlPanelMode, OI.LeftButtonBox3, OI.WhenPressed);
+
+        SpitBallsMode spitBallsMode = new SpitBallsMode(transport, intake);
+        OI.getInstance().bind(spitBallsMode, OI.LeftButtonBox11, OI.WhenPressed);
     }
     /**
      * 

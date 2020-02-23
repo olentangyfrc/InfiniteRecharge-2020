@@ -30,6 +30,12 @@ public class ScoreHigh extends CommandBase {
   @Override
   public void execute() {
     transport.moveSideGateOpen();
+    try{
+      Thread.sleep(250, 0);
+    }
+    catch(Exception e){
+
+    }
     transport.shoot();
   }
 
