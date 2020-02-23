@@ -42,11 +42,13 @@ public class SpinRotations extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    logger.info(controlPanel.getDetectedColor());
     if (count >= spinCount){
       stop = true;
+      controlPanel.stop();
       return;
     }
-    controlPanel.spin(controlPanel.getPercentOutput());
+    controlPanel.spin();
     String color = controlPanel.getDetectedColor();
     if(!(pastColor.equals(color)) && color.equals(startColor))
     {
@@ -59,19 +61,11 @@ public class SpinRotations extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(final boolean interrupted) {
-      logger.info("Ended");
-      controlPanel.spin(0.0);
-  }
-
-  @Override
-  public synchronized void cancel() {
-      logger.info("Canceled");
-      controlPanel.spin(0);
-      stop = true;
+    stop = true;
   }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return stop;
   }
 }

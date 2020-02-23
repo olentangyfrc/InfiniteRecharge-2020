@@ -15,7 +15,7 @@ import frc.robot.subsystem.controlpanel.ControlPanel;
 
 
 public class SpinnerRetract extends CommandBase {
-  private final Logger logger = Logger.getLogger(Spin.class.getName());
+  private final Logger logger = Logger.getLogger(SpinnerRetract.class.getName());
   
   private ControlPanel controlPanel;
   /**

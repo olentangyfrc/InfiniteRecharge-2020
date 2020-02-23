@@ -86,27 +86,29 @@ public class OI {
     public static final int AuxJoyButton10  = 32;
     public static final int AuxJoyButton11  = 33;
 
-    public static final int button1 = 34;
-    public static final int button2 = 35;
-    public static final int button3 = 36; 
-    public static final int button4 = 37; 
-    public static final int button5 = 38; 
-    public static final int button6 = 39; 
-    public static final int button7 = 40; 
-    public static final int button8 = 41;
-    public static final int button9 = 42; 
-    public static final int button10 = 43; 
+    public static final int LeftButtonBox1 = 34;
+    public static final int LeftButtonBox2 = 35;
+    public static final int LeftButtonBox3 = 36; 
+    public static final int LeftButtonBox4 = 37; 
+    public static final int LeftButtonBox5 = 38; 
+    public static final int LeftButtonBox6 = 39; 
+    public static final int LeftButtonBox7 = 40; 
+    public static final int LeftButtonBox8 = 41;
+    public static final int LeftButtonBox9 = 42; 
+    public static final int LeftButtonBox10 = 43; 
+    public static final int LeftButtonBox11 = 44;
 
-    public static final int button11 = 44;
-    public static final int button12 = 45;
-    public static final int button13 = 46; 
-    public static final int button14 = 47; 
-    public static final int button15 = 48; 
-    public static final int button16 = 49; 
-    public static final int button17 = 50; 
-    public static final int button18 = 51;
-    public static final int button19 = 52; 
-    public static final int button20 = 53; 
+    public static final int RightButtonBox1 = 45;
+    public static final int RightButtonBox2 = 46; 
+    public static final int RightButtonBox3 = 47; 
+    public static final int RightButtonBox4 = 48; 
+    public static final int RightButtonBox5 = 49; 
+    public static final int RightButtonBox6 = 50; 
+    public static final int RightButtonBox7 = 51;
+    public static final int RightButtonBox8 = 52; 
+    public static final int RightButtonBox9 = 53;
+    public static final int RightButtonBox10 = 54;
+    public static final int RightButtonBox11 = 55; 
 
     public static final int WhenPressed         = 1;
     public static final int WhenReleased        = 2;
@@ -189,11 +191,11 @@ public class OI {
             j = auxJoy;
             button -= 22;
         }
-        else if(button >= 34 && button <= 43){
+        else if(button >= 34 && button <= 44){
             j = leftButtonBox;
             button -= 33;
         } 
-        else if(button >= 44 && button <= 53){
+        else if(button >= 45 && button <= 55){
             j = rightButtonBox;
             button -= 44;
         }

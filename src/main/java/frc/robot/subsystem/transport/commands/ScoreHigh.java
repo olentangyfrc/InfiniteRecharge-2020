@@ -5,52 +5,45 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystem.controlpanel.commands;
-
-import java.util.logging.Logger;
+package frc.robot.subsystem.transport.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystem.transport.Transport;
 
-import frc.robot.subsystem.controlpanel.ControlPanel;
-
-
-public class Spin extends CommandBase {
-  private final Logger logger = Logger.getLogger(Spin.class.getName());
-  
-  private ControlPanel controlPanel;
-  private boolean stop = true;
-  private int spinNum = 4;
+public class ScoreHigh extends CommandBase {
   /**
-   * Creates a new Spin.
+   * Creates a new ScoreHigh.
    */
-  public Spin(ControlPanel c) {
-    controlPanel = c;
-    addRequirements(c);
+  private Transport transport;
+  public ScoreHigh(Transport t) {
+    transport = t;
+    addRequirements(t);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    stop = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    controlPanel.spin(spinNum);
+    transport.moveSideGateOpen();
+    try{
+      Thread.sleep(250, 0);
+    }
+    catch(Exception e){
+
+    }
+    transport.shootHigh();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(final boolean interrupted) {
-      logger.info("Ended");
+  public void end(boolean interrupted) {
   }
 
-  @Override
-  public synchronized void cancel() {
-      logger.info("Canceled");
-      stop = true;
-  }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

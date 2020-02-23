@@ -36,9 +36,9 @@ public class OneWheelShooter extends SubsystemBase{
         logger.info("init");
         motor = new TalonFX(portMan.acquirePort(PortMan.can_28_label, "OneWheelShooter"));
 
-        pValue = .3;
+        pValue = .8;
         iValue = 0;
-        dValue = .2;
+        dValue = .002;
         velocity = 10790;
 
       motor.setNeutralMode(NeutralMode.Coast);
@@ -73,7 +73,7 @@ public class OneWheelShooter extends SubsystemBase{
     }
     public void stop(){
         logger.info("stop");
-        motor.set(ControlMode.Velocity, 0);
+        motor.set(ControlMode.PercentOutput, 0);
     }
     public void changePID(double p, double i, double d){
         if(pValue != p)

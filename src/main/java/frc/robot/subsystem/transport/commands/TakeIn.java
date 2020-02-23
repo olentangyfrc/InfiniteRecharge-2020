@@ -10,7 +10,10 @@ package frc.robot.subsystem.transport.commands;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystem.SubsystemFactory;
+import frc.robot.subsystem.intake.Intake;
 import frc.robot.subsystem.transport.Transport;
 
 public class TakeIn extends CommandBase {
@@ -21,6 +24,8 @@ public class TakeIn extends CommandBase {
   private double time;
   private double targetTime;
   private boolean isMoving;
+  private Intake intake;
+  private double intakeStopTime;
   
   public TakeIn(Transport t) {
     transport = t;
@@ -35,9 +40,17 @@ public class TakeIn extends CommandBase {
 
   @Override
   public void execute() {
+    intake = SubsystemFactory.getInstance().getIntake();
 
     if(isMoving)
-      if(transport.getTime() < targetTime){
+      if(Timer.getFPGATimestamp() < targetTime){
+        if(Timer.getFPGATimestamp() < intakeStopTime){
+          logger.info("intake stop");
+          intake.stop();
+        }
+        else{
+          intake.wheelSpinFront();
+        }
         return;
       }
       else {
@@ -51,6 +64,7 @@ public class TakeIn extends CommandBase {
         isMoving = true;
         time = Timer.getFPGATimestamp();
         targetTime = time + transport.getTargetTime();
+        intakeStopTime = time + transport.getIntakeStopDuration();
       }
     }
 

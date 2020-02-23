@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.PWMTalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.subsystem.PortMan;
@@ -29,7 +30,7 @@ public class Winch extends SubsystemBase{
     private double iValue;
     private double dValue;
 
-    private double velocity;
+    private double percentOutput;
     
     public void init(final PortMan portMan) throws Exception {
         logger.info("init");
@@ -38,7 +39,7 @@ public class Winch extends SubsystemBase{
         pValue = .3;
         iValue = 0;
         dValue = .2;
-        velocity = -100000;
+        percentOutput = -.8;
 
       motor.setNeutralMode(NeutralMode.Brake);
       motor.configFactoryDefault();
@@ -52,16 +53,17 @@ public class Winch extends SubsystemBase{
 
 
       motor.configClosedloopRamp(.9);
+
     }
     
     public void up(){
-        motor.set(ControlMode.Velocity, velocity);
+        motor.set(ControlMode.PercentOutput, percentOutput);
     }
     public void down(){
-        motor.set(ControlMode.Velocity, -velocity);
+        motor.set(ControlMode.PercentOutput, -percentOutput);
     }
-    public void setVelocity(double a){
-        velocity = a;
+    public void setPercentOutput(double a){
+        percentOutput = a;
     }
     public void stop(){
         motor.set(ControlMode.PercentOutput, 0);

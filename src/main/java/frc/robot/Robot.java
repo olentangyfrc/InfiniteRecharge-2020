@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    subsystemFactory = SubsystemFactory.getInstance(isReal());
+    subsystemFactory = SubsystemFactory.getInstance();
     OzoneLogger.getInstance().init(Level.FINE);
     dManager = new DisplayManager();
 

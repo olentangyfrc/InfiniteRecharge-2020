@@ -121,7 +121,6 @@ public class SquareSelf extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    telemetry.testMotor(0.0);
     stop = true;
   }
 
