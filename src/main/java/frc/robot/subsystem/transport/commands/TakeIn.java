@@ -45,10 +45,10 @@ public class TakeIn extends CommandBase {
     if(isMoving)
       if(Timer.getFPGATimestamp() < targetTime){
         if(Timer.getFPGATimestamp() < intakeStopTime){
+          logger.info("intake stop");
           intake.stop();
         }
         else{
-          logger.info("wheel intake moving forward ");
           intake.wheelSpinFront();
         }
         return;

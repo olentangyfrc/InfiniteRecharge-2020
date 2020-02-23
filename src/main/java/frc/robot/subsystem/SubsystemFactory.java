@@ -124,24 +124,14 @@ public class SubsystemFactory {
         displayManager = dm;
         subsystemInterfaceList = new ArrayList<SBInterface>();
         pdp = new PowerDistributionPanel(1);
+        botName = "comp";
 
         try {
 
             // Note that you should update this switch statement as you add bots to the list
             // above
             switch (botName) {
-            case "football":
-                initFootball(portMan);
-                break;
-            case "plank":
-                initFootball(portMan);
-                break;
-            case "zombie":
-                initZombie(portMan);
-                break;
-            case "RIO2":
-                initRio2(portMan);
-                break;
+           
             case "comp":
                 initComp(portMan);
                 break;
@@ -177,6 +167,7 @@ public class SubsystemFactory {
         
         WinchUp w = new WinchUp(winch);
         OI.getInstance().bind(w, OI.RightButtonBox4, OI.WhileHeld);
+        OI.getInstance().bind(w, OI.RightJoyButton11, OI.WhileHeld);
         
         driveTrain  = new DrivetrainSubsystem();
         driveTrain.init(portMan);
@@ -192,7 +183,194 @@ public class SubsystemFactory {
 
         
         OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
-        OI.getInstance().bind(sh, OI.RightJoyButton1, OI.WhenPressed);
+
+        OneWheelReverse owr = new OneWheelReverse(oneWheelShooter);
+        OI.getInstance().bind(owr, OI.LeftJoyButton2, OI.WhenPressed);
+
+        OneWheelStop st = new OneWheelStop(oneWheelShooter);
+        OI.getInstance().bind(st, OI.LeftButtonBox10, OI.WhenPressed);
+        
+
+         /**
+         * All of Intake Stuff goes here
+         */
+
+        intake = new Intake();
+        intake.init(portMan);
+        displayManager.addIntake(intake);
+
+        
+        IntakeUp iu = new IntakeUp(intake);
+
+
+        IntakeDown id = new IntakeDown(intake);
+
+
+        IntakeSpinForward isf = new IntakeSpinForward(intake);
+
+
+        IntakeSpinBack isb = new IntakeSpinBack(intake);
+
+
+        IntakeStop is = new IntakeStop(intake);
+
+
+
+         /** * All of the Transport stuff goes here
+         *
+         */
+
+        
+        transport = new Transport();
+        transport.init(portMan);
+        displayManager.addTransport(transport);
+        
+        //TakeIn tc = new TakeIn(transport);
+
+        PushOut pc = new PushOut(transport);
+
+
+        SideGateOpen tu = new SideGateOpen(transport);
+
+
+        SideGateClose td = new SideGateClose(transport);
+
+
+        TailGateUp tgu = new TailGateUp(transport);
+
+        
+        TailGateDown tgd = new TailGateDown(transport);
+
+
+        StopTransport si = new StopTransport(transport);
+        OI.getInstance().bind(si, OI.LeftButtonBox9, OI.WhenPressed);
+
+        ScoreLow sl = new ScoreLow(transport);
+        OI.getInstance().bind(sl, OI.LeftButtonBox7, OI.WhenPressed);
+        OI.getInstance().bind(sl, OI.RightJoyButton1, OI.WhenPressed);
+
+        ScoreHigh sHigh = new ScoreHigh(transport);
+        OI.getInstance().bind(sHigh,OI.LeftButtonBox8, OI.WhenPressed);
+        OI.getInstance().bind(sHigh, OI.LeftJoyButton1, OI.WhenPressed);
+        
+
+         /**
+         * All of the ControlPanel stuff goes here
+         */
+
+        controlPanel = new ControlPanel();
+        controlPanel.init(portMan, telemetry);
+        displayManager.addCP(controlPanel);
+
+        
+        RotateToColor dc = new RotateToColor(controlPanel);
+        OI.getInstance().bind(dc, OI.RightButtonBox2, OI.WhenPressed);
+        OI.getInstance().bind(dc, OI.LeftJoyButton5, OI.WhenPressed);
+
+        SpinRotations ss = new SpinRotations(controlPanel, 6);
+        OI.getInstance().bind(ss, OI.RightButtonBox5, OI.WhenPressed);
+        OI.getInstance().bind(ss, OI.LeftJoyButton4, OI.WhenPressed);
+
+        SpinnerUp su = new SpinnerUp(controlPanel);
+        
+
+        SpinnerRetract sr = new SpinnerRetract(controlPanel);
+        
+
+        Stop stop = new Stop(controlPanel);
+        OI.getInstance().bind(stop, OI.RightButtonBox7, OI.WhenPressed);
+        
+        /**
+         * All of the Climber stuff goes here
+         */
+        climber = new Climber();
+        climber.init(portMan);
+        displayManager.addClimber(climber);
+
+        
+        Climb c = new Climb(climber);
+
+
+        ClimberRetract cr = new ClimberRetract(climber);
+
+
+        ClimberControl cc = new ClimberControl(climber);
+        OI.getInstance().bind(cc, OI.RightButtonBox3,OI.WhileHeld);
+        OI.getInstance().bind(cc, OI.RightJoyButton3, OI.WhileHeld);
+
+        ClimberControlBack ccb = new ClimberControlBack(climber);
+        OI.getInstance().bind(ccb,OI.RightButtonBox1,OI.WhileHeld);
+        OI.getInstance().bind(ccb, OI.RightJoyButton2,OI.WhileHeld);
+
+         /**
+         * All of the Telemery Stuff goes here
+         */
+
+        telemetry = new Telemetry();
+        telemetry.init(portMan);
+        //displayManager.addTelemetry(telemetry);
+
+
+        //SquareSelf sqs = new SquareSelf(telemetry, 10);
+        //OI.getInstance().bind(sqs, OI.LeftJoyButton10, OI.WhenPressed);
+
+
+        //Command Groups
+        CollectionMode collectionMode = new CollectionMode(transport, intake, controlPanel, oneWheelShooter);
+        OI.getInstance().bind(collectionMode, OI.LeftButtonBox1, OI.WhenPressed);
+        
+        StartingConfiguration startConfig = new StartingConfiguration(transport, intake, controlPanel, oneWheelShooter);
+        OI.getInstance().bind(startConfig, OI.LeftButtonBox5, OI.WhenPressed);
+        
+        MoveMode moveMode = new MoveMode(transport, intake, controlPanel);
+        OI.getInstance().bind(moveMode, OI.LeftButtonBox4, OI.WhenPressed);
+
+        ScoreLowMode scoreLow = new ScoreLowMode(transport, intake, controlPanel);
+        OI.getInstance().bind(scoreLow, OI.LeftButtonBox2, OI.WhenPressed);
+
+        ScoreHighMode scoreHigh = new ScoreHighMode(transport, intake, controlPanel, oneWheelShooter);
+        OI.getInstance().bind(scoreHigh, OI.LeftButtonBox6, OI.WhenPressed);
+
+        ControlPanelMode controlPanelMode = new ControlPanelMode(transport, intake, controlPanel, oneWheelShooter);
+        OI.getInstance().bind(controlPanelMode, OI.LeftButtonBox3, OI.WhenPressed);
+
+        SpitBallsMode spitBallsMode = new SpitBallsMode(transport, intake);
+        OI.getInstance().bind(spitBallsMode, OI.LeftButtonBox11, OI.WhenPressed);
+    }
+    /**
+     * 
+     * init subsystems specific to Football
+     * 
+     */
+
+    private void initFootball(PortMan portMan) throws Exception {
+        logger.info("Initializing Football");
+
+        /**
+         * All of the Winch stuff goes here
+         */
+        winch = new Winch();
+        winch.init(portMan);
+        
+        WinchUp w = new WinchUp(winch);
+        OI.getInstance().bind(w, OI.RightButtonBox4, OI.WhileHeld);
+        OI.getInstance().bind(w, OI.LeftJoyButton11, OI.WhileHeld);
+        
+        driveTrain  = new DrivetrainSubsystem();
+        driveTrain.init(portMan);
+
+
+        /**
+         * All of the OneWheelShooter stuff goes here
+         */
+        
+        oneWheelShooter = new OneWheelShooter();
+        oneWheelShooter.init(portMan);
+        displayManager.addShooter(oneWheelShooter);
+
+        
+        OneWheelShoot sh = new OneWheelShoot(oneWheelShooter);
+        OI.getInstance().bind(sh, OI.LeftJoyButton1, OI.WhenPressed);
 
         OneWheelReverse owr = new OneWheelReverse(oneWheelShooter);
         OI.getInstance().bind(owr, OI.RightJoyButton3, OI.WhenPressed);
@@ -340,18 +518,6 @@ public class SubsystemFactory {
 
         SpitBallsMode spitBallsMode = new SpitBallsMode(transport, intake);
         OI.getInstance().bind(spitBallsMode, OI.LeftButtonBox11, OI.WhenPressed);
-    }
-    /**
-     * 
-     * init subsystems specific to Football
-     * 
-     */
-
-    private void initFootball(PortMan portMan) throws Exception {
-        logger.info("Initializing Football");
-        /**
-         * All of the Telemery Stuff goes here
-         */
         
     }
 

@@ -23,8 +23,10 @@ public class TransportSBTab implements SBInterface
     private NetworkTableEntry currentTime;
     private NetworkTableEntry targetTime;
     private NetworkTableEntry current;
-    private NetworkTableEntry shooterSpeed;
+    private NetworkTableEntry shooterSpeedLow;
+    private NetworkTableEntry shooterSpeedHigh;
     private NetworkTableEntry intakeStopDuration;
+
 
 
     public TransportSBTab(Transport c) 
@@ -41,7 +43,8 @@ public class TransportSBTab implements SBInterface
       gateStatus = tab.add("Gate up", false).getEntry();
       currentTime = tab.add("Current Time elapsed", 0.0).getEntry();
       targetTime = tab.add("Transport target time", transport.getTargetTime()).getEntry();
-      shooterSpeed = tab.add("Shoot Speed", transport.getShooterSpeed()).getEntry();
+      shooterSpeedLow = tab.add("Shoot Speed Low", transport.getShooterSpeedLow()).getEntry();
+      shooterSpeedHigh = tab.add("Shoot Speed High", transport.getShooterSpeedHigh()).getEntry();
       current = tab.add("LeftIntake Current", transport.getCurrent()).getEntry();
       intakeStopDuration = tab.add("Intake Stop Duration", transport.getIntakeStopDuration()).getEntry();
    }
@@ -59,7 +62,8 @@ public class TransportSBTab implements SBInterface
       transport.setTopMotorSpeedForward(motorTopSpeedForward.getDouble(transport.getTopMotorSpeedForward()));
       transport.setBottomMotorSpeedForward(motorBottomSpeedForward.getDouble(transport.getBottomMotorSpeedForward()));
       transport.setMotorSpeedBackward(motorSpeedBackward.getDouble(transport.getMotorSpeedBackward()));
-      transport.setShooterSpeed(shooterSpeed.getDouble(transport.getShooterSpeed()));
+      transport.setShooterSpeedLow(shooterSpeedLow.getDouble(transport.getShooterSpeedLow()));
+      transport.setShooterSpeedHigh(shooterSpeedHigh.getDouble(transport.getShooterSpeedHigh()));
       current.setDouble(transport.getCurrent());
       transport.setIntakeStopDuration(intakeStopDuration.getDouble(transport.getIntakeStopDuration()));
    }

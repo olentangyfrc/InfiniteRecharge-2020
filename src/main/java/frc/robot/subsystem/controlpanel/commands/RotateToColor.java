@@ -55,6 +55,7 @@ public class RotateToColor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    logger.info(controlPanel.getDetectedColor());
     if (!controlPanel.getDetectedColor().equals(oppositeColor))
       controlPanel.spin();
     else{

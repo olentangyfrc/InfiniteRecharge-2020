@@ -30,7 +30,8 @@ public class Transport extends SubsystemBase {
     private double motorTopSpeedForward;
     private double motorBottomSpeedForward;
     private double motorSpeedBackward;
-    private double shooterSpeed;
+    private double shooterSpeedLow;
+    private double shooterSpeedHigh;
 
     private int ballCount = 0;
     private boolean pastValue1 = false;
@@ -90,7 +91,8 @@ public class Transport extends SubsystemBase {
 
         isBeamSensorBroken = false;
         isBallInMotion = false;
-        shooterSpeed = .9;
+        shooterSpeedLow = .9;
+        shooterSpeedHigh = .7;
         motorTopSpeedForward = .7;
         motorBottomSpeedForward= .5;
         motorSpeedBackward = .5;
@@ -117,10 +119,15 @@ public class Transport extends SubsystemBase {
     public boolean getGateStatus(){
       return gateUp;
     }
-    public void shoot(){
+    public void shootLow(){
         ballCount = 0;
-        bottomTransport.set(shooterSpeed);
-        topTransport.set(-shooterSpeed);
+        bottomTransport.set(shooterSpeedLow);
+        topTransport.set(-shooterSpeedLow);
+    }
+    public void shootHigh(){
+        ballCount = 0;
+        bottomTransport.set(shooterSpeedHigh);
+        topTransport.set(-shooterSpeedHigh);
     }
 
     public void take() {
@@ -220,10 +227,16 @@ public class Transport extends SubsystemBase {
     public double getCurrent(){
         return SubsystemFactory.getInstance().getPDP().getCurrent(13) + SubsystemFactory.getInstance().getPDP().getCurrent(12);
     }
-    public double getShooterSpeed(){
-        return shooterSpeed;
+    public double getShooterSpeedLow(){
+        return shooterSpeedLow;
     }
-    public void setShooterSpeed(double a){
-        shooterSpeed = a;
+    public void setShooterSpeedLow(double a){
+        shooterSpeedLow = a;
+    }
+    public double getShooterSpeedHigh(){
+        return shooterSpeedHigh;
+    }
+    public void setShooterSpeedHigh(double a){
+        shooterSpeedHigh = a;
     }
 }

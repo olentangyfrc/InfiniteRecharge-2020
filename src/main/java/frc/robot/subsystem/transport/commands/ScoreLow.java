@@ -31,7 +31,7 @@ public class ScoreLow extends CommandBase {
   public void execute() {
     transport.moveTailGateDown();
     //might want to add a delay between these methods
-    transport.shoot();
+    transport.shootLow();
   }
 
   // Called once the command ends or is interrupted.

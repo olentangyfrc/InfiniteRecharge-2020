@@ -36,7 +36,7 @@ public class ScoreHigh extends CommandBase {
     catch(Exception e){
 
     }
-    transport.shoot();
+    transport.shootHigh();
   }
 
   // Called once the command ends or is interrupted.
