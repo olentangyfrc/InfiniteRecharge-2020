@@ -10,6 +10,7 @@ package frc.robot.subsystem.controlpanel.commands;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystem.controlpanel.ControlPanel;
@@ -21,6 +22,12 @@ public class RotateToColor extends CommandBase {
   private boolean stop = false;
   private String targetColor;
   private String oppositeColor;
+  private String detectedColor;
+  private String pastColor;
+  private boolean firstTime;
+  private Timer timer;
+  private double reactionTime;
+
 
   /**
    * Creates a new DisplayColor.
@@ -28,11 +35,15 @@ public class RotateToColor extends CommandBase {
   public RotateToColor(ControlPanel c) {
     controlPanel = c;
     addRequirements(c);
+    timer = new Timer();
+    reactionTime = .25;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    firstTime = true;
+    timer.reset();
     stop = false;
     controlPanel.setBrakeMode(true);
     targetColor = DriverStation.getInstance().getGameSpecificMessage();
@@ -56,11 +67,39 @@ public class RotateToColor extends CommandBase {
   @Override
   public void execute() {
     logger.info(controlPanel.getDetectedColor());
-    if (!controlPanel.getDetectedColor().equals(oppositeColor))
+    detectedColor = controlPanel.getDetectedColor();
+    if(firstTime)
+      pastColor = detectedColor;
+
+    /*
+    if(detectedColor.equals("Green") && pastColor.equals("Yellow"))
+      detectedColor = "Blue";
+    if(detectedColor.equals("Yellow") && pastColor.equals("Green"))
+      detectedColor = "Red";
+      */
+
+    if (!detectedColor.equals(oppositeColor)){
+      if(firstTime){
+        timer.start();
+        firstTime = false;
+      }
+      if(!pastColor.equals(detectedColor)){
+        timer.reset();
+        timer.start();
+      }
       controlPanel.spin();
+      pastColor = detectedColor;
+    }
     else{
-      stop = true;
-      controlPanel.stop();
+      timer.stop();
+      if(timer.get() >= reactionTime){
+        stop = true;
+        controlPanel.stop();
+      }
+      else{
+        timer.reset();
+        timer.start();
+      }
     }
   }
 

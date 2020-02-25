@@ -36,7 +36,7 @@ public class ClimberSBTab implements SBInterface {
         optimalLimit = tab.add("OptimalLimit", false).getEntry();
         roboUpSpeed = tab.add("Robot Up Speed", .8).getEntry();
         roboDownSpeed = tab.add("Robot Down Speed", -.3).getEntry();
-        customUpSpeed = tab.add("Custom Up Speed", .8).getEntry();
+        customUpSpeed = tab.add("Custom Up Speed", .5).getEntry();
         customDownSpeed = tab.add("Custo Down Speed", -.3).getEntry();
     }
 

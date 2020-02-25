@@ -18,7 +18,6 @@ import frc.robot.subsystem.intake.commands.IntakeStop;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
 import frc.robot.subsystem.transport.Transport;
-import frc.robot.subsystem.transport.commands.SideGateOpen;
 import frc.robot.subsystem.transport.commands.StopTransport;
 import frc.robot.subsystem.transport.commands.TailGateUp;
 
