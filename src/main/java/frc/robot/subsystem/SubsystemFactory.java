@@ -189,6 +189,7 @@ public class SubsystemFactory {
 
         OneWheelStop st = new OneWheelStop(oneWheelShooter);
         OI.getInstance().bind(st, OI.LeftButtonBox10, OI.WhenPressed);
+        OI.getInstance().bind(st, OI.LeftJoyButton3, OI.WhenPressed);
         
 
          /**
@@ -270,7 +271,7 @@ public class SubsystemFactory {
         OI.getInstance().bind(dc, OI.RightButtonBox2, OI.WhenPressed);
         //OI.getInstance().bind(dc, OI.LeftJoyButton5, OI.WhenPressed);
 
-        SpinRotations ss = new SpinRotations(controlPanel, 6);
+        SpinRotations ss = new SpinRotations(controlPanel, 7);
         OI.getInstance().bind(ss, OI.RightButtonBox5, OI.WhenPressed);
         //OI.getInstance().bind(ss, OI.LeftJoyButton4, OI.WhenPressed);
 
@@ -365,7 +366,9 @@ public class SubsystemFactory {
     public ControlPanel getControlPanel() {
         return controlPanel;
     }
-
+    public DrivetrainSubsystem getDriveTrain(){
+        return driveTrain;
+    }
     public Climber getClimber() {
         return climber;
     }

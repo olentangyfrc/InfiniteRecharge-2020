@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
 
   private DisplayManager dManager;
 
-  private TestAuton test;
+  private Auton test;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -92,9 +92,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     CommandScheduler.getInstance().run();
     
-    test = new TestAuton();
+    test = new Auton();
     test.initialize();
-    test.execute();
   }
 
   /**
@@ -103,6 +102,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
+    test.execute();
   }
 
   /**

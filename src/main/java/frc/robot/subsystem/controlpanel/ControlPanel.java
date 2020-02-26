@@ -48,7 +48,8 @@ public class ControlPanel extends SubsystemBase {
     private Color targetColor;
 
     private double velocity;
-    private double percentOutput;
+    private double percentOutputRotations;
+    private double percentOutputColor;
     private boolean brakeOnOff;
 
     private double pValue;
@@ -79,7 +80,8 @@ public class ControlPanel extends SubsystemBase {
       iValue = 0;
       dValue = .2;
 
-      percentOutput = .3;
+      percentOutputRotations = .5;
+      percentOutputColor = .2;
 
       /*
       motor.enableCurrentLimit(true);
@@ -173,13 +175,16 @@ public class ControlPanel extends SubsystemBase {
       }
       */
       public void setPercentOutput(double sp){
-        percentOutput = sp;
+        percentOutputRotations = sp;
       }
       public double getPercentOutput(){
-        return percentOutput;
+        return percentOutputRotations;
       }
-      public void spin(){
-        motor.set(percentOutput);
+      public void spinRotations(){
+        motor.set(percentOutputRotations);
+      }
+      public void spinColor(){
+        motor.set(percentOutputColor);
       }
       public void stop(){
         motor.set(0.0);

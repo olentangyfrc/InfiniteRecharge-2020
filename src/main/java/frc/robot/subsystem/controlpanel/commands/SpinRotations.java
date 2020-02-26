@@ -26,6 +26,7 @@ public class SpinRotations extends CommandBase {
   private boolean isColorSeen;
   private boolean firstTime;
   private double reactionTime;
+  private String expectedColor;
   
 
   public SpinRotations(ControlPanel c, int sc) {
@@ -34,8 +35,9 @@ public class SpinRotations extends CommandBase {
     spinCount = sc;
     timer = new Timer();
     isColorSeen = false;
-    firstTime = false;
-    reactionTime = .25;
+    firstTime = true;
+    reactionTime = .15;
+    expectedColor = "";
   }
 
   // Called when the command is initially scheduled.
@@ -46,7 +48,7 @@ public class SpinRotations extends CommandBase {
     pastColor = startColor;
     stop = false;
     timer.reset();
-    firstTime = false;
+    firstTime = true;
     controlPanel.setBrakeMode(false);
   }
 
@@ -54,30 +56,26 @@ public class SpinRotations extends CommandBase {
   @Override
   public void execute() {
     logger.info(controlPanel.getDetectedColor());
+    String color = controlPanel.getDetectedColor();
+    if(!color.equals("Red") && firstTime == true){
+      controlPanel.spinRotations();
+      return;
+    }
+    else{
+      startColor = "Red";
+      firstTime = false;
+    }
     if (count >= spinCount){
       stop = true;
       controlPanel.stop();
       return;
     }
-    String color = controlPanel.getDetectedColor();
-    if(color.equals(startColor) && firstTime == true){
-      timer.start();
-      firstTime = false;
-    }
-    if(!color.equals(startColor) && pastColor.equals(startColor)){
-      if(timer.get() > 0)
-        timer.stop();
-      firstTime = true;
-    }
-
+    controlPanel.spinRotations();
     if(!(pastColor.equals(color)) && color.equals(startColor))
     {
       logger.info("color is equal to startColor");
-      if(timer.get() > reactionTime)
-        count++;
+      count++;
     }
-
-
     pastColor = color;
   }
 

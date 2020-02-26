@@ -24,6 +24,7 @@ public class RotateToColor extends CommandBase {
   private String oppositeColor;
   private String detectedColor;
   private String pastColor;
+  private String beforeColor;
   private boolean firstTime;
   private Timer timer;
   private double reactionTime;
@@ -59,8 +60,10 @@ public class RotateToColor extends CommandBase {
         break;
       case ("Yellow"):
         oppositeColor = "Green";
+
         break;
     }
+    logger.info("Opp Color: " + oppositeColor);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -68,6 +71,14 @@ public class RotateToColor extends CommandBase {
   public void execute() {
     logger.info(controlPanel.getDetectedColor());
     detectedColor = controlPanel.getDetectedColor();
+    if(detectedColor.equals("Green") && targetColor.equals("Green") && firstTime == true){
+      controlPanel.spinColor();
+      return;
+    }
+    if(detectedColor.equals("Yellow") && targetColor.equals("Yellow") && firstTime == true){
+      controlPanel.spinColor();
+      return;
+    }
     if(firstTime)
       pastColor = detectedColor;
 
@@ -87,14 +98,14 @@ public class RotateToColor extends CommandBase {
         timer.reset();
         timer.start();
       }
-      controlPanel.spin();
+      controlPanel.spinColor();
       pastColor = detectedColor;
     }
     else{
       timer.stop();
-      if(timer.get() >= reactionTime){
-        stop = true;
-        controlPanel.stop();
+      if(timer.get() < reactionTime){
+          stop = true;
+          controlPanel.stop();
       }
       else{
         timer.reset();

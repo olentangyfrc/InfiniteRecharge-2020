@@ -85,7 +85,7 @@ public class Transport extends SubsystemBase {
         rightIntake.configMotionAcceleration(4096, 0);
         */
 
-        transportTime = 1.25;
+        transportTime = .75;
         intakeStopDuration = .25;
 
         //ballCount.setUpSource(enterSwitch);
@@ -94,7 +94,7 @@ public class Transport extends SubsystemBase {
         isBeamSensorBroken = false;
         isBallInMotion = false;
         shooterSpeedLow = .9;
-        shooterSpeedHigh = .7;
+        shooterSpeedHigh = .45;
         motorTopSpeedForward = .7;
         motorBottomSpeedForward= .5;
         motorSpeedBackward = .5;
