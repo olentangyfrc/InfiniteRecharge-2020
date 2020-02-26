@@ -9,6 +9,7 @@ package frc.robot.subsystem.controlpanel.commands;
 
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 
@@ -21,12 +22,22 @@ public class SpinRotations extends CommandBase {
   private String startColor;
   private String pastColor;
   private boolean stop;
+  private Timer timer;
+  private boolean isColorSeen;
+  private boolean firstTime;
+  private double reactionTime;
+  private String expectedColor;
   
 
   public SpinRotations(ControlPanel c, int sc) {
     controlPanel = c;
     addRequirements(c);
     spinCount = sc;
+    timer = new Timer();
+    isColorSeen = false;
+    firstTime = true;
+    reactionTime = .15;
+    expectedColor = "";
   }
 
   // Called when the command is initially scheduled.
@@ -36,6 +47,8 @@ public class SpinRotations extends CommandBase {
     startColor = controlPanel.getDetectedColor();
     pastColor = startColor;
     stop = false;
+    timer.reset();
+    firstTime = true;
     controlPanel.setBrakeMode(false);
   }
 
@@ -43,13 +56,21 @@ public class SpinRotations extends CommandBase {
   @Override
   public void execute() {
     logger.info(controlPanel.getDetectedColor());
+    String color = controlPanel.getDetectedColor();
+    if(!color.equals("Red") && firstTime == true){
+      controlPanel.spinRotations();
+      return;
+    }
+    else{
+      startColor = "Red";
+      firstTime = false;
+    }
     if (count >= spinCount){
       stop = true;
       controlPanel.stop();
       return;
     }
-    controlPanel.spin();
-    String color = controlPanel.getDetectedColor();
+    controlPanel.spinRotations();
     if(!(pastColor.equals(color)) && color.equals(startColor))
     {
       logger.info("color is equal to startColor");

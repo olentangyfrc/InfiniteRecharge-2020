@@ -18,8 +18,8 @@ import frc.robot.subsystem.intake.commands.IntakeStop;
 import frc.robot.subsystem.onewheelshooter.OneWheelShooter;
 import frc.robot.subsystem.onewheelshooter.commands.OneWheelShoot;
 import frc.robot.subsystem.transport.Transport;
-import frc.robot.subsystem.transport.commands.SideGateOpen;
 import frc.robot.subsystem.transport.commands.StopTransport;
+import frc.robot.subsystem.transport.commands.TailGateDown;
 import frc.robot.subsystem.transport.commands.TailGateUp;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

@@ -7,29 +7,47 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystem.SubsystemFactory;
+
 import java.util.logging.Logger;
 
 
-public class TestAuton extends CommandBase {
+public class Auton extends CommandBase {
 
-  private final Logger logger = Logger.getLogger(TestAuton.class.getName());
+  private final Logger logger = Logger.getLogger(Auton.class.getName());
   /**
    * Creates a new TestAuton.
    */
-  public TestAuton() {
+  private boolean firstTime;
+  private double stopTime;
+  private boolean stop;
+  public Auton() {
+    firstTime = true;
+    stop = false;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    firstTime = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    logger.info("TestingAuton");
+    logger.info("auton");
+    if(firstTime){
+      stopTime = Timer.getFPGATimestamp() + 3;
+      firstTime = false;
+    }
+    if(Timer.getFPGATimestamp() < stopTime)
+      SubsystemFactory.getInstance().getDriveTrain().drive(new Translation2d(.2, 0), 0, true);
+    else 
+      stop = true;
   }
 
   // Called once the command ends or is interrupted.
@@ -40,6 +58,6 @@ public class TestAuton extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return stop;
   }
 }

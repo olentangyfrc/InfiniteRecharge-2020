@@ -21,6 +21,8 @@ public class Climber extends SubsystemBase {
     private double moveRoboDownSpeed;
     private double moveCustomUpSpeed;
     private double moveCustomDownSpeed;
+
+    private boolean hasActivated;
     
     public void init(PortMan portMan) throws Exception {
         logger.info("init");
@@ -29,6 +31,7 @@ public class Climber extends SubsystemBase {
         hardLowLimit = new DigitalInput(portMan.acquirePort(PortMan.digital2_label, "Climber.HardLowLimit"));
         optimalLimit = new DigitalInput(portMan.acquirePort(PortMan.digital3_label, "Climber.MinimumLimit"));
         hardTopLimit = new DigitalInput(portMan.acquirePort(PortMan.digital4_label, "Climber.HardHighLimit"));
+        hasActivated = false;
 
       /*
       motor.enableCurrentLimit(true);
@@ -37,17 +40,16 @@ public class Climber extends SubsystemBase {
       motor.configPeakCurrentDuration(400);
       */
 
-      moveRoboUpSpeed = .8;
+      moveRoboUpSpeed = 1;
       moveRoboDownSpeed = -.3;
-      moveCustomUpSpeed = .8;
+      moveCustomUpSpeed = .5;
       moveCustomDownSpeed = -.3;
     }
     
     public void extend(){
         logger.info("extend");
         logger.info("optimalLimit [" + getOptimalLimit() + "]");
-        if(getOptimalLimit() == true)
-        {
+        if(getOptimalLimit() == true){
             motor.set(moveRoboUpSpeed);
         }
         else{
@@ -61,8 +63,15 @@ public class Climber extends SubsystemBase {
 
     public void manualUp(){
         logger.info("hardHighLimit [" + getHardHighLimit() + "]");
-        if(getHardHighLimit() == true)
-            motor.set(moveCustomUpSpeed);
+        if(getHardHighLimit() == true){
+            if(hasActivated)
+                motor.set(moveCustomUpSpeed);
+            else{
+                motor.set(moveRoboUpSpeed);
+                if(getOptimalLimit() == false)
+                    hasActivated = true;
+            }
+        }
         else{
             motor.set(0.0);
         }

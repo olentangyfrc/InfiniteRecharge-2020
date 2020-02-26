@@ -55,8 +55,10 @@ public class Transport extends SubsystemBase {
         logger.entering(Transport.class.getName(), "init()");
 
         // sideGate
+        //doubleSolenoidLeft = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm2_label, "Transport.gate2"), portMan.acquirePort(PortMan.pcm3_label, "Transport.gate3"));
         doubleSolenoidLeft = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm6_label, "Transport.gate2"), portMan.acquirePort(PortMan.pcm7_label, "Transport.gate3"));
         // tailgate
+        //doubleSolenoidRight = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm6_label, "Transport.gate4"), portMan.acquirePort(PortMan.pcm7_label, "Transport.gate5"));
         doubleSolenoidRight = new DoubleSolenoid(portMan.acquirePort(PortMan.pcm2_label, "Transport.gate4"), portMan.acquirePort(PortMan.pcm3_label, "Transport.gate5"));
         gateUp = false;
         
@@ -83,7 +85,7 @@ public class Transport extends SubsystemBase {
         rightIntake.configMotionAcceleration(4096, 0);
         */
 
-        transportTime = 1.25;
+        transportTime = .75;
         intakeStopDuration = .25;
 
         //ballCount.setUpSource(enterSwitch);
@@ -92,7 +94,7 @@ public class Transport extends SubsystemBase {
         isBeamSensorBroken = false;
         isBallInMotion = false;
         shooterSpeedLow = .9;
-        shooterSpeedHigh = .7;
+        shooterSpeedHigh = .45;
         motorTopSpeedForward = .7;
         motorBottomSpeedForward= .5;
         motorSpeedBackward = .5;
@@ -103,18 +105,22 @@ public class Transport extends SubsystemBase {
     }
 
     public void moveSideGateOpen(){
-        doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
+        logger.info("moveSideGateOpen");
+        if(doubleSolenoidLeft != null) doubleSolenoidLeft.set(DoubleSolenoid.Value.kReverse);
         gateUp = true;
     }
     public void moveSideGateClose(){
-      doubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
+        logger.info("moveSideGateClose");
+      if(doubleSolenoidLeft != null) doubleSolenoidLeft.set(DoubleSolenoid.Value.kForward);
       gateUp = false;
     }
     public void moveTailGateUp(){
-        doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
+        logger.info("moveTailGateOpen");
+        if(doubleSolenoidRight != null) doubleSolenoidRight.set(DoubleSolenoid.Value.kForward);
     }
     public void moveTailGateDown(){
-        doubleSolenoidRight.set(DoubleSolenoid.Value.kReverse);
+        logger.info("moveTailGateDown");
+        if(doubleSolenoidRight != null) doubleSolenoidRight.set(DoubleSolenoid.Value.kReverse);
     }
     public boolean getGateStatus(){
       return gateUp;
