@@ -39,13 +39,12 @@ public class Auton extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    logger.info("auton");
     if(firstTime){
       stopTime = Timer.getFPGATimestamp() + 3;
       firstTime = false;
     }
     if(Timer.getFPGATimestamp() < stopTime)
-      SubsystemFactory.getInstance().getDriveTrain().drive(new Translation2d(.2, 0), 0, true);
+      SubsystemFactory.getInstance().getDriveTrain().drive(new Translation2d(.3, 0), 0, true);
     else 
       stop = true;
   }

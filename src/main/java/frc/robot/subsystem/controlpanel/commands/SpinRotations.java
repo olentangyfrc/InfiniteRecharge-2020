@@ -55,7 +55,7 @@ public class SpinRotations extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    logger.info(controlPanel.getDetectedColor());
+    logger.info("RED: " + controlPanel.getRedValue() + "... BLUE: " + controlPanel.getBlueValue() + "... GREEN: " + controlPanel.getGreenValue());
     String color = controlPanel.getDetectedColor();
     if(!color.equals("Red") && firstTime == true){
       controlPanel.spinRotations();
