@@ -47,7 +47,7 @@ public class Telemetry extends SubsystemBase{
         filterRear = new MedianFilter(10);
 
         CameraServer.getInstance().startAutomaticCapture();
-        CameraServer.getInstance().startAutomaticCapture();
+        //CameraServer.getInstance().startAutomaticCapture();
 
         logger.exiting(Telemetry.class.getName(), "init()");
     }

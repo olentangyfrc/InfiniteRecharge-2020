@@ -14,6 +14,7 @@ import frc.robot.OzoneException;
 import frc.robot.subsystem.climber.Climber;
 import frc.robot.subsystem.controlpanel.ControlPanel;
 import frc.robot.subsystem.controlpanel.commands.RotateToColor;
+import frc.robot.subsystem.controlpanel.commands.SpinManual;
 import frc.robot.subsystem.controlpanel.commands.SpinRotations;
 import frc.robot.subsystem.controlpanel.commands.SpinnerRetract;
 import frc.robot.subsystem.controlpanel.commands.SpinnerUp;
@@ -250,11 +251,10 @@ public class SubsystemFactory {
         OI.getInstance().bind(si, OI.LeftButtonBox9, OI.WhenPressed);
 
         ScoreLow sl = new ScoreLow(transport);
-        OI.getInstance().bind(sl, OI.LeftButtonBox7, OI.WhenPressed);
         OI.getInstance().bind(sl, OI.RightJoyButton1, OI.WhenPressed);
 
         ScoreHigh sHigh = new ScoreHigh(transport);
-        OI.getInstance().bind(sHigh,OI.LeftButtonBox8, OI.WhenPressed);
+        //OI.getInstance().bind(sHigh,OI.LeftButtonBox8, OI.WhenPressed);
         OI.getInstance().bind(sHigh, OI.LeftJoyButton1, OI.WhenPressed);
         
 
@@ -274,6 +274,9 @@ public class SubsystemFactory {
         SpinRotations ss = new SpinRotations(controlPanel, 7);
         OI.getInstance().bind(ss, OI.RightButtonBox5, OI.WhenPressed);
         //OI.getInstance().bind(ss, OI.LeftJoyButton4, OI.WhenPressed);
+
+        SpinManual sm = new SpinManual(controlPanel);
+        OI.getInstance().bind(sm, OI.LeftJoyButton4, OI.WhileHeld);
 
         SpinnerUp su = new SpinnerUp(controlPanel);
         
@@ -330,7 +333,7 @@ public class SubsystemFactory {
         OI.getInstance().bind(moveMode, OI.LeftButtonBox4, OI.WhenPressed);
 
         ScoreLowMode scoreLow = new ScoreLowMode(transport, intake, controlPanel);
-        OI.getInstance().bind(scoreLow, OI.LeftButtonBox2, OI.WhenPressed);
+        OI.getInstance().bind(scoreLow, OI.LeftButtonBox7, OI.WhenPressed);
 
         ScoreHighMode scoreHigh = new ScoreHighMode(transport, intake, controlPanel, oneWheelShooter);
         OI.getInstance().bind(scoreHigh, OI.LeftButtonBox6, OI.WhenPressed);
@@ -378,6 +381,9 @@ public class SubsystemFactory {
     }
     public Intake getIntake(){
         return intake;
+    }
+    public OneWheelShooter getShooter(){
+        return oneWheelShooter;
     }
 
     private String getBotName() throws Exception {

@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.subsystem.SBInterface;
 
 public class ControlPanelSBTab implements SBInterface{
@@ -65,27 +66,18 @@ public class ControlPanelSBTab implements SBInterface{
      * get data from SB widgets and update subsystem
      */
     public void update() {
+
         red.setDouble(controlPanel.getRedValue());
         green.setDouble(controlPanel.getGreenValue());
         blue.setDouble(controlPanel.getBlueValue());
         detectedColor.setString(controlPanel.getDetectedColor());
         percentOutput.setDouble(controlPanel.getPercentOutput());
-        //velocity.setDouble(controlPanel.getVelocity());
-        //current.setDouble(controlPanel.getCurrent());
-        //position.setDouble(controlPanel.getPosition());
-        //brakeMode.setBoolean(controlPanel.getBrakeOnOff());
-       // controlPanel.changePID(pValue.getDouble(0.2), iValue.getDouble(0.0), dValue.getDouble(0.2));
         stickStatus.setBoolean(controlPanel.getStickStatus());
-        /*
-        if(encoderPosition.getBoolean(false) == true){
-            controlPanel.setZero();
-            encoderPosition.setBoolean(false);
-        }
-        */
-        //controlPanel.setVelocity(velocity.getDouble(20000));
+
         controlPanel.setPercentOutput(percentOutput.getDouble(0.6));
         confidence.setDouble(controlPanel.getConfidenceValue());
-        // finish this method based on controlpanel getvalues
-        // make sure to call the init method in this method in order for all the values to be updated
+
+        Color c = controlPanel.getColor();
+        logger.info("red [" + c.red + "] green [" + green + "] blue [" + blue + "] confidence [" + controlPanel.getConfidenceValue() + "]");
     }
 }

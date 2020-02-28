@@ -5,55 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.subsystem.controlpanel.commands;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystem.SubsystemFactory;
+import frc.robot.subsystem.controlpanel.ControlPanel;
 
-import java.util.logging.Logger;
-
-
-public class Auton extends CommandBase {
-
-  private final Logger logger = Logger.getLogger(Auton.class.getName());
+public class SpinManual extends CommandBase {
   /**
-   * Creates a new TestAuton.
+   * Creates a new SpinManual.
    */
-  private boolean firstTime;
-  private double stopTime;
+  ControlPanel controlPanel;
   private boolean stop;
-  private double speed;
-  public Auton(double s) {
-    firstTime = true;
+  public SpinManual(ControlPanel c) {
+    controlPanel = c;
+    addRequirements(c);
     stop = false;
-    speed = s;
+
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    firstTime = true;
+    stop = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(firstTime){
-      stopTime = Timer.getFPGATimestamp() + 3;
-      firstTime = false;
-    }
-    if(Timer.getFPGATimestamp() < stopTime)
-      SubsystemFactory.getInstance().getDriveTrain().drive(new Translation2d(speed, 0), 0, true);
-    else 
-      stop = true;
+    if(stop)
+      return;
+    controlPanel.spin();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if(interrupted){
+      stop = true;
+      controlPanel.stop();
+    }
+
   }
 
   // Returns true when the command should end.

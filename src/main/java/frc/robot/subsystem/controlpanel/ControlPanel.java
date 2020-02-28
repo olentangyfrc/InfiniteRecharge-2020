@@ -186,6 +186,9 @@ public class ControlPanel extends SubsystemBase {
       public void spinColor(){
         motor.set(percentOutputColor);
       }
+      public void spin(){
+        motor.set(.7);
+      }
       public void stop(){
         motor.set(0.0);
       }

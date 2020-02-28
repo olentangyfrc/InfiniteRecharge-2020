@@ -33,17 +33,11 @@ public class Climber extends SubsystemBase {
         hardTopLimit = new DigitalInput(portMan.acquirePort(PortMan.digital4_label, "Climber.HardHighLimit"));
         hasActivated = false;
 
-      /*
-      motor.enableCurrentLimit(true);
-      motor.configPeakCurrentLimit(30);
-      motor.configContinuousCurrentLimit(30);
-      motor.configPeakCurrentDuration(400);
-      */
-
       moveRoboUpSpeed = 1;
-      moveRoboDownSpeed = -.3;
+      moveRoboDownSpeed = -.4;
       moveCustomUpSpeed = .5;
-      moveCustomDownSpeed = -.3;
+      moveCustomDownSpeed = -.4
+      ;
     }
     
     public void extend(){
