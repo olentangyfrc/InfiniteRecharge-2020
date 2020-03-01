@@ -252,10 +252,11 @@ public class SubsystemFactory {
 
         ScoreLow sl = new ScoreLow(transport);
         OI.getInstance().bind(sl, OI.RightJoyButton1, OI.WhenPressed);
+        OI.getInstance().bind(sl, OI.RightButtonBox11, OI.WhenPressed);
 
         ScoreHigh sHigh = new ScoreHigh(transport);
-        //OI.getInstance().bind(sHigh,OI.LeftButtonBox8, OI.WhenPressed);
         OI.getInstance().bind(sHigh, OI.LeftJoyButton1, OI.WhenPressed);
+        OI.getInstance().bind(sHigh, OI.RightButtonBox10, OI.WhenPressed);
         
 
          /**
@@ -269,11 +270,9 @@ public class SubsystemFactory {
         
         RotateToColor dc = new RotateToColor(controlPanel);
         OI.getInstance().bind(dc, OI.RightButtonBox2, OI.WhenPressed);
-        //OI.getInstance().bind(dc, OI.LeftJoyButton5, OI.WhenPressed);
 
         SpinRotations ss = new SpinRotations(controlPanel, 7);
         OI.getInstance().bind(ss, OI.RightButtonBox5, OI.WhenPressed);
-        //OI.getInstance().bind(ss, OI.LeftJoyButton4, OI.WhenPressed);
 
         SpinManual sm = new SpinManual(controlPanel);
         OI.getInstance().bind(sm, OI.LeftJoyButton4, OI.WhileHeld);
@@ -315,11 +314,6 @@ public class SubsystemFactory {
 
         telemetry = new Telemetry();
         telemetry.init(portMan);
-        //displayManager.addTelemetry(telemetry);
-
-
-        //SquareSelf sqs = new SquareSelf(telemetry, 10);
-        //OI.getInstance().bind(sqs, OI.LeftJoyButton10, OI.WhenPressed);
 
 
         //Command Groups
